@@ -215,9 +215,9 @@
 </head>
 <body>
 <div id="stage">
-  <canvas id="sky"></canvas>
-  <canvas id="globe"></canvas>
-  <canvas id="glabels"></canvas>
+  <canvas id="sky" role="img" aria-label="Hartă interactivă a Pământului în timp real: terminator zi/noapte, sateliți, orașe, hidrografie și cazuri OZN"></canvas>
+  <canvas id="globe" aria-hidden="true"></canvas>
+  <canvas id="glabels" aria-hidden="true"></canvas>
   <div id="grain"></div>
   <div id="vig"></div>
 
@@ -226,8 +226,12 @@
       <span class="dot"></span>
       <h1>Terra · <b>timp real</b></h1>
       <div class="modeseg" id="mode" role="group" aria-label="Mod de vizualizare"><button class="on" data-mode="2d" aria-pressed="true">2D</button><button data-mode="3d" aria-pressed="false">3D</button><button data-mode="sky" aria-pressed="false">Cer</button></div>
-      <button id="tour-btn" class="tourbtn" title="Demonstrație ghidată automată — Ziua Mondială a Ufologiei">▶ Tur ghidat</button>
+      <button id="tour-btn" class="tourbtn" title="Demonstrație ghidată automată a tuturor opțiunilor">▶ Tur ghidat</button>
+      <button id="tour-uap-btn" class="tourbtn" title="Tur dedicat: toate cazurile UAP/FAN, din perspectiva observatorului și a obiectului descris">🛸 Cazuri UAP/FAN</button>
+      <button id="tour-term-btn" class="tourbtn" title="Tur dedicat: terminatorul (linia zi/noapte) al fiecărei planete și lune naturale, cu corpul în jurul căruia orbitează">🌓 Terminatoare</button>
+      <button id="tour-ecl-btn" class="tourbtn" title="Tur dedicat: toate eclipsele de Soare și de Lună, calculate din efemeride și vizitate la momentul lor exact">🌒 Eclipse</button>
       <button id="lang-btn" class="tourbtn" title="English / Română" aria-label="Language">EN</button>
+      <button id="units-btn" class="tourbtn" title="Unități: metric / imperial — Units" aria-label="Units">°C</button>
     </div>
     <div class="telem" id="telem">
       <div class="cell"><span class="k">UTC</span><span class="v" id="t-utc">—</span></div>
@@ -348,6 +352,7 @@
       <div class="row"><span class="lbl">Avioane (ADS-B)</span><div class="sw on" data-layer="aircraft" tabindex="0" role="switch" aria-checked="true"></div></div>
       <div class="row"><span class="lbl">Baloane-sondă meteo</span><div class="sw on" data-layer="sondes" tabindex="0" role="switch" aria-checked="true"></div></div>
       <div class="row"><span class="lbl">Radar meteo — reflexii (păsări noaptea)</span><div class="sw" data-layer="radar" tabindex="0" role="switch" aria-checked="false"></div></div>
+      <div class="row"><span class="lbl">Nori — acoperire reală (Open-Meteo)</span><div class="sw" data-layer="clouds" tabindex="0" role="switch" aria-checked="false"></div></div>
       <div class="seg" style="margin-top:9px">
         <button class="btn amber" id="btn-traffic" style="flex:1">⛓ Actualizează trafic</button>
         <button class="btn" id="btn-weather" style="flex:0 0 auto;width:auto;padding:8px 12px" title="Meteo la locația mea">☁︎</button>
@@ -592,6 +597,7 @@
       numele apar progresiv la zoom, fără să aglomereze. Lista <b>documentează relatări</b> și nu constituie o afirmație
       privind originea extraterestră. Nu toate țările au un caz faimos documentat, iar multe relatări sunt contestate —
       acolo unde nu există un caz real verificabil, nu a fost inventat niciunul.</p>
+      <p><b>Confidențialitate și feeduri live:</b> aplicația nu folosește analytics, cookie-uri sau stocare locală — totul rulează local. Feedurile live (sateliți, avioane, sonde, vreme spațială, cutremure) sunt <b>opționale și oprite implicit</b>; când le activezi, browserul tău contactează direct sursele oficiale (NOAA, USGS, Open-Meteo, CelesTrak ș.a.). Unele surse fără antet CORS pot fi rutate printr-un <b>proxy terț</b> (corsproxy.io), care vede acea cerere — folosește aceste feeduri doar dacă ești de acord cu acest lucru.</p>
       <p><b>Maree (flux/reflux):</b> calculate <b>offline</b> din potențialul mareic de echilibru al Lunii și
       Soarelui la locația ta — captează ritmul semidiurn (~12h25m), sizigiile/cuadratura și momentul
       următorului vârf/reflux. Amplitudinea reală la țărm depinde de batimetrie și de defazajul local.</p>
@@ -900,6 +906,57 @@ function moonPos(jdtt){
   return {ra,dec,eclLon:norm360(lon)};
 }
 function subPoint(ra,dec,gmst){ return {lat:dec*RAD, lon:norm180((ra-gmst)*RAD)}; }
+function sunDistAU(jdtt){ const d=jdtt-2451545.0, g=(357.529+0.98560028*d)*DEG; return 1.00014-0.01671*Math.cos(g)-0.00014*Math.cos(2*g); }
+function angSepRD(ra1,dec1,ra2,dec2){ return Math.acos(Math.max(-1,Math.min(1, Math.sin(dec1)*Math.sin(dec2)+Math.cos(dec1)*Math.cos(dec2)*Math.cos(ra1-ra2)))); }
+function moonEclLat(jdtt){ const d=jdtt-2451545.0,r=DEG; const M=134.963+13.064993*d,D=297.850+12.190749*d,F=93.272+13.229350*d;
+  return 5.128*Math.sin(F*r)+0.281*Math.sin((M+F)*r)+0.278*Math.sin((M-F)*r)+0.173*Math.sin((2*D-F)*r)+0.055*Math.sin((2*D-M+F)*r)+0.046*Math.sin((2*D-M-F)*r)+0.033*Math.sin((2*D+F)*r)+0.017*Math.sin((2*M+F)*r); }
+// per-frame eclipse geometry (for sky-from-ground rendering)
+function eclipseNow(jdtt){
+  const s=sunPos(jdtt), m=moonPos(jdtt);
+  const sep=angSepRD(s.ra,s.dec,m.ra,m.dec)*RAD;
+  const rM=Math.asin(1737.4/moonDistKm(jdtt))*RAD, rS=Math.asin(696000/(sunDistAU(jdtt)*AU_KM))*RAD;
+  const piM=Math.asin(6378.14/moonDistKm(jdtt))*RAD;
+  const solar={active:false};
+  if(sep < rS+rM+0.04){ solar.active=true; solar.sep=sep; solar.rs=rS; solar.rm=rM; solar.total=(rM>=rS); solar.cover=Math.max(0,Math.min(1,(rS+rM-sep)/(2*rS))); }
+  const uRad=1.02*(piM+0.0024)-rS; // Earth umbra angular radius at the Moon (deg)
+  const anti=angSepRD(s.ra+Math.PI,-s.dec,m.ra,m.dec)*RAD;
+  const lunar={depth:0,total:false};
+  if(anti < uRad+rM){ lunar.depth=Math.max(0,Math.min(1,(uRad+rM-anti)/(2*rM))); lunar.total=(anti<uRad-rM); }
+  return {solar,lunar};
+}
+function gcKm(la1,lo1,la2,lo2){ const a1=la1*DEG,a2=la2*DEG,dl=(lo2-lo1)*DEG; const x=Math.sin((a2-a1)/2)**2+Math.cos(a1)*Math.cos(a2)*Math.sin(dl/2)**2; return 6371.0*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x)); }
+function solarShadow(jdtt,gmst,ss,sl){
+  const mD=moonDistKm(jdtt), RE=6371.0;
+  const rM=Math.asin(1737.4/mD)*RAD, rS=Math.asin(696000/(sunDistAU(jdtt)*AU_KM))*RAD, piM=Math.asin(RE/mD)*RAD, beta=Math.abs(moonEclLat(jdtt));
+  if(beta > rS+rM+piM) return {active:false};
+  const sunDir=dir3g(ss.lat,ss.lon), mDir=dir3g(sl.lat,sl.lon), mVec=[mDir[0]*mD,mDir[1]*mD,mDir[2]*mD];
+  const b=mVec[0]*sunDir[0]+mVec[1]*sunDir[1]+mVec[2]*sunDir[2], disc=b*b-(mD*mD-RE*RE);
+  let lat,lon,central=false;
+  if(disc>=0){ const tt=b-Math.sqrt(disc), P=[mVec[0]-tt*sunDir[0],mVec[1]-tt*sunDir[1],mVec[2]-tt*sunDir[2]], L=Math.hypot(P[0],P[1],P[2])||1;
+    lat=Math.asin(P[2]/L)*RAD; lon=Math.atan2(P[1],P[0])*RAD; central=true; }
+  else { lat=sl.lat; lon=sl.lon; }
+  const annular=rM<rS;
+  return {active:true, lat, lon, central, annular, penKm:3400, umbKm: central?(annular?150:120):0, gamma:beta/piM};
+}
+// real eclipse catalogue computed from the app's own ephemerides
+function findEclipses(jd0,back,fwd){
+  const elong=jt=>norm360(moonPos(jt).eclLon - sunPos(jt).eclLon);
+  function refine(jd,tgt){ let lo=jd-0.5,hi=jd+0.5; const f=j=>norm180(elong(j+69/86400)-tgt); for(let i=0;i<40;i++){ const m=(lo+hi)/2; if(f(lo)*f(m)<=0)hi=m; else lo=m; } return (lo+hi)/2; }
+  const out=[]; let pe=null;
+  for(let jd=jd0-back; jd<=jd0+fwd; jd+=0.25){ const e=elong(jd+69/86400);
+    if(pe!==null){ for(const tgt of [0,180]){ const a=norm180(pe-tgt), b=norm180(e-tgt);
+      if((a<=0&&b>0)||(a<0&&b>=0)){ const js=refine(jd,tgt), jt=js+69/86400;
+        const beta=Math.abs(moonEclLat(jt));
+        const rM=Math.asin(1737.4/moonDistKm(jt))*RAD, rS=Math.asin(696000/(sunDistAU(jt)*AU_KM))*RAD, piM=Math.asin(6378.14/moonDistKm(jt))*RAD;
+        if(tgt===0){ if(beta < rS+rM+piM){ const gamma=beta/piM; let kind; if(gamma>=0.9972) kind='partiala'; else kind=(rM>=rS)?'totala':'inelara';
+          out.push({jd:js, ms:(js-2440587.5)*86400000, type:'solar', kind, beta:+beta.toFixed(3)}); } }
+        else { const uRad=1.02*(piM+0.0024)-rS, pRad=1.02*(piM+0.0024)+rS;
+          if(beta < pRad+rM){ let kind; if(beta<uRad-rM)kind='totala'; else if(beta<uRad+rM)kind='partiala'; else kind='penumbrala';
+            out.push({jd:js, ms:(js-2440587.5)*86400000, type:'lunar', kind, beta:+beta.toFixed(3)}); } }
+      } } }
+    pe=e; }
+  const seen=new Set(), res=[]; for(const x of out.sort((a,b)=>a.jd-b.jd)){ const k=x.type+Math.round(x.jd); if(seen.has(k))continue; seen.add(k); res.push(x); } return res;
+}
 
 /* ---- Planetary ephemeris (JPL/Standish Keplerian elements, 1800-2050) ---- */
 const PLAN_EL={
@@ -994,6 +1051,12 @@ const MOONS={
   miranda:['Miranda','Uranus',129390,1.413], ariel:['Ariel','Uranus',190900,2.520], umbriel:['Umbriel','Uranus',266000,4.144], titania:['Titania','Uranus',435910,8.706], oberon:['Oberon','Uranus',583520,13.463],
   triton:['Triton','Neptun',354759,5.877], proteus:['Proteus','Neptun',117647,1.122], nereid:['Nereid','Neptun',5513400,360.13]
 };
+const LUNAR_SATS={
+  lro:['LRO (NASA)',50,1.97], danuri:['Danuri / KPLO (Coreea)',100,2.13], chandra2:['Chandrayaan-2 (India)',100,2.13],
+  queqiao2:['Queqiao-2 (China)',8600,24.0], capstone:['CAPSTONE (NASA)',35000,156.0]
+}; // [nume, altitudine medie deasupra Lunii (km), perioadă (h)] — orbite modelate simplificat (cerc în plan eclipticii)
+const PNAME2KEY={Mercur:'mercury',Venus:'venus',Marte:'mars',Jupiter:'jupiter',Saturn:'saturn',Uranus:'uranus',Neptun:'neptune',Pluto:'pluto'};
+function parentBody(key){ if(key==='luna')return 'earth'; if(LUNAR_SATS[key])return 'luna'; if(MOONS[key])return PNAME2KEY[MOONS[key][1]]||null; return null; }
 function moonGeo(m,jdtt,gmst){
   const T=(jdtt-2451545.0)/36525.0, ph=helioEcl(m[1],T);
   const aAU=m[2]/AU_KM, ang=TWOPI*((jdtt-2451545.0)/m[3]); // circular offset, ecliptic-plane approximation
@@ -1068,7 +1131,18 @@ function computeLagrange(jdtt,gmst,ss,sl){
   const sondes=SONDE_DEF.map(s=>{ const h=pts.find(p=>p.name===s.host); return h?{name:s.name,color:s.color,host:s.host,dir:h.dir,dist:h.dist,lat:h.lat,lon:h.lon}:null; }).filter(Boolean);
   return {points:pts, sondes};
 }
-function fmtKm(d){ if(d>=8e7) return (d/AU_KM).toFixed(2)+' UA'; if(d>=1e6) return (d/1e6).toFixed(2)+' mil. km'; return Math.round(d/1000)+' mii km'; }
+const LOCREGION = (typeof navigator!=='undefined' && navigator.language) ? navigator.language : 'ro-RO';
+function uReg(){ return (state.lang==='en') ? (/^en/i.test(LOCREGION)?LOCREGION:'en-GB') : (/^ro/i.test(LOCREGION)?LOCREGION:'ro-RO'); }
+function fT(c){ if(c==null||isNaN(c)) return '–'; return state.units==='imperial' ? Math.round(c*9/5+32)+'°F' : Math.round(c)+'°C'; }
+function fTf(c){ if(c==null||isNaN(c)) return '–'; return state.units==='imperial' ? (c*9/5+32).toFixed(1)+'°F' : c.toFixed(1)+'°C'; }
+function fAlt(km){ if(km==null||isNaN(km)) return '—'; if(state.units==='imperial'){ const mi=km*0.621371; return (mi<10?mi.toFixed(2):Math.round(mi).toLocaleString(uReg()))+' mi'; } return (km<10?km.toFixed(2):Math.round(km).toLocaleString(uReg()))+' km'; }
+function fSpd(kmh){ if(kmh==null||isNaN(kmh)) return '–'; return state.units==='imperial' ? Math.round(kmh*0.621371)+' mph' : Math.round(kmh)+' km/h'; }
+function localStamp(ms,withYear){ try{ const o={day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',timeZoneName:'short'}; if(withYear)o.year='numeric'; return new Date(ms).toLocaleString(uReg(),o); }catch(e){ return new Date(ms).toISOString().slice(0,16).replace('T',' ')+' UTC'; } }
+function localStampY(ms){ return localStamp(ms,true); }
+function tzAbbr(){ try{ const pp=new Intl.DateTimeFormat(uReg(),{timeZoneName:'short'}).formatToParts(new Date()).find(x=>x.type==='timeZoneName'); return pp?pp.value:''; }catch(e){ return ''; } }
+function fmtKm(d){ const au=(state.lang==='en')?' AU':' UA';
+  if(state.units==='imperial'){ if(d>=8e7) return (d/AU_KM).toFixed(2)+au; const mi=d*0.621371; if(mi>=1e6) return (mi/1e6).toFixed(2)+(state.lang==='en'?' M mi':' mil. mi'); return Math.round(mi/1000)+(state.lang==='en'?'k mi':' mii mi'); }
+  if(d>=8e7) return (d/AU_KM).toFixed(2)+au; if(d>=1e6) return (d/1e6).toFixed(2)+(state.lang==='en'?' M km':' mil. km'); return Math.round(d/1000)+(state.lang==='en'?'k km':' mii km'); }
 function lagDispR(d){ return Math.max(2.0, Math.min(4.5, 2.0+0.85*Math.log10(d/3.5e5))); }
 
 
@@ -1239,14 +1313,15 @@ function afterLoad(label){
   let ages=SATS.map(s=>jd-s.rec.jdsatepoch).filter(a=>isFinite(a)).sort((a,b)=>a-b);
   const med=ages.length?ages[ages.length>>1]:0;
   state.epochAgeDays=med;
-  $('#src-info').innerHTML = `${SATS.length} sateliți · sursă: <b>${label}</b>`;
+  $('#src-info').innerHTML = `${SATS.length} ${t('sateliți · sursă:')} <b>${t(label)}</b>`;
   rebuildChips();
 }
 
 /* ===================== STATE ===================== */
 const state={
   simTime:new Date(), speed:1, paused:false, last:performance.now(),
-  layers:{lights:true,sun:true,moon:true,sats:true,tracks:true,termline:true,planets:true,notable:true,borders:true,terrwaters:true,cities:true,rivers:true,lakes:true,coast:true,ufo:true,aircraft:true,sondes:true,radar:false,lagrange:true,lagLines:true,grid:false,milkyway:true,messier:true,ecliptic:false,meteors:true,starfield:true,constnames:true,constfig:true,transit:false,animals:false,birdcast:false,aurora:false,quakes:false,fractalDetail:true,fractalMap:true},
+  units: /^(en-US|en-LR|my)/i.test(typeof navigator!=='undefined'?(navigator.language||''):'')?'imperial':'metric',
+  layers:{lights:true,sun:true,moon:true,sats:true,tracks:true,termline:true,planets:true,notable:true,borders:true,terrwaters:true,cities:true,rivers:true,lakes:true,coast:true,ufo:true,aircraft:true,sondes:true,radar:false,lagrange:true,lagLines:true,grid:false,milkyway:true,messier:true,ecliptic:false,meteors:true,starfield:true,constnames:true,constfig:true,transit:false,animals:false,birdcast:false,aurora:false,quakes:false,clouds:false,fractalDetail:true,fractalMap:true},
   filters:{station:1,starlink:1,oneweb:1,science:1,weather:1,resource:1,geo:1,nav:1,other:1},
   view:{zoom:1,panx:0,pany:0}, selected:null, selUfo:null, selLive:null, selSky:null, selQuake:null, loc:{lat:44.4268,lon:26.1025,label:'București'}, epochAgeDays:0, lang:'ro', passAlert:false, mapRot:false,
   feeds:{gtfsUrl:'', proxy:'', mvStudy:'', birdcast:false, birdcastUrl:''},
@@ -1311,6 +1386,7 @@ function ll2s(lat,lon){
 }
 function s2ll(sx,sy){
   const m=mapRect();
+  if(!(m.dw>0)||!(m.dh>0)) return [0,0];
   const fx=(sx-m.ox)/m.dw, fy=(sy-m.oy)/m.dh;
   return [90-fy*180, fx*360-180];
 }
@@ -1374,6 +1450,37 @@ let space={kp:null,kpT:null,wind:null,xray:null,ovTime:null,ovGrid:null}; // NOA
 let auroraCv=null; // offscreen aurora-oval raster (equirect 360x181)
 let weatherNow=null;                 // current weather at user location
 let radarImg=null, radarTime=null;   // reprojected weather-radar reflectivity (equirectangular)
+let cloudImg=null, cloudTime=null;   // current rendered cloud field (equirectangular)
+let cloudHourly=null, cloudTimesMs=null, cloudRows=null, cloudCols=null, cloudValidMs=null, _cloudHourIdx=-1; // hourly forecast cube (time-synced)
+function uploadCloudTex(cv){ try{ const gl=GL&&GL.gl; if(!gl)return; if(!GL.texCloud)GL.texCloud=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,GL.texCloud); gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,cv); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.REPEAT); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR); }catch(e){} }
+async function fetchClouds(){
+  const LAT0=-78,LAT1=78,LON0=-180,LON1=168,STEP=12; const rows=[],cols=[];
+  for(let la=LAT1; la>=LAT0-0.01; la-=STEP) rows.push(la);
+  for(let lo=LON0; lo<=LON1+0.01; lo+=STEP) cols.push(lo);
+  const lats=[],lons=[]; for(const la of rows) for(const lo of cols){ lats.push(la); lons.push(lo); }
+  const url='https://api.open-meteo.com/v1/forecast?latitude='+lats.join(',')+'&longitude='+lons.join(',')+'&hourly=cloud_cover&past_days=1&forecast_days=4&timezone=GMT';
+  const data=await fetchJSON([url]); const arr=Array.isArray(data)?data:[data];
+  cloudHourly = arr.map(d=> (d&&d.hourly&&d.hourly.cloud_cover)?d.hourly.cloud_cover:[]);
+  const times=(arr[0]&&arr[0].hourly&&arr[0].hourly.time)?arr[0].hourly.time:[];
+  cloudTimesMs = times.map(s=>{ const mm=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(s); return mm?Date.UTC(+mm[1],+mm[2]-1,+mm[3],+mm[4],+mm[5]):Date.parse(s); });
+  cloudRows=rows; cloudCols=cols; _cloudHourIdx=-1;
+  rebuildCloudField((state.simTime||new Date()).getTime());
+}
+function rebuildCloudField(forMs){
+  if(!cloudHourly||!cloudTimesMs||!cloudTimesMs.length||!cloudRows) return;
+  let idx=0,best=Infinity; for(let i=0;i<cloudTimesMs.length;i++){ const dd=Math.abs(cloudTimesMs[i]-forMs); if(dd<best){best=dd;idx=i;} }
+  if(idx===_cloudHourIdx) return; _cloudHourIdx=idx; cloudValidMs=cloudTimesMs[idx];
+  const R=cloudRows.length, C=cloudCols.length, gc=document.createElement('canvas'); gc.width=C; gc.height=R; const gx=gc.getContext('2d'); const id=gx.createImageData(C,R);
+  for(let i=0;i<R*C;i++){ const ser=cloudHourly[i]; let cc=ser?ser[idx]:0; if(typeof cc!=='number')cc=0; const v=Math.max(0,Math.min(1,cc/100)); const k=i*4; id.data[k]=255;id.data[k+1]=255;id.data[k+2]=255;id.data[k+3]=Math.round(v*255); }
+  gx.putImageData(id,0,0);
+  const eq=document.createElement('canvas'); eq.width=720; eq.height=360; const ex=eq.getContext('2d'); ex.imageSmoothingEnabled=true; if('imageSmoothingQuality' in ex) ex.imageSmoothingQuality='high';
+  const lo=cloudRows[cloudRows.length-1], hi=cloudRows[0]; const yTop=(90-hi)/180*360, yBot=(90-lo)/180*360;
+  ex.drawImage(gc, 0,0,C,R, 0,yTop, 720, yBot-yTop);
+  ex.drawImage(gc, 0,0,C,1,   0,0,    720, yTop);
+  ex.drawImage(gc, 0,R-1,C,1, 0,yBot, 720, 360-yBot);
+  cloudImg=eq; cloudTime=Date.now(); uploadCloudTex(eq);
+}
+function cloudValidStr(){ if(!cloudValidMs) return ''; return '\u2601 '+t('nori')+' '+localStamp(cloudValidMs); }
 
 // Render static geo layers (grid/coast/borders/cities) into an offscreen cache, redrawn only when the view changes.
 function drawStaticGeo(m){
@@ -1412,8 +1519,10 @@ function draw(now){
   const date=state.simTime;
   const jdut=SGP4.jdNow(date), jdtt=jdut+69.0/86400.0;
   const gmst=SGP4.gmst(jdut);
+  if(state.layers.clouds && cloudHourly) rebuildCloudField(date.getTime());
   const sun=sunPos(jdtt), moon=moonPos(jdtt);
   const ss=subPoint(sun.ra,sun.dec,gmst), sl=subPoint(moon.ra,moon.dec,gmst);
+  state._ecl = { solar: solarShadow(jdtt,gmst,ss,sl), lunar: eclipseNow(jdtt).lunar };
   const elong=norm360(moon.eclLon-sun.eclLon);
   const illum=(1-Math.cos(elong*DEG))/2;
   lastPlanets = state.layers.planets ? computePlanets(jdtt,gmst) : [];
@@ -1426,7 +1535,7 @@ function draw(now){
     if(GL.init && !GL.ok){
       state.mode='2d'; applyModeDisplay();
       $$('#mode button').forEach(b=>b.classList.toggle('on',b.dataset.mode==='2d'));
-      const b3=document.querySelector('#mode [data-mode="3d"]'); if(b3){b3.disabled=true;b3.style.opacity=.4;b3.title='WebGL indisponibil';}
+      const b3=document.querySelector('#mode [data-mode="3d"]'); if(b3){b3.disabled=true;b3.style.opacity=.4;b3.title=t('WebGL indisponibil');}
       // fall through to 2D this frame
     } else { updateTelemetry(date,ss,sl,elong,illum); return; } // still initializing
   }
@@ -1434,6 +1543,7 @@ function draw(now){
   if(state.mode==='sky'){ renderSky(date, jdut, gmst, ss, sl, elong, illum); updateTelemetry(date,ss,sl,elong,illum); return; }
 
   const _mr = state.mapRot ? beginMapRot() : null;
+  try {
   // mask rebuild when sun moved enough
   const simMin=date.getTime()/60000;
   if(state.needMask || Math.abs(simMin-state.lastMaskMin)>3){ buildMask(ss.lat,ss.lon); state.lastMaskMin=simMin; state.needMask=false; }
@@ -1469,6 +1579,8 @@ function draw(now){
   ctx.strokeRect(m.ox+.5,m.oy+.5,m.dw-1,m.dh-1);
 
   if(state.layers.radar && radarImg){ ctx.save(); ctx.globalAlpha=0.5; ctx.globalCompositeOperation='screen'; ctx.imageSmoothingEnabled=true; ctx.drawImage(radarImg,m.ox,m.oy,m.dw,m.dh); ctx.restore(); }
+  if(state.layers.clouds && cloudImg){ ctx.save(); ctx.globalAlpha=0.5; ctx.imageSmoothingEnabled=true; ctx.drawImage(cloudImg,m.ox,m.oy,m.dw,m.dh); ctx.restore();
+    if(cloudValidMs){ ctx.save(); ctx.fillStyle='rgba(210,224,242,.72)'; ctx.font='10px ui-monospace,monospace'; ctx.textAlign='left'; ctx.fillText(cloudValidStr(), 12, CH-12); ctx.restore(); } }
   if(state.layers.aurora && auroraCv){ ctx.save(); ctx.globalAlpha=0.62; ctx.globalCompositeOperation='screen'; ctx.imageSmoothingEnabled=true; ctx.drawImage(auroraCv,m.ox,m.oy,m.dw,m.dh); ctx.restore(); }
 
   if(drawStaticGeo(m)) { ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(geoCv,0,0); ctx.setTransform(state.dpr,0,0,state.dpr,0,0); }
@@ -1480,6 +1592,7 @@ function draw(now){
   if(state.selected && state.layers.tracks) drawTrack(state.selected,jdut,m);
   if(state.selected) drawSatHighlight(state.selected,m);
   if(state.layers.termline) drawTerminatorLine(ss,m);
+  if(state._ecl&&state._ecl.solar.active) drawEclShadow2D();
   if(state.layers.planets) drawPlanets(lastPlanets,m);
   if(state.layers.lagrange) drawLagrange2D(m);
   if(state.layers.sun) drawSun(ss,m);
@@ -1488,7 +1601,7 @@ function draw(now){
   if(state.loc) drawLoc(m);
 
   updateTelemetry(date,ss,sl,elong,illum);
-  if(_mr) endMapRot(_mr);
+  } finally { if(_mr) endMapRot(_mr); }
 }
 
 function drawGrid(m){
@@ -1973,14 +2086,15 @@ function humanDur(ms){
   if(d>0) return d+'z '+h+'h'; if(h>0) return h+'h '+m+'m'; if(m>0) return m+'m'; return '<1m';
 }
 function updateTelemetry(date,ss,sl,elong,illum){
+  if(!date) return;
   if(performance.now()-telemThrottle<200) return; telemThrottle=performance.now();
   const u=date;
   $('#t-utc').textContent=`${u.getUTCFullYear()}-${pad(u.getUTCMonth()+1)}-${pad(u.getUTCDate())} ${pad(u.getUTCHours())}:${pad(u.getUTCMinutes())}:${pad(u.getUTCSeconds())}`;
-  $('#t-loc').textContent=`${pad(u.getHours())}:${pad(u.getMinutes())}:${pad(u.getSeconds())}`;
+  $('#t-loc').textContent=`${pad(u.getHours())}:${pad(u.getMinutes())}:${pad(u.getSeconds())} ${tzAbbr()}`;
   const live=$('#t-live'); const offMs=date.getTime()-Date.now(); const off=Math.abs(offMs);
   let rel='';
   if(off>60000) rel=`<span style="color:#728196;font-weight:400"> ${offMs>=0?'+':'−'}${humanDur(off)}</span>`;
-  if(state.paused){live.innerHTML='PAUZĂ'+rel;live.className='v amber';}
+  if(state.paused){live.innerHTML=t('PAUZĂ')+rel;live.className='v amber';}
   else if(state.speed===1&&state.dir===1&&off<3000){live.textContent='LIVE';live.className='v live';}
   else {const r=(state.speed>=86400?'1 zi/s':state.speed+'×'); live.innerHTML=(state.dir<0?'−':'')+r+rel;live.className='v amber';}
   // keep datetime picker in sync unless user is editing it
@@ -1989,9 +2103,9 @@ function updateTelemetry(date,ss,sl,elong,illum){
   $('#t-moon').textContent=`${(illum*100).toFixed(0)}% · ${ss?t(phaseName(elong)):''}`;
   updateEnvPanel();
   const shown=satScreen.length, tot=SATS.length;
-  $('#t-sat').innerHTML=`${tot} <span style="color:#728196">(${sourceLabel})</span>`;
+  $('#t-sat').innerHTML=`${tot} <span style="color:#728196">(${t(sourceLabel)})</span>`;
   drawMoonWidget(illum,elong);
-  $('#moon-info').innerHTML=`<span class="nm">${phaseName(elong)}</span>Iluminat: <b>${(illum*100).toFixed(1)}%</b><br>Sublunar: <b>${sl.lat.toFixed(1)}°, ${sl.lon.toFixed(1)}°</b><br>Elongație: <b>${elong.toFixed(0)}°</b>`;
+  $('#moon-info').innerHTML=`<span class="nm">${t(phaseName(elong))}</span>${t('Iluminat:')} <b>${(illum*100).toFixed(1)}%</b><br>${t('Sublunar:')} <b>${sl.lat.toFixed(1)}°, ${sl.lon.toFixed(1)}°</b><br>${t('Elongație:')} <b>${elong.toFixed(0)}°</b>`;
   renderPlanets();
   renderNotable();
   renderLagrange();
@@ -2140,35 +2254,35 @@ function renderLagrange(){
   for(let i=0;i<items.length;i++){ const r=rows[i]; if(!r)continue; r.querySelector('.pc').textContent=fmtKm(items[i].dist); }
 }
 
-function renderTides(date){
+function renderTides(date){ if(!date) date=new Date();
   const need=$('#tide-need'), info=$('#tide-info');
   if(!need||!info) return;
   if(!state.loc){ need.style.display='block'; info.style.display='none'; return; }
   need.style.display='none'; info.style.display='block';
-  const t=analyzeTides(date, state.loc.lat, state.loc.lon);
+  const td=analyzeTides(date, state.loc.lat, state.loc.lon);
   const st=$('#tide-state');
-  st.textContent = t.rising ? '▲ Flux (în creștere)' : '▼ Reflux (în scădere)';
-  st.style.color = t.rising ? '#7ee0a0' : '#7fb0e3';
-  $('#tide-sn').textContent=t.snLabel;
-  $('#tide-bar').style.width=Math.max(2,Math.round(t.norm*100))+'%';
+  st.textContent = td.rising ? t('▲ Flux (în creștere)') : t('▼ Reflux (în scădere)');
+  st.style.color = td.rising ? '#7ee0a0' : '#7fb0e3';
+  $('#tide-sn').textContent=t(td.snLabel);
+  $('#tide-bar').style.width=Math.max(2,Math.round(td.norm*100))+'%';
   const fmt=(min)=>{ if(min==null) return '—'; const d=new Date(date.getTime()+min*60000);
-    const h=Math.floor(min/60),m=Math.round(min%60); return `${pad(d.getHours())}:${pad(d.getMinutes())} · în ${h?h+'h ':''}${m}m`; };
-  $('#tide-high').textContent=fmt(t.nextHigh);
-  $('#tide-low').textContent=fmt(t.nextLow);
+    const h=Math.floor(min/60),m=Math.round(min%60); return `${pad(d.getHours())}:${pad(d.getMinutes())} · ${t('în')} ${h?h+'h ':''}${m}m`; };
+  $('#tide-high').textContent=fmt(td.nextHigh);
+  $('#tide-low').textContent=fmt(td.nextLow);
   const cv2=$('#tide-curve'); if(!cv2) return;
   const cw=cv2.clientWidth||0, ch=46; if(cw<12) return;
   const dpr=Math.min(window.devicePixelRatio||1,2);
   if(cv2.width!==Math.round(cw*dpr)||cv2.height!==Math.round(ch*dpr)){ cv2.width=Math.round(cw*dpr); cv2.height=Math.round(ch*dpr); }
   const c=cv2.getContext('2d'); c.setTransform(dpr,0,0,dpr,0,0); c.clearRect(0,0,cw,ch);
-  const n=t.curve.length, p=5, rng=(t.mx-t.mn)||1;
-  const X=i=>p+(i/(n-1))*(cw-2*p), Y=v=>ch-p-((v-t.mn)/rng)*(ch-2*p);
+  const n=td.curve.length, p=5, rng=(td.mx-td.mn)||1;
+  const X=i=>p+(i/(n-1))*(cw-2*p), Y=v=>ch-p-((v-td.mn)/rng)*(ch-2*p);
   c.strokeStyle='rgba(120,150,190,.16)'; c.lineWidth=1; c.beginPath(); c.moveTo(p,ch/2); c.lineTo(cw-p,ch/2); c.stroke();
   // filled area
-  c.beginPath(); c.moveTo(X(0),ch-p); for(let i=0;i<n;i++)c.lineTo(X(i),Y(t.curve[i])); c.lineTo(X(n-1),ch-p); c.closePath();
+  c.beginPath(); c.moveTo(X(0),ch-p); for(let i=0;i<n;i++)c.lineTo(X(i),Y(td.curve[i])); c.lineTo(X(n-1),ch-p); c.closePath();
   c.fillStyle='rgba(87,207,225,.12)'; c.fill();
   c.strokeStyle='#57cfe1'; c.lineWidth=2; c.lineJoin='round'; c.beginPath();
-  for(let i=0;i<n;i++){const x=X(i),y=Y(t.curve[i]); i?c.lineTo(x,y):c.moveTo(x,y);} c.stroke();
-  c.fillStyle='#ffd24a'; c.beginPath(); c.arc(X(0),Y(t.curve[0]),3,0,TWOPI); c.fill();
+  for(let i=0;i<n;i++){const x=X(i),y=Y(td.curve[i]); i?c.lineTo(x,y):c.moveTo(x,y);} c.stroke();
+  c.fillStyle='#ffd24a'; c.beginPath(); c.arc(X(0),Y(td.curve[0]),3,0,TWOPI); c.fill();
   c.font='9px ui-monospace,monospace'; c.fillStyle='rgba(190,205,225,.7)'; c.textAlign='left'; c.fillText('acum',X(0)+5,11);
   c.fillStyle='rgba(190,205,225,.45)'; c.textAlign='right'; c.fillText('+24h',cw-p,11);
 }
@@ -2180,10 +2294,10 @@ function renderMeteorPanel(date){
   const rows=act.map(sh=>{
     const peak=new Date(date.getFullYear(),sh[3][0]-1,sh[3][1]);
     let dd=Math.round((peak-date)/86400000); if(dd>180)dd-=365; if(dd<-180)dd+=365;
-    const ps = dd===0?'la maxim azi':(dd>0?`maxim în ${dd}z`:`maxim acum ${-dd}z`);
-    return `<b style="color:#ffb0a0">↯ ${sh[0]}</b> · ZHR~${sh[4]} · ${ps}`;
+    const ps = dd===0?t('la maxim azi'):(dd>0?t('maxim în %d zile').replace('%d',dd):t('maxim acum %d zile').replace('%d',-dd));
+    return `<b style="color:#ffb0a0">↯ ${t(sh[0])}</b> · ZHR~${sh[4]} · ${ps}`;
   }).join('<br>');
-  el.innerHTML='<b>Roiuri active acum:</b><br>'+rows;
+  el.innerHTML='<b>'+t('Roiuri active acum:')+'</b><br>'+rows;
 }
 
 let ufoPanelBuilt=false;
@@ -2201,9 +2315,10 @@ function buildUfoPanel(){
 }
 
 function refreshSatCard(s){
+  if(!s||s.lat==null||s.lon==null||s.alt==null||(s.cat!=='geo'&&s.vel==null)) return; // not yet propagated
   $('#sc-lat').textContent=s.lat.toFixed(3)+'°';
   $('#sc-lon').textContent=s.lon.toFixed(3)+'°';
-  $('#sc-alt').textContent=s.alt.toFixed(0)+' km';
+  $('#sc-alt').textContent=fAlt(s.alt);
   $('#sc-vel').textContent=(s.cat==='geo'?'~3.07':s.vel.toFixed(2))+' km/s';
 }
 function showSatCard(s){
@@ -2358,8 +2473,8 @@ $('#dt-pick').addEventListener('change',e=>{
   const d=new Date(v); if(!isNaN(d)) state.simTime=d;
 });
 function syncSpeedUI(){
-  $$('#speed button').forEach(x=>x.classList.remove('on')); $$('#speed button')[1].classList.add('on');
-  $$('#dir button').forEach(x=>x.classList.remove('on')); $$('#dir button')[0].classList.add('on');
+  const sb=$$('#speed button'); sb.forEach(x=>x.classList.remove('on')); if(sb[1])sb[1].classList.add('on');
+  const db=$$('#dir button'); db.forEach(x=>x.classList.remove('on')); if(db[0])db[0].classList.add('on');
 }
 $('#btn-now').onclick=()=>{state.simTime=new Date();state.paused=false;state.speed=1;state.dir=1;syncSpeedUI();};
 
@@ -2379,11 +2494,11 @@ async function fetchGroup(group){
       const t=await r.text(); if(t.length>40 && /(^|\n)1 /.test(t)) return t; err='răspuns gol';
     }catch(e){err=e.message;}
   }
-  throw new Error(err||'eșec');
+  throw new Error(err||t('eșec'));
 }
 $('#btn-update').onclick=async()=>{
   const g=$('#grp').value, st=$('#src-status'), btn=$('#btn-update');
-  st.className='status run'; st.textContent='Se descarcă '+g+'…'; btn.disabled=true;
+  st.className='status run'; st.textContent=t('Se descarcă')+' '+g+'…'; btn.disabled=true;
   try{
     const txt=await fetchGroup(g);
     const arr=parseTLEtext(txt,(CAT_META[g]?g:null));
@@ -2391,16 +2506,16 @@ $('#btn-update').onclick=async()=>{
     SATS=arr; state.selected=null;$('#satcard').style.display='none';
     const nref=refreshNotableFrom(arr); notableRowsBuilt=false;
     afterLoad('CelesTrak: '+g);
-    st.className='status ok'; st.textContent='✓ '+arr.length+' sateliți (live)'+(nref?` · ${nref} notabile reîmprospătate`:'');
-  }catch(e){ st.className='status warn'; st.textContent='✕ '+e.message+' — verifică conexiunea'; }
+    st.className='status ok'; st.textContent='✓ '+arr.length+' '+t('sateliți (live)')+(nref?' · '+nref+' '+t('notabile reîmprospătate'):'');
+  }catch(e){ st.className='status warn'; st.textContent='✕ '+e.message+' — '+t('verifică conexiunea'); }
   btn.disabled=false;
 };
 $('#btn-embed').onclick=()=>{loadEmbedded();state.selected=null;$('#satcard').style.display='none';
   $('#src-status').className='status ok';$('#src-status').textContent='✓ snapshot offline restabilit';};
 $('#btn-paste').onclick=()=>{
-  const t=$('#tle-paste').value; const arr=parseTLEtext(t,null);
+  const txt=$('#tle-paste').value; const arr=parseTLEtext(txt,null);
   const st=$('#src-status');
-  if(arr.length){SATS=arr;refreshNotableFrom(arr);notableRowsBuilt=false;afterLoad('TLE propriu');st.className='status ok';st.textContent='✓ '+arr.length+' sateliți încărcați';}
+  if(arr.length){SATS=arr;refreshNotableFrom(arr);notableRowsBuilt=false;afterLoad('TLE propriu');st.className='status ok';st.textContent='✓ '+arr.length+' '+t('sateliți încărcați');}
   else {st.className='status warn';st.textContent='✕ format TLE invalid';}
 };
 $('#tle-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();
@@ -2410,16 +2525,16 @@ $('#tle-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new 
 function setLoc(lat,lon,label){state.loc={lat,lon,label:label||''};$('#loc-lat').value=lat.toFixed(3);$('#loc-lon').value=lon.toFixed(3);}
 $('#btn-setloc').onclick=()=>{const la=parseFloat($('#loc-lat').value),lo=parseFloat($('#loc-lon').value);
   if(isFinite(la)&&isFinite(lo))setLoc(Math.max(-90,Math.min(90,la)),norm180(lo));};
-$('#btn-geo').onclick=()=>{if(!navigator.geolocation){$('#loc-info').textContent='Geolocație indisponibilă';return;}
-  $('#loc-info').textContent='Se localizează…';
+$('#btn-geo').onclick=()=>{if(!navigator.geolocation){$('#loc-info').textContent=t('Geolocație indisponibilă');return;}
+  $('#loc-info').textContent=t('Se localizează…');
   navigator.geolocation.getCurrentPosition(p=>setLoc(p.coords.latitude,p.coords.longitude,'GPS'),
-    ()=>{$('#loc-info').textContent='Permisiune refuzată — introdu manual';});};
+    ()=>{$('#loc-info').textContent=t('Permisiune refuzată — introdu manual');});};
 $('#btn-clearloc').onclick=()=>{state.loc=null;$('#loc-info').textContent='';$('#loc-lat').value='';$('#loc-lon').value='';};
 
 /* ===================== LIVE ONLINE OBJECTS (aircraft / sondes / weather) ===================== */
 const WMO={0:'cer senin',1:'predominant senin',2:'parțial noros',3:'înnorat',45:'ceață',48:'ceață cu chiciură',51:'burniță slabă',53:'burniță',55:'burniță deasă',56:'burniță înghețată',57:'burniță înghețată deasă',61:'ploaie slabă',63:'ploaie',65:'ploaie puternică',66:'ploaie înghețată',67:'ploaie înghețată puternică',71:'ninsoare slabă',73:'ninsoare',75:'ninsoare puternică',77:'măzăriche',80:'averse',81:'averse',82:'averse puternice',85:'averse de zăpadă',86:'averse de zăpadă puternice',95:'furtună',96:'furtună cu grindină',99:'furtună cu grindină mare'};
 const WMOIC={0:'☀︎',1:'🌤',2:'⛅',3:'☁︎',45:'🌫',48:'🌫',51:'🌧',53:'🌧',55:'🌧',56:'🌧',57:'🌧',61:'🌧',63:'🌧',65:'🌧',66:'🌧',67:'🌧',71:'🌨',73:'🌨',75:'🌨',77:'🌨',80:'🌦',81:'🌦',82:'🌦',85:'🌨',86:'🌨',95:'⛈',96:'⛈',99:'⛈'};
-async function fetchJSON(urls){ let err; for(const u of urls){ try{ const r=await fetch(u,{cache:'no-store'}); if(!r.ok){err='HTTP '+r.status;continue;} return await r.json(); }catch(e){err=e.message;} } throw new Error(err||'rețea indisponibilă'); }
+async function fetchJSON(urls){ let err; for(const u of urls){ try{ const r=await fetch(u,{cache:'no-store'}); if(!r.ok){err='HTTP '+r.status;continue;} return await r.json(); }catch(e){err=e.message;} } throw new Error(err||t('rețea indisponibilă')); }
 async function fetchAircraft(lat,lon){
   const data=await fetchJSON([
     `https://opendata.adsb.fi/api/v2/lat/${lat.toFixed(3)}/lon/${lon.toFixed(3)}/dist/250`,
@@ -2489,14 +2604,14 @@ async function fetchMovebank(){
     if(!isFinite(la)||!isFinite(lo)) continue;
     out.push({name, lat:la, lon:lo, t:last.timestamp||null});
     if(out.length>=2000) break; }
-  if(!out.length) throw new Error('0 poziții (studiu privat/necesită cont sau acceptarea licenței)');
+  if(!out.length) throw new Error(t('0 poziții (studiu privat/necesită cont sau acceptarea licenței)'));
   return out;
 }
 /* ---- BirdCast nocturnal bird-migration intensity (US-only raster overlay; paste current map URL) ---- */
 async function fetchBirdcast(){
-  const url=(state.feeds.birdcastUrl||'').trim(); if(!url) throw new Error('lipsește URL-ul hărții BirdCast (SUA)');
+  const url=(state.feeds.birdcastUrl||'').trim(); if(!url) throw new Error(t('lipsește URL-ul hărții BirdCast (SUA)'));
   return await new Promise((res,rej)=>{ const im=new Image(); im.crossOrigin='anonymous';
-    im.onload=()=>{ birdImg=im; res(true); }; im.onerror=()=>rej(new Error('imagine inaccesibilă (CORS) sau URL invalid')); im.src=url; });
+    im.onload=()=>{ birdImg=im; res(true); }; im.onerror=()=>rej(new Error(t('imagine inaccesibilă (CORS) sau URL invalid'))); im.src=url; });
 }
 let birdImg=null;
 /* ---- NOAA SWPC space weather (Kp, solar wind, X-ray flares, OVATION aurora oval) — CORS-enabled ---- */
@@ -2509,17 +2624,17 @@ async function fetchSpaceWeather(){
     if(Array.isArray(k)&&k.length>1){ const last=k[k.length-1]; space.kp=parseFloat(last[1]); space.kpT=last[0]; } }catch(e){ msgs.push('Kp ✕'); }
   // solar wind plasma (density, speed)
   try{ const pl=await J('https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json');
-    if(Array.isArray(pl)&&pl.length>1){ for(let i=pl.length-1;i>0;i--){ const r=pl[i]; const sp=parseFloat(r[2]),de=parseFloat(r[1]); if(isFinite(sp)){ space.wind=Object.assign(space.wind||{},{speed:sp,density:isFinite(de)?de:null}); break; } } } }catch(e){ msgs.push('vânt ✕'); }
+    if(Array.isArray(pl)&&pl.length>1){ for(let i=pl.length-1;i>0;i--){ const r=pl[i]; const sp=parseFloat(r[2]),de=parseFloat(r[1]); if(isFinite(sp)){ space.wind=Object.assign(space.wind||{},{speed:sp,density:isFinite(de)?de:null}); break; } } } }catch(e){ msgs.push(t('vânt ✕')); }
   // solar wind IMF (Bz, Bt)
   try{ const mg=await J('https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json');
     if(Array.isArray(mg)&&mg.length>1){ for(let i=mg.length-1;i>0;i--){ const r=mg[i]; const bz=parseFloat(r[3]),bt=parseFloat(r[6]); if(isFinite(bz)){ space.wind=Object.assign(space.wind||{},{bz,bt:isFinite(bt)?bt:null}); break; } } } }catch(e){}
   // GOES X-ray flux (flare class)
   try{ const xr=await J('https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json');
-    if(Array.isArray(xr)&&xr.length){ let f=null; for(let i=xr.length-1;i>=0;i--){ if(xr[i].energy&&xr[i].energy.indexOf('0.1-0.8')>=0){ f=xr[i].flux; break; } } if(f!=null) space.xray={flux:f, cls:xrayClass(f)}; } }catch(e){ msgs.push('raze X ✕'); }
+    if(Array.isArray(xr)&&xr.length){ let f=null; for(let i=xr.length-1;i>=0;i--){ if(xr[i].energy&&xr[i].energy.indexOf('0.1-0.8')>=0){ f=xr[i].flux; break; } } if(f!=null) space.xray={flux:f, cls:xrayClass(f)}; } }catch(e){ msgs.push(t('raze X ✕')); }
   // OVATION aurora grid
   try{ const ov=await J('https://services.swpc.noaa.gov/json/ovation_aurora_latest.json');
-    if(ov&&ov.coordinates){ space.ovTime=ov['Observation Time']||ov['Forecast Time']||null; buildAuroraRaster(ov.coordinates); } }catch(e){ msgs.push('auroră ✕'); }
-  if(!space.kp&&!space.wind&&!space.ovGrid) throw new Error(msgs.join(' · ')||'fără date');
+    if(ov&&ov.coordinates){ space.ovTime=ov['Observation Time']||ov['Forecast Time']||null; buildAuroraRaster(ov.coordinates); } }catch(e){ msgs.push(t('auroră ✕')); }
+  if(!space.kp&&!space.wind&&!space.ovGrid) throw new Error(msgs.join(' · ')||t('fără date'));
   return msgs;
 }
 function xrayClass(f){ if(!isFinite(f)||f<=0) return '—'; const b=[['A',1e-8],['B',1e-7],['C',1e-6],['M',1e-5],['X',1e-4]]; let L='A',base=1e-8; for(const[c,v]of b){ if(f>=v){L=c;base=v;} } return L+(f/base).toFixed(1); }
@@ -2553,7 +2668,8 @@ async function fetchQuakes(){
 }
 /* ---- Visible ISS / satellite pass predictor (real SGP4 + illumination geometry) ---- */
 const RUMB=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSV','SV','VSV','V','VNV','NV','NNV'];
-function compass16(az){ return RUMB[((Math.round(az/22.5)%16)+16)%16]; }
+const RUMB_EN=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+function compass16(az){ return (state.lang==='en'?RUMB_EN:RUMB)[((Math.round(az/22.5)%16)+16)%16]; }
 function issRec(){ for(const o of notableSats){ if(o.num==='25544'||o.short==='ISS') return o.rec; } return notableSats[0]&&notableSats[0].rec; }
 function predictPasses(rec, lat, lon, hoursAhead, minEl){
   if(!rec) return []; const out=[]; const t0=Date.now(); const step=20000; let cur=null;
@@ -2601,7 +2717,7 @@ function onOrient(e){
   if(e.beta!=null) ar.alt=Math.max(-8,Math.min(90, e.beta-90)); // tilt top back to look higher
 }
 async function enableAR(){
-  try{ if(typeof DeviceOrientationEvent!=='undefined' && DeviceOrientationEvent.requestPermission){ const r=await DeviceOrientationEvent.requestPermission(); if(r!=='granted') throw new Error('permisiune refuzată'); } }catch(err){ const st=$('#ar-status'); if(st){st.className='status warn';st.textContent='✕ '+t('senzori de orientare indisponibili');} return; }
+  try{ if(typeof DeviceOrientationEvent!=='undefined' && DeviceOrientationEvent.requestPermission){ const r=await DeviceOrientationEvent.requestPermission(); if(r!=='granted') throw new Error(t('permisiune refuzată')); } }catch(err){ const st=$('#ar-status'); if(st){st.className='status warn';st.textContent='✕ '+t('senzori de orientare indisponibili');} return; }
   window.addEventListener('deviceorientationabsolute', onOrient, true);
   window.addEventListener('deviceorientation', onOrient, true);
   ar.active=true; if(state.skyObs!=='ground'){ state.skyObs='ground'; const s=$('#skyobs'); if(s)s.value='ground'; } setMode('sky');
@@ -2642,7 +2758,7 @@ async function fetchRadar(){
   const host=meta.host||'https://tilecache.rainviewer.com';
   const past=(meta.radar&&meta.radar.past)||[], now=(meta.radar&&meta.radar.nowcast)||[];
   const fr = past.length?past[past.length-1] : (now.length?now[0]:null);
-  if(!fr) throw new Error('fără cadre radar');
+  if(!fr) throw new Error(t('fără cadre radar'));
   const z=2, n=1<<z, S=256*n;
   const merc=document.createElement('canvas'); merc.width=S; merc.height=S; const mc=merc.getContext('2d');
   const loads=[];
@@ -2669,9 +2785,9 @@ $('#btn-feeds').onclick=async()=>{
   const st=$('#feeds-status'), btn=$('#btn-feeds'); st.className='status run'; st.textContent='Se aduc datele externe…'; btn.disabled=true;
   const tasks=[], msgs=[];
   if(state.layers.transit) tasks.push(fetchTransit().then(t=>{live.transit=t;msgs.push(t.length+' vehicule GTFS-RT');}).catch(e=>msgs.push('GTFS-RT ✕ '+e.message)));
-  if(state.layers.animals) tasks.push(fetchMovebank().then(a=>{live.animals=a;msgs.push(a.length+' animale Movebank');}).catch(e=>msgs.push('Movebank ✕ '+e.message)));
+  if(state.layers.animals) tasks.push(fetchMovebank().then(a=>{live.animals=a;msgs.push(a.length+' '+t('animale Movebank'));}).catch(e=>msgs.push('Movebank ✕ '+e.message)));
   if(state.layers.birdcast) tasks.push(fetchBirdcast().then(()=>msgs.push('BirdCast ✓')).catch(e=>msgs.push('BirdCast ✕ '+e.message)));
-  if(!tasks.length){ st.className='status warn'; st.textContent='Activează GTFS-RT, Movebank sau BirdCast mai sus'; btn.disabled=false; return; }
+  if(!tasks.length){ st.className='status warn'; st.textContent=t('Activează GTFS-RT, Movebank sau BirdCast mai sus'); btn.disabled=false; return; }
   await Promise.all(tasks);
   const ok=live.transit.length||live.animals.length||(state.layers.birdcast&&birdImg);
   st.className=ok?'status ok':'status warn'; st.textContent=(ok?'✓ ':'')+msgs.join(' · '); btn.disabled=false;
@@ -2680,32 +2796,33 @@ $('#btn-traffic').onclick=async()=>{
   const st=$('#live-status'), btn=$('#btn-traffic'); st.className='status run'; st.textContent='Se aduce traficul…'; btn.disabled=true;
   const tasks=[], msgs=[];
   if(state.layers.aircraft){
-    if(state.loc) tasks.push(fetchAircraft(state.loc.lat,state.loc.lon).then(a=>{live.aircraft=a;msgs.push(a.length+' avioane');}).catch(e=>msgs.push('avioane ✕ '+e.message)));
-    else msgs.push('avioane: setează locația');
+    if(state.loc) tasks.push(fetchAircraft(state.loc.lat,state.loc.lon).then(a=>{live.aircraft=a;msgs.push(a.length+' '+t('avioane'));}).catch(e=>msgs.push(t('avioane ✕')+' '+e.message)));
+    else msgs.push(t('avioane: setează locația'));
   }
-  if(state.layers.sondes) tasks.push(fetchSondes().then(s=>{live.sondes=s;msgs.push(s.length+' sonde');}).catch(e=>msgs.push('sonde ✕ '+e.message)));
+  if(state.layers.sondes) tasks.push(fetchSondes().then(s=>{live.sondes=s;msgs.push(s.length+' '+t('sonde'));}).catch(e=>msgs.push(t('sonde ✕')+' '+e.message)));
   if(state.layers.transit) tasks.push(fetchTransit().then(t=>{live.transit=t;msgs.push(t.length+' vehicule GTFS-RT');}).catch(e=>msgs.push('GTFS-RT ✕ '+e.message)));
-  if(state.layers.animals) tasks.push(fetchMovebank().then(a=>{live.animals=a;msgs.push(a.length+' animale Movebank');}).catch(e=>msgs.push('Movebank ✕ '+e.message)));
+  if(state.layers.animals) tasks.push(fetchMovebank().then(a=>{live.animals=a;msgs.push(a.length+' '+t('animale Movebank'));}).catch(e=>msgs.push('Movebank ✕ '+e.message)));
   if(state.layers.birdcast) tasks.push(fetchBirdcast().then(()=>msgs.push('BirdCast ✓')).catch(e=>msgs.push('BirdCast ✕ '+e.message)));
+  if(state.layers.clouds) tasks.push(fetchClouds().then(()=>msgs.push('nori OK')).catch(e=>msgs.push('nori X '+e.message)));
   if(state.layers.radar) tasks.push(fetchRadar().then(()=>msgs.push('radar ✓')).catch(e=>msgs.push('radar ✕ '+e.message)));
-  if(!tasks.length){ st.className='status warn'; st.textContent='Activează un strat live (avioane, sonde, GTFS-RT, Movebank, BirdCast, radar)'; btn.disabled=false; return; }
+  if(!tasks.length){ st.className='status warn'; st.textContent=t('Activează un strat live (avioane, sonde, GTFS-RT, Movebank, BirdCast, radar)'); btn.disabled=false; return; }
   await Promise.all(tasks);
-  const ok=live.aircraft.length||live.sondes.length||live.transit.length||live.animals.length;
+  const ok=live.aircraft.length||live.sondes.length||live.transit.length||live.animals.length||cloudImg||radarImg;
   st.className=ok?'status ok':'status warn'; st.textContent=(ok?'✓ ':'')+msgs.join(' · '); btn.disabled=false;
 };
 $('#btn-weather').onclick=async()=>{
   const st=$('#live-status');
-  if(!state.loc){ st.className='status warn'; st.textContent='Setează locația pentru meteo'; return; }
+  if(!state.loc){ st.className='status warn'; st.textContent=t('Setează locația pentru meteo'); return; }
   st.className='status run'; st.textContent='Se aduce meteo…';
   try{ weatherNow=await fetchWeather(state.loc.lat,state.loc.lon); renderWeather(); st.className='status ok'; st.textContent='✓ meteo actualizat'; }
   catch(e){ st.className='status warn'; st.textContent='✕ meteo: '+e.message; }
 };
 $('#btn-space').onclick=async()=>{
-  const st=$('#space-status'), btn=$('#btn-space'); st.className='status run'; st.textContent='Se aduc datele spațiale + cutremure…'; btn.disabled=true;
+  const st=$('#space-status'), btn=$('#btn-space'); st.className='status run'; st.textContent=t('Se aduc datele spațiale + cutremure…'); btn.disabled=true;
   const msgs=[];
   await Promise.all([
-    fetchSpaceWeather().then(()=>msgs.push('vreme spațială ✓')).catch(e=>msgs.push('vreme spațială ✕ '+e.message)),
-    fetchQuakes().then(q=>{quakes=q;msgs.push(q.length+' cutremure')}).catch(e=>msgs.push('cutremure ✕ '+e.message))
+    fetchSpaceWeather().then(()=>msgs.push(t('vreme spațială ✓'))).catch(e=>msgs.push(t('vreme spațială ✕ ')+e.message)),
+    fetchQuakes().then(q=>{quakes=q;msgs.push(q.length+' '+t('cutremure'))}).catch(e=>msgs.push(t('cutremure')+' ✕ '+e.message))
   ]);
   renderSpaceBox();
   const ok=space.kp!=null||space.ovGrid||quakes.length;
@@ -2732,9 +2849,9 @@ function renderWeather(){
   box.style.display='flex'; const w=weatherNow, code=w.weather_code;
   $('#wx-icon').textContent=WMOIC[code]||'☁︎';
   const comp=['N','NE','E','SE','S','SV','V','NV'][Math.round(((w.wind_direction_10m||0)%360)/45)%8];
-  $('#wx-info').innerHTML=`<span class="nm">${w.temperature_2m!=null?w.temperature_2m.toFixed(1):'–'}°C</span>`+
-    `${WMO[code]||'—'}<br>Resimțit <b>${w.apparent_temperature!=null?w.apparent_temperature.toFixed(0)+'°':'–'}</b> · Umiditate <b>${w.relative_humidity_2m??'–'}%</b>`+
-    `<br>Vânt <b>${w.wind_speed_10m!=null?w.wind_speed_10m.toFixed(0):'–'} km/h ${comp}</b> · Nori <b>${w.cloud_cover??'–'}%</b>`;
+  $('#wx-info').innerHTML=`<span class="nm">${fTf(w.temperature_2m)}</span>`+
+    `${WMO[code]||'—'}<br>Resimțit <b>${fT(w.apparent_temperature)}</b> · Umiditate <b>${w.relative_humidity_2m??'–'}%</b>`+
+    `<br>Vânt <b>${fSpd(w.wind_speed_10m)} ${comp}</b> · Nori <b>${w.cloud_cover??'–'}%</b>`;
 }
 
 let liveScreen=[]; // 2D picking for live objects
@@ -2862,13 +2979,13 @@ function showLiveCard(o,kind){
   $('#lv-d').style.background=colors[kind]||'#79d6c4';
   $('#lv-lat').textContent=o.lat.toFixed(3)+'°'; $('#lv-lon').textContent=o.lon.toFixed(3)+'°';
   if(kind==='ac'){ $('#lv-name').textContent='✈ '+(o.call||t('aeronavă')); $('#lv-alt').textContent=(o.alt!=null?o.alt.toFixed(o.alt<10?2:1)+' km':'—');
-    $('#lv-k4').textContent=t('Viteză'); $('#lv-v4').textContent=(o.vel!=null?o.vel.toFixed(0)+' km/h':'—'); $('#lv-tag').textContent='ADS-B'+(o.type?' · '+o.type:''); }
+    $('#lv-k4').textContent=t('Viteză'); $('#lv-v4').textContent=(o.vel!=null?fSpd(o.vel):'—'); $('#lv-tag').textContent='ADS-B'+(o.type?' · '+o.type:''); }
   else if(kind==='tr'){ $('#lv-name').textContent='🚆 '+(o.id||t('vehicul')); $('#lv-alt').textContent='—';
     $('#lv-k4').textContent=t('Rută'); $('#lv-v4').textContent=(o.route||'—'); $('#lv-tag').textContent='GTFS-Realtime'; }
   else if(kind==='an'){ $('#lv-name').textContent='🐾 '+(o.name||t('animal')); $('#lv-alt').textContent='—';
     $('#lv-k4').textContent=t('Marcat'); $('#lv-v4').textContent=(o.t?String(o.t).slice(0,16).replace('T',' '):'—'); $('#lv-tag').textContent='Movebank / OTN'; }
   else { $('#lv-name').textContent='◌ '+(o.serial||t('sondă')); $('#lv-alt').textContent=(o.alt!=null?o.alt.toFixed(o.alt<10?2:1)+' km':'—');
-    $('#lv-k4').textContent=t('Vit. verticală'); $('#lv-v4').textContent=(o.vel!=null?o.vel.toFixed(1)+' m/s':'—'); $('#lv-tag').textContent='radiosondă · SondeHub'; }
+    $('#lv-k4').textContent=t('Vit. verticală'); $('#lv-v4').textContent=(o.vel!=null?o.vel.toFixed(1)+' m/s':'—'); $('#lv-tag').textContent=t('radiosondă')+' · SondeHub'; }
 }
 $('#lv-x').onclick=()=>{state.selLive=null;state.selQuake=null;$('#livecard').style.display='none';};
 function showQuakeCard(q){
@@ -2879,11 +2996,11 @@ function showQuakeCard(q){
   $('#lv-d').style.background=quakeColor(q);
   $('#lv-name').textContent='⚇ M'+(q.mag!=null?q.mag.toFixed(1):'?')+(q.tsu?' ⚠':'');
   $('#lv-lat').textContent=q.lat.toFixed(3)+'°'; $('#lv-lon').textContent=q.lon.toFixed(3)+'°';
-  $('#lv-alt').textContent=(q.depth!=null?q.depth.toFixed(0)+' km':'—');
+  $('#lv-alt').textContent=(q.depth!=null?fAlt(q.depth):'—');
   $('#lv-k4').textContent=t('Acum'); $('#lv-v4').textContent=(q.t?fmtAgo(Date.now()-q.t):'—');
   $('#lv-tag').textContent='USGS'+(q.place?' · '+q.place.slice(0,40):'');
 }
-function fmtAgo(ms){ const m=Math.round(ms/60000); if(m<60) return 'acum '+m+' min'; const h=Math.floor(m/60); return 'acum '+h+'h '+(m%60)+'m'; }
+function fmtAgo(ms){ const m=Math.round(ms/60000); const en=state.lang==='en'; if(m<60) return en?(m+' min ago'):('acum '+m+' min'); const h=Math.floor(m/60); return en?(h+'h '+(m%60)+'m ago'):('acum '+h+'h '+(m%60)+'m'); }
 $('#sk-x').onclick=()=>{state.selSky=null;$('#skycard').style.display='none';};
 
 // about + panel
@@ -2957,7 +3074,7 @@ function globeView(ss,sl,jdut,gmst){
     if(g){ d0=dir3(g.lat,g.lon); R0=1+g.alt/6371; fov=Math.max(28,Math.min(95,2*Math.asin(Math.min(1,1/R0))*RAD/0.7)); info=`De pe ${(state.selected.rec.name||'satelit').trim()} · ${g.alt.toFixed(0)} km`; }
     else info='Selectează un satelit (atinge-l), apoi „Satelit selectat"';
   } else if(cam.mode==='moon'){
-    d0=dir3(sl.lat,sl.lon); R0=Math.max(8,moonDistKm(jdtt)/6371); fov=10; info=`De pe Lună · ${Math.round(moonDistKm(jdtt)).toLocaleString('ro-RO')} km`;
+    d0=dir3(sl.lat,sl.lon); R0=Math.max(8,moonDistKm(jdtt)/6371); fov=10; info=`De pe Lună · ${fAlt(moonDistKm(jdtt))}`;
   } else if(cam.mode==='sun'){
     d0=dir3(ss.lat,ss.lon); R0=4.2; fov=34; info='De pe Soare · vedere canonică: fază plină';
   } else if(cam.mode==='jwst'){
@@ -2973,6 +3090,8 @@ function globeView(ss,sl,jdut,gmst){
     if(L){ d0=L.dir; R0=4.2; fov=34; info=`Din ${nm} · ${fmtKm(L.dist)}`; }
   } else if(VP_PLANET[cam.mode]){
     const key=VP_PLANET[cam.mode], pg=planetGeo(key,jdtt,gmst); d0=dir3(pg.lat,pg.lon); R0=4.2; fov=34; info=`De pe ${key} · ${pg.dist.toFixed(2)} UA`;
+  } else if(cam.mode==='uap'){
+    d0=dir3(cam.uapLat||0, cam.uapLon||0); R0=1.32; fov=58; info=t('Deasupra locului UAP/FAN')+((state.loc&&state.loc.label)?' · '+state.loc.label:'');
   }
   const far= (cam.mode==='sun'||cam.mode==='moon'||cam.mode==='jwst'||MOONS[cam.mode]||ISO_ELEMENTS[cam.mode]||COMETS[cam.mode]||VP_PLANET[cam.mode]||cam.mode.indexOf('lag:')===0)?' (Pământ mărit · faza/iluminarea reale)':'';
   return bodyView(d0,R0,fov, info+far);
@@ -2998,6 +3117,7 @@ function buildViewpointMenu(){
   html+=grp(t('Comete periodice'),Object.keys(COMETS).map(k=>[k,t('De pe')+' '+COMETS[k].name]));
   const parents={}; for(const k in MOONS){ const m=MOONS[k]; (parents[m[1]]=parents[m[1]]||[]).push([k,t('De pe')+' '+m[0]]); }
   for(const pl in parents) html+=grp(t('Sateliții lui')+' '+t(pl), parents[pl]);
+  html+=grp(t('Sateliții Lunii'), Object.keys(LUNAR_SATS).map(k=>[k,t('De pe')+' '+t(LUNAR_SATS[k][0])]));
   const sel=$('#viewpoint'); if(sel){ sel.innerHTML=html; sel.value=cam.mode; }
 }
 
@@ -3020,7 +3140,7 @@ function occluded(P,E){const dx=P[0]-E[0],dy=P[1]-E[1],dz=P[2]-E[2];
   const disc=b*b-4*a*c;if(disc<0)return false;const t=(-b-Math.sqrt(disc))/(2*a);return t>1e-3&&t<0.999;}
 
 const VS_GLOBE='attribute vec3 aPos;attribute vec2 aUv;uniform mat4 uMVP;varying vec2 vUv;varying vec3 vN;void main(){vUv=aUv;vN=aPos;gl_Position=uMVP*vec4(aPos,1.0);}';
-const FS_GLOBE='precision highp float;varying vec2 vUv;varying vec3 vN;uniform sampler2D uDay,uNight;uniform vec3 uSun,uCam;uniform float uDetail;uniform float uDetScale;uniform float uRelief;float hsh(vec3 p){p=fract(p*0.3183099+vec3(0.1,0.2,0.3));p*=17.0;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}float vnz(vec3 x){vec3 i=floor(x);vec3 f=fract(x);f=f*f*(3.0-2.0*f);float a=mix(mix(hsh(i),hsh(i+vec3(1.0,0.0,0.0)),f.x),mix(hsh(i+vec3(0.0,1.0,0.0)),hsh(i+vec3(1.0,1.0,0.0)),f.x),f.y);float b=mix(mix(hsh(i+vec3(0.0,0.0,1.0)),hsh(i+vec3(1.0,0.0,1.0)),f.x),mix(hsh(i+vec3(0.0,1.0,1.0)),hsh(i+vec3(1.0,1.0,1.0)),f.x),f.y);return mix(a,b,f.z);}float fbm(vec3 p){float a=0.5;float s=0.0;float nrm=0.0;for(int i=0;i<8;i++){if(float(i)>=uDetail)break;s+=a*vnz(p);nrm+=a;p*=2.02;a*=0.5;}return nrm>0.0?s/nrm:0.5;}void main(){vec3 n=normalize(vN);vec3 dC=texture2D(uDay,vUv).rgb;vec3 nC=texture2D(uNight,vUv).rgb;float land=clamp((dC.r+dC.g-2.0*dC.b)*2.2+0.25,0.0,1.0);vec3 pn=n;if(uDetail>0.5){vec3 sp=n*uDetScale;float h=fbm(sp);float e=0.6;vec3 g=vec3(fbm(sp+vec3(e,0.0,0.0))-h,fbm(sp+vec3(0.0,e,0.0))-h,fbm(sp+vec3(0.0,0.0,e))-h);g=g-n*dot(g,n);pn=normalize(n-g*uRelief*land);float mott=h-0.5;dC*=(1.0+mott*(0.30*land+0.06));dC=clamp(dC,0.0,1.0);}float lam=dot(pn,normalize(uSun));float day=smoothstep(-0.09,0.12,lam);vec3 base=mix(dC*vec3(0.07,0.10,0.17),dC,day);vec3 lights=nC*(1.0-day)*1.25;vec3 col=base+lights;vec3 vd=normalize(uCam-vN);float rim=pow(1.0-max(dot(n,vd),0.0),3.0);col+=vec3(0.22,0.42,0.85)*rim*0.55;gl_FragColor=vec4(col,1.0);}';
+const FS_GLOBE='precision highp float;varying vec2 vUv;varying vec3 vN;uniform sampler2D uDay,uNight;uniform vec3 uSun,uCam;uniform float uDetail;uniform float uDetScale;uniform float uRelief;uniform sampler2D uCloud;uniform float uCloudOn;float hsh(vec3 p){p=fract(p*0.3183099+vec3(0.1,0.2,0.3));p*=17.0;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}float vnz(vec3 x){vec3 i=floor(x);vec3 f=fract(x);f=f*f*(3.0-2.0*f);float a=mix(mix(hsh(i),hsh(i+vec3(1.0,0.0,0.0)),f.x),mix(hsh(i+vec3(0.0,1.0,0.0)),hsh(i+vec3(1.0,1.0,0.0)),f.x),f.y);float b=mix(mix(hsh(i+vec3(0.0,0.0,1.0)),hsh(i+vec3(1.0,0.0,1.0)),f.x),mix(hsh(i+vec3(0.0,1.0,1.0)),hsh(i+vec3(1.0,1.0,1.0)),f.x),f.y);return mix(a,b,f.z);}float fbm(vec3 p){float a=0.5;float s=0.0;float nrm=0.0;for(int i=0;i<8;i++){if(float(i)>=uDetail)break;s+=a*vnz(p);nrm+=a;p*=2.02;a*=0.5;}return nrm>0.0?s/nrm:0.5;}void main(){vec3 n=normalize(vN);vec3 dC=texture2D(uDay,vUv).rgb;vec3 nC=texture2D(uNight,vUv).rgb;float land=clamp((dC.r+dC.g-2.0*dC.b)*2.2+0.25,0.0,1.0);vec3 pn=n;if(uDetail>0.5){vec3 sp=n*uDetScale;float h=fbm(sp);float e=0.6;vec3 g=vec3(fbm(sp+vec3(e,0.0,0.0))-h,fbm(sp+vec3(0.0,e,0.0))-h,fbm(sp+vec3(0.0,0.0,e))-h);g=g-n*dot(g,n);pn=normalize(n-g*uRelief*land);float mott=h-0.5;dC*=(1.0+mott*(0.30*land+0.06));dC=clamp(dC,0.0,1.0);}float lam=dot(pn,normalize(uSun));float day=smoothstep(-0.09,0.12,lam);vec3 base=mix(dC*vec3(0.07,0.10,0.17),dC,day);vec3 lights=nC*(1.0-day)*1.25;vec3 col=base+lights;vec3 vd=normalize(uCam-vN);float rim=pow(1.0-max(dot(n,vd),0.0),3.0);col+=vec3(0.22,0.42,0.85)*rim*0.55;float cl=uCloudOn>0.5?texture2D(uCloud,vUv).a:0.0;col=mix(col,mix(vec3(0.06,0.08,0.13),vec3(0.95,0.96,1.0),day),cl*0.82);gl_FragColor=vec4(col,1.0);}';
 const VS_LINE='attribute vec3 aPos;uniform mat4 uMVP;void main(){gl_Position=uMVP*vec4(aPos,1.0);}';
 const FS_LINE='precision mediump float;uniform vec4 uColor;void main(){gl_FragColor=uColor;}';
 const VS_PT='attribute vec3 aPos;attribute vec3 aCol;attribute float aSize;uniform mat4 uMVP;varying vec3 vCol;void main(){vCol=aCol;gl_Position=uMVP*vec4(aPos,1.0);gl_PointSize=aSize;}';
@@ -3153,6 +3273,9 @@ function renderGlobe(jdut,gmst,ss,sl,illum,elong){
   gl.uniform3fv(uloc(gl,GL.pGlobe,'uCam'),new Float32Array(E));
   gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D,GL.texDay); gl.uniform1i(uloc(gl,GL.pGlobe,'uDay'),0);
   gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D,GL.texNight); gl.uniform1i(uloc(gl,GL.pGlobe,'uNight'),1);
+  if(state.layers.clouds && cloudImg && GL._cloudStamp!==cloudTime){ uploadCloudTex(cloudImg); GL._cloudStamp=cloudTime; }
+  gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, GL.texCloud||GL.texDay); gl.uniform1i(uloc(gl,GL.pGlobe,'uCloud'),2);
+  gl.uniform1f(uloc(gl,GL.pGlobe,'uCloudOn'), (state.layers.clouds && GL.texCloud)?1.0:0.0);
   // procedural fractal surface detail — octaves & frequency grow as the camera nears the surface (effectively infinite zoom)
   { const gd=Math.hypot(E[0],E[1],E[2]); const close=Math.max(0.0,(3.0-Math.min(gd,3.0))/2.0);
     const oct=state.layers.fractalDetail?(2.5+close*4.0):0.0; const scl=24.0*(1.0+close*9.0); const rel=0.12*(0.5+close*1.3);
@@ -3220,6 +3343,8 @@ function drawGlobeOverlay(mvp,E,ss,sl,illum,elong,jdut,gmst){
   // sun & moon on the surface (sub-points)
   if(state.layers.sun && cam.mode!=='sun'){ const P=v3s(dir3(ss.lat,ss.lon),1.012); if(!occluded(P,E)){ const sc=projj(mvp,P); if(sc) sunGlyph3D(sc.x,sc.y); } }
   if(state.layers.moon && cam.mode!=='moon'){ const P=v3s(dir3(sl.lat,sl.lon),1.012); if(!occluded(P,E)){ const sc=projj(mvp,P); if(sc) moonGlyph3D(sc.x,sc.y,illum,elong); } }
+  drawEclShadow3D(mvp,E);
+  drawCloudLabel3D();
   // location pin
   if(state.loc){ const P=v3s(dir3(state.loc.lat,state.loc.lon),1.012); if(!occluded(P,E)){ const sc=projj(mvp,P); if(sc) locPin3D(sc.x,sc.y); } }
   // cities LAST so their labels yield to every other marker
@@ -3404,7 +3529,7 @@ function setMode(mode){
   if(mode==='3d'){
     if(dayReady && nightReady && !GL.init) initGlobe();
     if(GL.init && !GL.ok){ // WebGL unavailable
-      const w=$('#mode'); if(w){ const b3=w.querySelector('[data-mode="3d"]'); if(b3){b3.disabled=true;b3.style.opacity=.4;b3.title='WebGL indisponibil';} }
+      const w=$('#mode'); if(w){ const b3=w.querySelector('[data-mode="3d"]'); if(b3){b3.disabled=true;b3.style.opacity=.4;b3.title=t('WebGL indisponibil');} }
       state.mode='2d'; $$('#mode button').forEach(b=>b.classList.toggle('on',b.dataset.mode==='2d')); applyModeDisplay(); return;
     }
   }
@@ -3417,7 +3542,7 @@ $('#viewpoint').addEventListener('change',e=>{
 });
 $('#skyobs').addEventListener('change',e=>{
   state.skyObs=e.target.value; skyBKey='';
-  if(state.skyObs!=='ground'){ state.skyFov=80; aimSkyAtEarth(); closeAllCards&&closeAllCards(); }
+  if(state.skyObs!=='ground'){ state.skyFov=LUNAR_SATS[state.skyObs]?112:80; aimSkyAtEarth(); closeAllCards&&closeAllCards(); }
   setMode('sky');
 });
 
@@ -3572,6 +3697,7 @@ function bodyHelioEcl(key,jdtt){ // heliocentric ecliptic J2000 vector (AU) for 
     return [eh[0]+x*dAU, eh[1]+(y*ce+z*se)*dAU, eh[2]+(-y*se+z*ce)*dAU]; }
   if(VP_PLANET[key]) return helioEcl(VP_PLANET[key],T);
   if(MOONS[key]){ const m=MOONS[key], ph=helioEcl(m[1],T), aAU=m[2]/AU_KM, ang=TWOPI*((jdtt-2451545.0)/m[3]); return [ph[0]+aAU*Math.cos(ang), ph[1]+aAU*Math.sin(ang), ph[2]]; }
+  if(LUNAR_SATS[key]){ const ls=LUNAR_SATS[key], lp=bodyHelioEcl('luna',jdtt), rAU=(BODY_R.luna+ls[1])/AU_KM, ang=TWOPI*((jdtt-2451545.0)/(ls[2]/24)); return [lp[0]+rAU*Math.cos(ang), lp[1]+rAU*Math.sin(ang), lp[2]]; }
   if(ISO_ELEMENTS[key]) return hypHelio(ISO_ELEMENTS[key],jdtt);
   if(COMETS[key]) return ellHelio(COMETS[key],jdtt);
   return [0,0,0];
@@ -3584,7 +3710,7 @@ const SKY_TARGETS=[
  {k:'atlas',n:'3I/ATLAS',c:'#7fe0c0'},{k:'borisov',n:'2I/Borisov',c:'#7fe0c0'},{k:'oumuamua',n:"1I/ʻOumuamua",c:'#7fe0c0'},
  {k:'halley',n:'1P/Halley',c:'#a7e8d0'},{k:'encke',n:'2P/Encke',c:'#a7e8d0'},{k:'cg67p',n:'67P',c:'#a7e8d0'}
 ];
-function skyObsName(key){ const t=SKY_TARGETS.find(x=>x.k===key); if(t)return t.n; if(MOONS[key])return MOONS[key][0]; if(COMETS[key])return COMETS[key].name; return key; }
+function skyObsName(key){ const st=SKY_TARGETS.find(x=>x.k===key); if(st)return st.n; if(MOONS[key])return MOONS[key][0]; if(LUNAR_SATS[key])return t(LUNAR_SATS[key][0]); if(COMETS[key])return COMETS[key].name; return key; }
 let skyBodyScreen=[];
 function buildSkyBodyBG(cx,cy,R,scale,ra0,dec0){
   const key=[Math.round(state.skyRA*4),Math.round(state.skyDec*4),Math.round(state.skyFov*2),cv.width,cv.height,state.layers.milkyway?1:0,state.layers.constfig?1:0,state.layers.constnames?1:0,state.layers.messier?1:0].join(',');
@@ -3661,6 +3787,11 @@ function bhash(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeA
 function srnd(seed){ let s=(seed>>>0)||1; return function(){ s^=s<<13; s>>>=0; s^=s>>>17; s^=s<<5; s>>>=0; return s/4294967296; }; }
 function norm2(x,y){ const L=Math.hypot(x,y)||1; return [x/L,y/L]; }
 const BODY_ENV={
+ lro:{t:null,p:'vid',g:0,atm:'vid (orbită lunară)',day:'orbită ~2 h',note:'LRO — orbiter NASA pe orbită polară joasă (~50 km) în jurul Lunii din 2009. Vid, microgravitate (cădere liberă). Orbită modelată simplificat.'},
+ danuri:{t:null,p:'vid',g:0,atm:'vid (orbită lunară)',day:'orbită ~2 h',note:'Danuri (KPLO) — orbiter al Coreei de Sud, orbită polară ~100 km din 2022. Vid, microgravitate. Orbită modelată simplificat.'},
+ chandra2:{t:null,p:'vid',g:0,atm:'vid (orbită lunară)',day:'orbită ~2 h',note:'Chandrayaan-2 — orbiterul Indiei, orbită polară ~100 km din 2019. Vid, microgravitate. Orbită modelată simplificat.'},
+ queqiao2:{t:null,p:'vid',g:0,atm:'vid (orbită lunară)',day:'orbită ~24 h',note:'Queqiao-2 — satelit releu al Chinei pe orbită lunară eliptică din 2024. Vid, microgravitate. Orbită modelată simplificat.'},
+ capstone:{t:null,p:'vid',g:0,atm:'vid (orbită lunară)',day:'orbită ~6,5 zile',note:'CAPSTONE — cubesat NASA pe orbită cvasi-rectilinie de halou (NRHO) din 2022. Vid, microgravitate. Orbită modelată simplificat.'},
  sun:{t:5505,lo:null,hi:null,p:'~10⁻⁴ bar (fotosferă)',g:274,atm:'plasmă H/He',day:'~25–35 zile (diferențial)',note:'„Suprafața” e plasmă la 5505°C; miez ~15 mil. °C; fără sol solid.'},
  mercury:{t:167,lo:-173,hi:427,p:'~10⁻¹⁵ bar (exosferă)',g:3.70,atm:'urme (Na, O, H, He, K)',day:'176 zile (zi solară)',note:'Variații extreme zi/noapte; gheață în craterele polare.'},
  venus:{t:464,lo:460,hi:467,p:'92 bar',g:8.87,atm:'96.5% CO₂, 3.5% N₂',day:'117 zile · retrograd',note:'Cea mai fierbinte planetă; nori de acid sulfuric; efect de seră extrem.'},
@@ -3704,7 +3835,8 @@ function updateEnvPanel(){
   const k=(state.skyObs&&state.skyObs!=='ground'&&state.skyObs!=='earth')?state.skyObs:'ground';
   const wk=(k==='ground'&&typeof weatherNow!=='undefined'&&weatherNow)?(weatherNow.temperature_2m+'/'+weatherNow.surface_pressure):'';
   const sig=k+'|'+state.lang+'|'+wk; if(sig===_envSig) return; _envSig=sig;
-  const nm=(k==='ground')?(t('Pământ')+((state.loc&&state.loc.label)?' · '+state.loc.label:'')):skyObsName(k);
+  const nmRaw=(k==='ground')?(t('Pământ')+((state.loc&&state.loc.label)?' · '+state.loc.label:'')):skyObsName(k);
+  const nm=String(nmRaw).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); // user-set loc.label → escape
   box.innerHTML='<b>'+nm+'</b><br>'+envLine(k)+'<br><span style="opacity:.78">'+envNote(k)+'</span>';
 }
 
@@ -3774,6 +3906,7 @@ function drawSaturnRings(sx,sy,pr,sq,back){
   ctx.restore();
 }
 function drawObserverSurface(){
+  if(LUNAR_SATS[state.skyObs]) return; // spacecraft in orbit: no solid ground
   const mat=matOf(state.skyObs); if(mat.t==='gas'||mat.t==='star') return; // gas giants / Sun: no solid ground
   const rnd=srnd(bhash(state.skyObs+'#surf')), hh=Math.max(46,CH*0.13), top=CH-hh, c=mat.c||[140,140,140];
   ctx.save(); ctx.beginPath(); ctx.moveTo(0,CH); ctx.lineTo(0,top);
@@ -3837,7 +3970,7 @@ function renderSkyBody(jdut, gmst){
   ctx.fillStyle='#f1a93a'; ctx.font='600 13px var(--sans)'; ctx.textAlign='left'; ctx.textBaseline='middle';
   ctx.fillText(t('Cer în timp real · de pe')+' '+skyObsName(state.skyObs), 12, 15);
   ctx.fillStyle='#9fadc0'; ctx.font='11px ui-monospace,monospace'; ctx.textAlign='right';
-  ctx.fillText('AR '+state.skyRA.toFixed(0)+'°  Dec '+state.skyDec.toFixed(0)+'°  câmp '+state.skyFov.toFixed(0)+'° · trage = privește, scroll = zoom', CW-12, 15);
+  ctx.fillText('AR '+state.skyRA.toFixed(0)+'°  Dec '+state.skyDec.toFixed(0)+'°  '+t('câmp')+' '+state.skyFov.toFixed(0)+'° · '+t('trage = privește, scroll = zoom'), CW-12, 15);
   ctx.textAlign='left'; ctx.textBaseline='alphabetic';
   { const m=matOf(state.skyObs); const gh=(m.t==='gas'||m.t==='star')?0:Math.max(46,CH*0.13);
     ctx.fillStyle='rgba(160,180,210,0.85)'; ctx.font='11px ui-monospace,monospace';
@@ -3879,8 +4012,14 @@ function renderSky(date, jdut, gmst, ss, sl, elong, illum){
   }
   // planets, moon, sun, satellites
   drawSkyPlanets(cx,cy,R,lat,lon);
-  if(moonAA.alt>-1.5) drawSkyMoon(cx,cy,R,moonAA.alt,moonAA.az,illum,elong<180);
-  if(sunAA.alt>-1)  drawSkySun(cx,cy,R,sunAA.alt,sunAA.az);
+  const _sh=state._ecl?state._ecl.solar:null; let _cov=0;
+  if(_sh&&_sh.active&&state.loc&&sunAA.alt>-1){ const dd=gcKm(state.loc.lat,state.loc.lon,_sh.lat,_sh.lon); _cov=Math.max(0,Math.min(1,1-dd/_sh.penKm)); }
+  if(_cov>0){ drawSolarEclipseSky(cx,cy,R,sunAA,moonAA,_cov,_sh); }
+  else {
+    const _ld=state._ecl?state._ecl.lunar.depth:0;
+    if(moonAA.alt>-1.5) drawSkyMoon(cx,cy,R,moonAA.alt,moonAA.az,illum,elong<180,_ld);
+    if(sunAA.alt>-1)  drawSkySun(cx,cy,R,sunAA.alt,sunAA.az);
+  }
   drawSkySats(cx,cy,R,lat,lon,jdut,gmst);
   if(state.layers.ecliptic) drawEcliptic(cx,cy,R,lat,lon,gmst);
   if(state.layers.messier) drawSkyMessier(cx,cy,R,lat,lon,gmst);
@@ -3964,14 +4103,63 @@ function drawSkyPlanets(cx,cy,R,lat,lon){
   }
   ctx.restore();
 }
-function drawSkyMoon(cx,cy,R,alt,az,illum,waxing){
+function drawSkyMoon(cx,cy,R,alt,az,illum,waxing,umbra){
   const [x,y]=projAA(cx,cy,R,alt,az), r=8;
   ctx.save();
-  ctx.globalAlpha=.22; ctx.fillStyle='#cdd9ee'; ctx.beginPath(); ctx.arc(x,y,r+6,0,TWOPI); ctx.fill(); ctx.globalAlpha=1;
-  buildMoonFace(illum,waxing);
+  const um=umbra||0;
+  ctx.globalAlpha=um>0?.12:.22; ctx.fillStyle='#cdd9ee'; ctx.beginPath(); ctx.arc(x,y,r+6,0,TWOPI); ctx.fill(); ctx.globalAlpha=1;
+  buildMoonFace(um>0?1:illum, waxing);
   ctx.drawImage(moonFaceCv, x-r, y-r, r*2, r*2);
+  if(um>0){ ctx.globalAlpha=Math.min(.85,0.35+um*0.55); ctx.fillStyle='rgb(150,46,28)'; ctx.beginPath(); ctx.arc(x,y,r,0,TWOPI); ctx.fill(); ctx.globalAlpha=1; }
   ctx.fillStyle='rgba(214,224,246,.9)'; ctx.font='10px ui-monospace,monospace'; ctx.textAlign='left';
-  ctx.fillText('Luna', x+r+3, y+3); ctx.restore();
+  ctx.fillText(um>0?(t('Lună')+' ('+t('eclipsă')+')'):'Luna', x+r+3, y+3); ctx.restore();
+}
+function drawSolarEclipseSky(cx,cy,R,sunAA,moonAA,cover,sh){
+  const [sx,sy]=projAA(cx,cy,R,sunAA.alt,sunAA.az);
+  let dx=0,dy=-1; { const [mx,my]=projAA(cx,cy,R,moonAA.alt,moonAA.az), ddx=mx-sx,ddy=my-sy,dd=Math.hypot(ddx,ddy); if(dd>1e-3){dx=ddx/dd;dy=ddy/dd;} }
+  const rsPx=16, rmPx=rsPx*(sh.annular?0.94:1.06), offPx=(1-cover)*(rsPx+rmPx), Mx=sx+dx*offPx, My=sy+dy*offPx;
+  const total=cover>=0.999 && !sh.annular;
+  ctx.save();
+  if(cover>0.8){ const a=Math.max(0,Math.min(.6,(cover-0.8)*3)), cg=ctx.createRadialGradient(sx,sy,rsPx*0.7,sx,sy,rsPx*3.4);
+    cg.addColorStop(0,`rgba(255,250,232,${a})`); cg.addColorStop(.5,`rgba(255,240,205,${a*0.5})`); cg.addColorStop(1,'rgba(255,240,205,0)');
+    ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(sx,sy,rsPx*3.4,0,TWOPI); ctx.fill(); }
+  const g=ctx.createRadialGradient(sx,sy,0,sx,sy,rsPx*1.5);
+  g.addColorStop(0,'rgba(255,244,196,.98)'); g.addColorStop(.5,'rgba(255,212,95,.55)'); g.addColorStop(1,'rgba(255,200,80,0)');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(sx,sy,rsPx*1.5,0,TWOPI); ctx.fill();
+  ctx.fillStyle='#fff3c4'; ctx.beginPath(); ctx.arc(sx,sy,rsPx,0,TWOPI); ctx.fill();
+  ctx.fillStyle='#05070d'; ctx.beginPath(); ctx.arc(Mx,My,rmPx,0,TWOPI); ctx.fill();
+  ctx.strokeStyle='rgba(120,140,170,.45)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(Mx,My,rmPx,0,TWOPI); ctx.stroke();
+  ctx.fillStyle='rgba(255,225,150,.95)'; ctx.font='10px ui-monospace,monospace'; ctx.textAlign='left';
+  ctx.fillText(t('Eclipsă de Soare')+(sh.annular?(' ('+t('inelară')+')'):total?(' ('+t('totală')+')'):''), sx+rsPx+6, sy+3);
+  ctx.restore();
+}
+function drawEclShadow2D(){
+  const sh=state._ecl&&state._ecl.solar; if(!sh||!sh.active) return;
+  const [x,y]=ll2s(sh.lat,sh.lon), [x2]=ll2s(sh.lat, sh.lon+(sh.penKm/111.0)/Math.max(0.25,Math.cos(sh.lat*DEG)));
+  let penPx=Math.abs(x2-x); if(!isFinite(penPx)||penPx<6)penPx=6; penPx=Math.min(penPx,Math.max(CW,CH));
+  ctx.save();
+  const g=ctx.createRadialGradient(x,y,0,x,y,penPx); g.addColorStop(0,'rgba(8,10,18,.45)'); g.addColorStop(.7,'rgba(8,10,18,.22)'); g.addColorStop(1,'rgba(8,10,18,0)');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,penPx,0,TWOPI); ctx.fill();
+  ctx.strokeStyle='rgba(60,66,84,.55)'; ctx.lineWidth=1; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.arc(x,y,penPx,0,TWOPI); ctx.stroke(); ctx.setLineDash([]);
+  if(sh.umbKm>0){ let uPx=Math.max(3,penPx*sh.umbKm/sh.penKm); ctx.fillStyle=sh.annular?'rgba(255,200,80,.55)':'rgba(2,3,8,.95)'; ctx.beginPath(); ctx.arc(x,y,uPx,0,TWOPI); ctx.fill();
+    ctx.strokeStyle=sh.annular?'rgba(255,220,150,.8)':'rgba(255,220,150,.6)'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.arc(x,y,uPx+1,0,TWOPI); ctx.stroke(); }
+  ctx.fillStyle='rgba(255,225,150,.95)'; ctx.font='10px ui-monospace,monospace'; ctx.textAlign='left'; ctx.fillText(t('Umbra eclipsei'), x+8, y-8);
+  ctx.restore();
+}
+function drawCloudLabel3D(){ if(!(state.layers.clouds && cloudValidMs)) return; gctx.save(); gctx.fillStyle='rgba(210,224,242,.72)'; gctx.font='10px ui-monospace,monospace'; gctx.textAlign='left'; gctx.fillText(cloudValidStr(), 12, CH-12); gctx.restore(); }
+function drawEclShadow3D(mvp,E){
+  const sh=state._ecl&&state._ecl.solar; if(!sh||!sh.active) return;
+  const c=dir3(sh.lat,sh.lon), P=v3s(c,1.013); if(occluded(P,E)) return; const sc=projj(mvp,P); if(!sc) return;
+  const th=sh.penKm/6371.0; let up=[0,0,1]; if(Math.abs(c[2])>0.99)up=[0,1,0];
+  let e=[c[1]*up[2]-c[2]*up[1],c[2]*up[0]-c[0]*up[2],c[0]*up[1]-c[1]*up[0]]; const el=Math.hypot(e[0],e[1],e[2])||1; e=[e[0]/el,e[1]/el,e[2]/el];
+  const off=[c[0]*Math.cos(th)+e[0]*Math.sin(th),c[1]*Math.cos(th)+e[1]*Math.sin(th),c[2]*Math.cos(th)+e[2]*Math.sin(th)], sco=projj(mvp,v3s(off,1.013));
+  let penPx=sco?Math.hypot(sco.x-sc.x,sco.y-sc.y):20; if(!isFinite(penPx)||penPx<6)penPx=6; penPx=Math.min(penPx,Math.max(CW,CH));
+  gctx.save();
+  const g=gctx.createRadialGradient(sc.x,sc.y,0,sc.x,sc.y,penPx); g.addColorStop(0,'rgba(6,8,16,.5)'); g.addColorStop(.7,'rgba(6,8,16,.25)'); g.addColorStop(1,'rgba(6,8,16,0)');
+  gctx.fillStyle=g; gctx.beginPath(); gctx.arc(sc.x,sc.y,penPx,0,TWOPI); gctx.fill();
+  if(sh.umbKm>0){ let uPx=Math.max(2.5,penPx*sh.umbKm/sh.penKm); gctx.fillStyle=sh.annular?'rgba(255,200,80,.65)':'rgba(2,3,8,.96)'; gctx.beginPath(); gctx.arc(sc.x,sc.y,uPx,0,TWOPI); gctx.fill(); }
+  gctx.fillStyle='rgba(255,225,150,.95)'; gctx.font='10px ui-monospace,monospace'; gctx.textAlign='left'; gctx.fillText(t('Umbra eclipsei'), sc.x+8, sc.y-8);
+  gctx.restore();
 }
 function drawSkySun(cx,cy,R,alt,az){
   const [x,y]=projAA(cx,cy,R,alt,az);
@@ -4071,9 +4259,17 @@ function buildSkyObsMenu(){
   for(const pl in parents) html+=grp(t('Sateliții lui')+' '+t(pl), parents[pl]);
   const sel=$('#skyobs'); if(sel){ sel.innerHTML=html; sel.value=state.skyObs; }
 }
+function aimSkyAtBody(key){
+  try{ const jdtt=SGP4.jdNow(state.simTime)+69.0/86400.0;
+    const obs=bodyHelioEcl(state.skyObs,jdtt), e=bodyHelioEcl(key,jdtt);
+    const rd=eclVecToRaDec([e[0]-obs[0],e[1]-obs[1],e[2]-obs[2]]); state.skyRA=rd.ra; state.skyDec=rd.dec; skyBKey='';
+  }catch(_){}
+}
 function aimSkyAtEarth(){
   try{ const jdtt=SGP4.jdNow(state.simTime)+69.0/86400.0;
-    const obs=bodyHelioEcl(state.skyObs,jdtt), e=bodyHelioEcl(state.skyObs==='earth'?'sun':'earth',jdtt);
+    const obs=bodyHelioEcl(state.skyObs,jdtt);
+    const par=parentBody(state.skyObs), tgt=par||(state.skyObs==='earth'?'sun':'earth');
+    const e=bodyHelioEcl(tgt,jdtt);
     const rd=eclVecToRaDec([e[0]-obs[0],e[1]-obs[1],e[2]-obs[2]]); state.skyRA=rd.ra; state.skyDec=rd.dec; skyBKey='';
   }catch(_){}
 }
@@ -4124,28 +4320,108 @@ const TOUR_STEPS=[
  {cap:`Sau <b>de pe Marte</b>. Direcția, faza și iluminarea Pământului sunt cele reale, din poziția planetei la data curentă.`, dur:8000, act(){ tourVP('mars'); }},
  {cap:`Din <b>3I/ATLAS</b>, al treilea obiect interstelar cunoscut (descoperit în 2025), pe o orbită hiperbolică reală prin Sistemul Solar.`, dur:8000, act(){ tourVP('atlas'); }},
  {cap:`Fundalul are <b>stelele și constelațiile reale</b> (catalogul Yale), orientate corect față de rotația Pământului — un cer ca în Stellarium, vizibil din orice punct.`, dur:8500, act(){ tourVP('orbit'); state.layers.starfield=true; state.layers.constfig=true; state.layers.constnames=true; }},
- {cap:`Modul <b>Cer</b>: bolta în timp real de la sol — stele, constelații cu nume și desene, planete, Calea Lactee, roiuri Messier, curenți de meteori.`, dur:9500, act(){ if(!state.loc) setLoc(45.9,25.0,'România (centru)'); state.skyObs='ground'; const s=$('#skyobs'); if(s)s.value='ground'; setMode('sky'); }},
+ {cap:`Modul <b>Cer</b>: bolta în timp real de la sol — stele, constelații cu nume și desene, planete, Calea Lactee, roiuri Messier, curenți de meteori.`, dur:9500, act(){ if(!state.loc) setLoc(45.9,25.0,t('România (centru)')); state.skyObs='ground'; const s=$('#skyobs'); if(s)s.value='ground'; setMode('sky'); }},
  {cap:`Și acum <b>premiera mondială</b>: stai pe <b>orice corp</b> și privești cerul real. De pe <b>Marte</b> — aceleași constelații (paralaxa stelară e neglijabilă), dar <b>Soarele, planetele și Pământul</b> își schimbă locul. Merge și de pe Soare, Lună, sateliți, <b>comete</b> (Halley, Encke, 67P) sau obiecte interstelare.`, dur:12000, act(){ state.skyObs='mars'; const s=$('#skyobs'); if(s)s.value='mars'; state.skyFov=70; skyBKey=''; if(typeof aimSkyAtEarth==='function')aimSkyAtEarth(); setMode('sky'); }},
  {cap:`Explorează liber: trage pentru <b>orice unghi</b>, derulează timpul, atinge un satelit sau un caz OZN. <b>La mulți ani, ASFAN!</b> · <b>ARES</b> — Alianța pentru Reziliență, Exopolitică și Stranietăți · 2 iulie 2026.`, dur:11000, act(){ state.skyObs='ground'; const s=$('#skyobs'); if(s)s.value='ground'; setMode('3d'); tourVP('orbit'); closeAllCards(); }}
 ];
+// ---- UAP/FAN case tour (SEPARATE from the main tour) ----
+let UAP_TOUR=[];
+(function(){
+  if(typeof UFO_CASES==='undefined') return;
+  const steps=[];
+  steps.push({ uapIntro:true, dur:11000, act(){ try{closeAllCards();}catch(e){} state.layers.ufo=true; cam.mode='orbit'; const vp=$('#viewpoint'); if(vp)vp.value='orbit'; setMode('map'); state.view.zoom=1; state.view.panx=0; state.view.pany=0; } });
+  for(const c of UFO_CASES){
+    steps.push({ uap:c, persp:'obs', dur:6500, act(){ try{closeAllCards();}catch(e){} setLoc(c.la,c.lo,t(c.n)); state.skyObs='ground'; const s=$('#skyobs'); if(s)s.value='ground'; state.layers.ufo=true; setMode('sky'); } });
+    steps.push({ uap:c, persp:'obj', dur:6500, act(){ try{closeAllCards();}catch(e){} setLoc(c.la,c.lo,t(c.n)); cam.mode='uap'; cam.uapLat=c.la; cam.uapLon=c.lo; cam.oYaw=0; cam.oPitch=0; cam.oZoom=1; const vp=$('#viewpoint'); if(vp)vp.value='orbit'; state.layers.ufo=true; setMode('3d'); } });
+  }
+  UAP_TOUR=steps;
+})();
 const tour={idx:0, playing:false, active:false, elapsed:0, voice:false};
+(function(){ try{ TOUR_STEPS.splice(Math.max(0,TOUR_STEPS.length-1), 0, { cap:`Premieră: <b>sateliți reali în jurul Lunii</b>. Stai pe <b>LRO</b> (NASA), la ~50 km altitudine — Luna îți umple cerul, iar Pământul e un punct albastru. Și Danuri, Chandrayaan-2, Queqiao-2, CAPSTONE.`, dur:9000, act(){ try{closeAllCards();}catch(e){} state.skyObs='lro'; const s=$('#skyobs'); if(s)s.value='lro'; state.skyFov=112; if(typeof aimSkyAtEarth==='function')aimSkyAtEarth(); setMode('sky'); } }); }catch(e){} })();
+// ---- Terminator tour (SEPARATE): each planet & natural moon + the body it orbits ----
+let TERM_TOUR=[];
+(function(){
+  if(typeof MOONS==='undefined') return;
+  const planets=['mercury','venus','earth','mars','jupiter','saturn','uranus','neptune','pluto'];
+  const byParent={}; for(const k in MOONS){ const pk=PNAME2KEY[MOONS[k][1]]; (byParent[pk]=byParent[pk]||[]).push(k); }
+  (byParent['earth']=byParent['earth']||[]).unshift('luna'); // the Moon orbits Earth
+  const steps=[];
+  steps.push({ termIntro:true, dur:10000, act(){ try{closeAllCards();}catch(e){} cam.mode='orbit'; const vp=$('#viewpoint'); if(vp)vp.value='orbit'; setMode('3d'); } });
+  for(const pl of planets){
+    steps.push({ term:{body:pl,kind:'planet'}, dur:7000, act(){ try{closeAllCards();}catch(e){} state.skyObs=pl; const s=$('#skyobs'); if(s)s.value=pl; state.skyFov=45; aimSkyAtBody('sun'); setMode('sky'); } });
+    for(const m of (byParent[pl]||[])){
+      steps.push({ term:{body:m,parent:pl,kind:'moon'}, dur:7000, act(){ try{closeAllCards();}catch(e){} state.skyObs=m; const s=$('#skyobs'); if(s)s.value=m; state.skyFov=32; aimSkyAtBody(pl); setMode('sky'); } });
+    }
+  }
+  TERM_TOUR=steps;
+})();
+// ---- Eclipse tour (SEPARATE): every solar & lunar eclipse, computed from ephemerides (built lazily on first launch) ----
+let ECL_TOUR=null;
+function buildEclTour(){
+  if(ECL_TOUR) return ECL_TOUR;
+  let list=[]; try{ list=findEclipses(SGP4.jdNow(new Date()), 45, Math.round(365*3.5)); }catch(e){}
+  const steps=[];
+  steps.push({ eclIntro:true, dur:10000, act(){ try{closeAllCards();}catch(e){} state.skyObs='ground'; const s=$('#skyobs'); if(s)s.value='ground'; cam.mode='orbit'; setMode('sky'); } });
+  for(const ec of list){
+    steps.push({ ecl:ec, dur:7500, act(){ try{closeAllCards();}catch(e){}
+      state.simTime=new Date(ec.ms); state.paused=true; state.speed=1; state.dir=1; if(typeof syncSpeedUI==='function')syncSpeedUI();
+      try{ const jt=ec.jd+69/86400, gmst=SGP4.gmst(ec.jd);
+        if(ec.type==='solar'){ const ss=subPoint(sunPos(jt).ra,sunPos(jt).dec,gmst), sl=subPoint(moonPos(jt).ra,moonPos(jt).dec,gmst), sh=solarShadow(jt,gmst,ss,sl); const m=moonPos(jt), sp=subPoint(m.ra,m.dec,gmst); setLoc(sh.active?sh.lat:sp.lat, sh.active?sh.lon:sp.lon, t('punctul central al eclipsei')); }
+        else { const m=moonPos(jt), sp=subPoint(m.ra,m.dec,gmst); setLoc(sp.lat,sp.lon, t('punctul central al eclipsei')); }
+      }catch(e){}
+      state.skyObs='ground'; const s=$('#skyobs'); if(s)s.value='ground'; cam.mode='orbit'; setMode('sky');
+    } });
+  }
+  ECL_TOUR=steps; return ECL_TOUR;
+}
+let TOUR=TOUR_STEPS; // currently-running tour (main, UAP, terminator or eclipse)
 let _ttsVoices=[]; if('speechSynthesis'in window){ const lv=()=>{_ttsVoices=speechSynthesis.getVoices();}; lv(); try{speechSynthesis.onvoiceschanged=lv;}catch(e){} }
 function speakTour(html){ if(!('speechSynthesis'in window)||!tour.voice) return; const text=String(t(html)).replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim(); if(!text) return;
   try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); const en=state.lang==='en'; u.lang=en?'en-US':'ro-RO'; u.rate=0.98; const v=en?(_ttsVoices.find(x=>/en[-_]/i.test(x.lang))):(_ttsVoices.find(x=>/ro[-_]?RO/i.test(x.lang))||_ttsVoices.find(x=>/roman/i.test(x.name))); if(v)u.voice=v; speechSynthesis.speak(u); }catch(e){} }
 function tourProg(f){ const bar=$('#tour-prog'); const d=bar&&bar.firstElementChild; if(d) d.style.width=(Math.max(0,Math.min(1,f))*100)+'%'; }
-function tourRender(){ const s=TOUR_STEPS[tour.idx]; const cap=$('#tour-cap'); if(cap)cap.innerHTML=t(s.cap); const st=$('#tour-step'); if(st)st.textContent=(tour.idx+1)+' / '+TOUR_STEPS.length; const pp=$('#tour-pp'); if(pp)pp.textContent=tour.playing?'⏸':'▶'; }
-function tourGo(i){ tour.idx=((i%TOUR_STEPS.length)+TOUR_STEPS.length)%TOUR_STEPS.length; tour.elapsed=0; tourProg(0); try{ TOUR_STEPS[tour.idx].act(); }catch(e){} tourRender(); speakTour(TOUR_STEPS[tour.idx].cap); }
-function tourStart(){ tour.active=true; tour.playing=true; const tb=$('#tourbar'); if(tb)tb.classList.add('on'); const btn=$('#tour-btn'); if(btn)btn.textContent='■ Oprește turul'; tourGo(0); }
-function tourStop(){ tour.active=false; tour.playing=false; try{ if('speechSynthesis'in window) speechSynthesis.cancel(); }catch(e){} const tb=$('#tourbar'); if(tb)tb.classList.remove('on'); const btn=$('#tour-btn'); if(btn)btn.textContent='▶ Tur ghidat'; }
-setInterval(()=>{ if(!tour.active||!tour.playing) return; tour.elapsed+=100; const dur=TOUR_STEPS[tour.idx].dur; tourProg(tour.elapsed/dur);
+function tourCapHtml(s){
+  if(s&&s.eclIntro){ return '<b>'+t('Turul eclipselor.')+'</b> '+t('Toate eclipsele de Soare și de Lună din anii următori, calculate din efemeride, vizitate la momentul lor exact din punctul central.'); }
+  if(s&&s.ecl){ const e=s.ecl, d=new Date(e.ms), en=state.lang==='en';
+    const MON=['ian.','feb.','mar.','apr.','mai','iun.','iul.','aug.','sep.','oct.','nov.','dec.'], MONE=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const ds=localStampY(e.ms);
+    const kR={totala:'totală',inelara:'inelară',partiala:'parțială',penumbrala:'penumbrală'};
+    const typ=e.type==='solar'?t('Eclipsă de Soare'):t('Eclipsă de Lună'), kind=t(kR[e.kind]||e.kind);
+    const note=e.type==='solar'?t('Luna trece prin fața Soarelui; ești în punctul central de pe Pământ.'):t('Luna intră în umbra Pământului și se înroșește („Luna sângerie”).');
+    return '<b>'+typ+' '+kind+'</b> · '+ds+'<br><span style="opacity:.74">'+note+'</span>';
+  }
+  if(s&&s.termIntro){ return '<b>'+t('Turul terminatoarelor.')+'</b> '+t('Linia zi/noapte (terminatorul) a fiecărui corp, văzută din corpul în jurul căruia orbitează: fiecare planetă cu Soarele ei, fiecare lună naturală cu planeta ei.'); }
+  if(s&&s.term){ const b=s.term;
+    if(b.kind==='moon') return '<b>'+t(skyObsName(b.body))+'</b> — '+t('terminatorul lui')+' <b>'+t(skyObsName(b.parent))+'</b><br><span style="opacity:.74">'+t('Linia zi/noapte a corpului în jurul căruia orbitează, văzută de pe satelitul natural.')+'</span>';
+    return '<b>'+t(skyObsName(b.body))+'</b> — '+t('orbitează Soarele')+'<br><span style="opacity:.74">'+t('Terminatorul mătură suprafața de sub tine; aici e Soarele care îl creează.')+'</span>';
+  }
+  if(s&&s.uapIntro){ const n=(typeof UFO_CASES!=='undefined')?UFO_CASES.length:0;
+    return '<b>'+t('Cazuistica UAP/FAN — turul complet.')+'</b> '+t('Parcurgem acum toate cele %n cazuri documentate, fiecare din două perspective: a observatorului (cerul real de la sol) și a obiectului descris (Pământul văzut de deasupra locului). Încadrare neutră — relatări, nu afirmații.').replace('%n',n);
+  }
+  if(s&&s.uap){ const c=s.uap; const esc=x=>String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    const lbl=s.persp==='obj'?t('perspectiva obiectului UAP/FAN'):t('perspectiva observatorului');
+    const sub=s.persp==='obj'?t('Pământul văzut de deasupra locului observării.'):t('Cerul real de la locul observării.');
+    let d=t(c.d); if(d.length>150) d=d.slice(0,148).replace(/\s+\S*$/,'')+'…';
+    return `<b>${esc(t(c.n))}</b> · ${esc(c.y)} — <b>${esc(lbl)}</b><br>${esc(d)}<br><span style="opacity:.72">${esc(sub)}</span>`;
+  }
+  return t(s.cap);
+}
+function tourRender(){ const s=TOUR[tour.idx]; const cap=$('#tour-cap'); if(cap)cap.innerHTML=tourCapHtml(s); const st=$('#tour-step'); if(st)st.textContent=(tour.idx+1)+' / '+TOUR.length; const pp=$('#tour-pp'); if(pp)pp.textContent=tour.playing?'⏸':'▶'; }
+function tourGo(i){ tour.idx=((i%TOUR.length)+TOUR.length)%TOUR.length; tour.elapsed=0; tourProg(0); try{ TOUR[tour.idx].act(); }catch(e){} tourRender(); speakTour(tourCapHtml(TOUR[tour.idx])); }
+function tourStart(){ tour.active=true; tour.playing=true; const tb=$('#tourbar'); if(tb)tb.classList.add('on'); const btn=$('#tour-btn'); if(btn)btn.textContent=t('■ Oprește turul'); tourGo(0); }
+function tourStop(){ tour.active=false; tour.playing=false; try{ if('speechSynthesis'in window) speechSynthesis.cancel(); }catch(e){} const tb=$('#tourbar'); if(tb)tb.classList.remove('on'); const btn=$('#tour-btn'); if(btn)btn.textContent=t('▶ Tur ghidat'); }
+function launchTour(arr){ TOUR=(arr&&arr.length)?arr:TOUR_STEPS; tour.idx=0; tour.elapsed=0; tourStart(); }
+setInterval(()=>{ if(!tour.active||!tour.playing) return; tour.elapsed+=100; const dur=TOUR[tour.idx].dur; tourProg(tour.elapsed/dur);
   if(state.mode==='3d' && cam.mode!=='orbit') cam.oYaw+=0.0016; // gentle reveal in space views
   if(tour.elapsed>=dur) tourGo(tour.idx+1); },100);
-{ const b=$('#tour-btn'); if(b)b.onclick=()=>{ tour.active?tourStop():tourStart(); };
+{ const b=$('#tour-btn'); if(b)b.onclick=()=>{ if(tour.active) tourStop(); else launchTour(TOUR_STEPS); };
+  { const ub=$('#tour-uap-btn'); if(ub)ub.onclick=()=>launchTour(UAP_TOUR); }
+  { const tb=$('#tour-term-btn'); if(tb)tb.onclick=()=>launchTour(TERM_TOUR); }
+  { const eb=$('#tour-ecl-btn'); if(eb)eb.onclick=()=>launchTour(buildEclTour()); }
   const pp=$('#tour-pp'); if(pp)pp.onclick=()=>{ tour.playing=!tour.playing; tourRender(); };
   const nx=$('#tour-next'); if(nx)nx.onclick=()=>tourGo(tour.idx+1);
   const pv=$('#tour-prev'); if(pv)pv.onclick=()=>tourGo(tour.idx-1);
   const ex=$('#tour-exit'); if(ex)ex.onclick=tourStop;
-  const tv=$('#tour-voice'); if(tv)tv.onclick=()=>{ tour.voice=!tour.voice; tv.textContent=tour.voice?'🔊':'🔇'; tv.classList.toggle('on',tour.voice); if(tour.voice&&tour.active) speakTour(TOUR_STEPS[tour.idx].cap); else if('speechSynthesis'in window) try{speechSynthesis.cancel();}catch(e){} }; }
+  const tv=$('#tour-voice'); if(tv)tv.onclick=()=>{ tour.voice=!tour.voice; tv.textContent=tour.voice?'🔊':'🔇'; tv.classList.toggle('on',tour.voice); if(tour.voice&&tour.active) speakTour(tourCapHtml(TOUR[tour.idx])); else if('speechSynthesis'in window) try{speechSynthesis.cancel();}catch(e){} }; }
 
 /* ===================== i18n — Romanian / English ===================== */
 function norm(s){ return String(s).replace(/[„“”]/g,'"').replace(/[‘’]/g,"'").replace(/\s+/g,' ').trim(); }
@@ -4492,6 +4768,138 @@ const I18N_EN = {
 "Gheizere de apă; ocean subteran la polul sud.":"Water geysers; a subsurface ocean at the south pole.",
 "Unul dintre cele mai reci corpuri; gheizere de azot.":"One of the coldest bodies; nitrogen geysers.",
 "Corp înghețat, fără atmosferă semnificativă.":"A frozen body with no significant atmosphere.",
+// clouds i18n
+"nori":"clouds",
+"Nori — acoperire reală (Open-Meteo)":"Clouds — real coverage (Open-Meteo)",
+// eclipse shadow i18n
+"Umbra eclipsei":"Eclipse shadow",
+// eclipse tour i18n
+"🌒 Eclipse":"🌒 Eclipses",
+"Turul eclipselor.":"The eclipses tour.",
+"Toate eclipsele de Soare și de Lună din anii următori, calculate din efemeride, vizitate la momentul lor exact din punctul central.":"Every solar and lunar eclipse in the coming years, computed from ephemerides, visited at its exact moment from the central point.",
+"Eclipsă de Soare":"Solar eclipse",
+"Eclipsă de Lună":"Lunar eclipse",
+"totală":"total",
+"inelară":"annular",
+"parțială":"partial",
+"penumbrală":"penumbral",
+"Luna trece prin fața Soarelui; ești în punctul central de pe Pământ.":"The Moon passes in front of the Sun; you are at the central point on Earth.",
+"Luna intră în umbra Pământului și se înroșește („Luna sângerie”).":"The Moon enters Earth's shadow and turns red (a \"blood moon\").",
+"punctul central al eclipsei":"eclipse central point",
+"eclipsă":"eclipse",
+// terminator tour i18n
+"🌓 Terminatoare":"🌓 Terminators",
+"Turul terminatoarelor.":"The terminators tour.",
+"Linia zi/noapte (terminatorul) a fiecărui corp, văzută din corpul în jurul căruia orbitează: fiecare planetă cu Soarele ei, fiecare lună naturală cu planeta ei.":"The day/night line (terminator) of every body, seen from the body it orbits: each planet with its Sun, each natural moon with its planet.",
+"terminatorul lui":"the terminator of",
+"Linia zi/noapte a corpului în jurul căruia orbitează, văzută de pe satelitul natural.":"The day/night line of the body it orbits, seen from the natural satellite.",
+"orbitează Soarele":"orbits the Sun",
+"Terminatorul mătură suprafața de sub tine; aici e Soarele care îl creează.":"The terminator sweeps the surface beneath you; here is the Sun that creates it.",
+// main tour lunar step
+"Premieră: <b>sateliți reali în jurul Lunii</b>. Stai pe <b>LRO</b> (NASA), la ~50 km altitudine — Luna îți umple cerul, iar Pământul e un punct albastru. Și Danuri, Chandrayaan-2, Queqiao-2, CAPSTONE.":"A first: <b>real satellites around the Moon</b>. Stand on <b>LRO</b> (NASA), ~50 km up — the Moon fills your sky and Earth is a blue dot. Plus Danuri, Chandrayaan-2, Queqiao-2, CAPSTONE.",
+// uap tour i18n 3
+"🛸 Cazuri UAP/FAN":"🛸 UAP/UFO cases",
+// uap tour i18n 2
+"Cazuistica UAP/FAN — turul complet.":"UAP/UFO casework — the full tour.",
+"Parcurgem acum toate cele %n cazuri documentate, fiecare din două perspective: a observatorului (cerul real de la sol) și a obiectului descris (Pământul văzut de deasupra locului). Încadrare neutră — relatări, nu afirmații.":"We now go through all %n documented cases, each from two perspectives: the observer's (the real sky from the ground) and the described object's (Earth seen from above the site). Neutral framing — reports, not claims.",
+// uap tour i18n
+"Deasupra locului UAP/FAN":"Above the UAP/UFO site",
+"perspectiva observatorului":"observer's perspective",
+"perspectiva obiectului UAP/FAN":"the UAP/UFO object's perspective",
+"Cerul real de la locul observării.":"The real sky at the sighting location.",
+"Pământul văzut de deasupra locului observării.":"Earth seen from above the sighting location.",
+// lunar sats i18n
+"Sateliții Lunii":"Satellites of the Moon",
+"Danuri / KPLO (Coreea)":"Danuri / KPLO (Korea)",
+"vid":"vacuum",
+"vid (orbită lunară)":"vacuum (lunar orbit)",
+"orbită ~2 h":"orbit ~2 h",
+"orbită ~24 h":"orbit ~24 h",
+"orbită ~6,5 zile":"orbit ~6.5 days",
+"LRO — orbiter NASA pe orbită polară joasă (~50 km) în jurul Lunii din 2009. Vid, microgravitate (cădere liberă). Orbită modelată simplificat.":"LRO — NASA orbiter in a low polar orbit (~50 km) around the Moon since 2009. Vacuum, microgravity (free-fall). Orbit modeled in a simplified way.",
+"Danuri (KPLO) — orbiter al Coreei de Sud, orbită polară ~100 km din 2022. Vid, microgravitate. Orbită modelată simplificat.":"Danuri (KPLO) — South Korean orbiter, ~100 km polar orbit since 2022. Vacuum, microgravity. Orbit modeled in a simplified way.",
+"Chandrayaan-2 — orbiterul Indiei, orbită polară ~100 km din 2019. Vid, microgravitate. Orbită modelată simplificat.":"Chandrayaan-2 — India's orbiter, ~100 km polar orbit since 2019. Vacuum, microgravity. Orbit modeled in a simplified way.",
+"Queqiao-2 — satelit releu al Chinei pe orbită lunară eliptică din 2024. Vid, microgravitate. Orbită modelată simplificat.":"Queqiao-2 — China's relay satellite in an elliptical lunar orbit since 2024. Vacuum, microgravity. Orbit modeled in a simplified way.",
+"CAPSTONE — cubesat NASA pe orbită cvasi-rectilinie de halou (NRHO) din 2022. Vid, microgravitate. Orbită modelată simplificat.":"CAPSTONE — NASA cubesat in a near-rectilinear halo orbit (NRHO) since 2022. Vacuum, microgravity. Orbit modeled in a simplified way.",
+// feed status i18n 5
+// about privacy v2
+"<b>Confidențialitate și feeduri live:</b> aplicația nu folosește analytics, cookie-uri sau stocare locală — totul rulează local. Feedurile live (sateliți, avioane, sonde, vreme spațială, cutremure) sunt <b>opționale și oprite implicit</b>; când le activezi, browserul tău contactează direct sursele oficiale (NOAA, USGS, Open-Meteo, CelesTrak ș.a.). Unele surse fără antet CORS pot fi rutate printr-un <b>proxy terț</b> (corsproxy.io), care vede acea cerere — folosește aceste feeduri doar dacă ești de acord cu acest lucru.":"<b>Privacy and live feeds:</b> the app uses no analytics, cookies or local storage — everything runs locally. Live feeds (satellites, aircraft, sondes, space weather, earthquakes) are <b>optional and off by default</b>; when you enable them, your browser contacts the official sources directly (NOAA, USGS, Open-Meteo, CelesTrak, etc.). Some sources without a CORS header may be routed through a <b>third-party proxy</b> (corsproxy.io), which sees that request — use these feeds only if you are comfortable with that.",
+"animale Movebank":"Movebank animals",
+// feed status i18n 4
+"avioane":"aircraft",
+"sonde":"sondes",
+"vreme spațială ✓":"space weather ✓",
+"poziții":"positions",
+"animale":"animals",
+"specii":"species",
+"păsări":"birds",
+// feed status i18n 3
+"raze X ✕":"X-rays ✕",
+"avioane ✕":"aircraft ✕",
+"sonde ✕":"sondes ✕",
+// feed status i18n 2
+"auroră ✕":"aurora ✕",
+"vânt ✕":"wind ✕",
+"avioane: setează locația":"aircraft: set your location",
+"vreme spațială ✕ ":"space weather ✕ ",
+// feed status i18n
+"eșec":"failed",
+"0 poziții (studiu privat/necesită cont sau acceptarea licenței)":"0 positions (private study / requires an account or license acceptance)",
+"lipsește URL-ul hărții BirdCast (SUA)":"missing BirdCast map URL (USA)",
+"imagine inaccesibilă (CORS) sau URL invalid":"image inaccessible (CORS) or invalid URL",
+"fără date":"no data",
+"fără cadre radar":"no radar frames",
+"cutremure":"earthquakes",
+// dynamic strings i18n 2
+"sateliți · sursă:":"satellites · source:",
+"PAUZĂ":"PAUSED",
+"Iluminat:":"Illuminated:",
+"Sublunar:":"Sublunar:",
+"Elongație:":"Elongation:",
+"Se descarcă":"Downloading",
+"sateliți (live)":"satellites (live)",
+"notabile reîmprospătate":"notable refreshed",
+"verifică conexiunea":"check the connection",
+"Se localizează…":"Locating…",
+"Permisiune refuzată — introdu manual":"Permission denied — enter manually",
+"rețea indisponibilă":"network unavailable",
+"permisiune refuzată":"permission denied",
+"Activează un strat live (avioane, sonde, GTFS-RT, Movebank, BirdCast, radar)":"Enable a live layer (aircraft, sondes, GTFS-RT, Movebank, BirdCast, radar)",
+"Setează locația pentru meteo":"Set your location for weather",
+"Se aduc datele spațiale + cutremure…":"Fetching space weather + earthquakes…",
+"radiosondă":"radiosonde",
+"câmp":"field",
+"trage = privește, scroll = zoom":"drag = look, scroll = zoom",
+"România (centru)":"Romania (center)",
+"▲ Flux (în creștere)":"▲ Flood (rising)",
+"▼ Reflux (în scădere)":"▼ Ebb (falling)",
+"în":"in",
+"sizigii — maree mari":"spring tide — large tides",
+"cuadratură — maree mici":"neap tide — small tides",
+"intermediar":"intermediate",
+// dynamic strings i18n
+"snapshot încorporat":"embedded snapshot",
+"TLE propriu":"own TLE",
+"sateliți încărcați":"satellites loaded",
+"Roiuri active acum:":"Active meteor showers now:",
+"la maxim azi":"peaks today",
+"maxim în %d zile":"peak in %d days",
+"maxim acum %d zile":"peaked %d days ago",
+"Geolocație indisponibilă":"Geolocation unavailable",
+"Activează GTFS-RT, Movebank sau BirdCast mai sus":"Enable GTFS-RT, Movebank or BirdCast above",
+"WebGL indisponibil":"WebGL unavailable",
+"Quadrantide":"Quadrantids",
+"Lyride":"Lyrids",
+"η-Aquaride":"η-Aquariids",
+"δ-Aquaride S":"δ-Aquariids S",
+"α-Capricornide":"α-Capricornids",
+"Perseide":"Perseids",
+"Draconide":"Draconids",
+"Orionide":"Orionids",
+"Tauride S":"Taurids S",
+"Leonide":"Leonids",
+"Geminide":"Geminids",
+"Urside":"Ursids",
 // world UFO cases 2
 "Betty și Barney Hill":"Betty and Barney Hill",
 "New Hampshire, SUA. Cuplul Hill a relatat o „răpire” după ce un obiect i-ar fi urmărit pe un drum de munte — prima relatare de acest fel intens mediatizată. Disputat.":"New Hampshire, USA. The Hills reported an 'abduction' after an object reportedly followed them on a mountain road — the first such widely publicized account. Disputed.",
@@ -4646,6 +5054,7 @@ function applyLang(){
   const lb=$('#lang-btn'); if(lb) lb.textContent=state.lang==='en'?'RO':'EN';
 }
 { const lb=$('#lang-btn'); if(lb) lb.onclick=()=>{ state.lang=state.lang==='en'?'ro':'en'; applyLang(); }; }
+{ const ub=$('#units-btn'); if(ub){ ub.textContent=state.units==='imperial'?'°F':'°C'; ub.onclick=()=>{ state.units=state.units==='imperial'?'metric':'imperial'; const x=$('#units-btn'); if(x)x.textContent=state.units==='imperial'?'°F':'°C'; try{ if(typeof renderWeather==='function')renderWeather(); if(typeof updateEnvPanel==='function'){state._envSig=null;updateEnvPanel();} }catch(e){} }; } }
 
 /* ===================== BOOT ===================== */
 resize();
