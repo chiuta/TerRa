@@ -2223,7 +2223,7 @@ function renderNotable(){
   if(!notableRowsBuilt || cont.childNodes.length!==notableSats.length){
     cont.innerHTML=notableSats.map((o,i)=>`<div class="pr" data-i="${i}" style="cursor:pointer">
       <span class="pd" style="background:${o.color}"></span>
-      <span class="pn">${o.rec.name}</span>
+      <span class="pn">${String(o.rec.name).replace(/&/g,'&amp;').replace(/</g,'&lt;')}</span>
       <span class="pc"></span><span class="pe"></span></div>`).join('');
     Array.from(cont.children).forEach((r,i)=>r.addEventListener('click',()=>{ if(notableSats[i].vis) showSatCard(notableSats[i]); }));
     notableRowsBuilt=true;
@@ -2483,6 +2483,7 @@ function resetView(){state.view.zoom=1;state.view.panx=0;state.view.pany=0;}
 $('#btn-reset').onclick=resetView;
 
 // data update
+const FTO=()=>(typeof AbortSignal!=='undefined'&&AbortSignal.timeout)?AbortSignal.timeout(25000):undefined; // timeout rețea (altfel un server care nu răspunde blochează butonul)
 async function fetchGroup(group){
   const urls=[
     'https://celestrak.org/NORAD/elements/gp.php?GROUP='+group+'&FORMAT=tle',
@@ -2490,7 +2491,7 @@ async function fetchGroup(group){
   ];
   let err;
   for(const u of urls){
-    try{ const r=await fetch(u,{cache:'no-store'}); if(!r.ok){err='HTTP '+r.status;continue;}
+    try{ const r=await fetch(u,{cache:'no-store',signal:FTO()}); if(!r.ok){err='HTTP '+r.status;continue;}
       const t=await r.text(); if(t.length>40 && /(^|\n)1 /.test(t)) return t; err='răspuns gol';
     }catch(e){err=e.message;}
   }
@@ -2534,7 +2535,7 @@ $('#btn-clearloc').onclick=()=>{state.loc=null;$('#loc-info').textContent='';$('
 /* ===================== LIVE ONLINE OBJECTS (aircraft / sondes / weather) ===================== */
 const WMO={0:'cer senin',1:'predominant senin',2:'parțial noros',3:'înnorat',45:'ceață',48:'ceață cu chiciură',51:'burniță slabă',53:'burniță',55:'burniță deasă',56:'burniță înghețată',57:'burniță înghețată deasă',61:'ploaie slabă',63:'ploaie',65:'ploaie puternică',66:'ploaie înghețată',67:'ploaie înghețată puternică',71:'ninsoare slabă',73:'ninsoare',75:'ninsoare puternică',77:'măzăriche',80:'averse',81:'averse',82:'averse puternice',85:'averse de zăpadă',86:'averse de zăpadă puternice',95:'furtună',96:'furtună cu grindină',99:'furtună cu grindină mare'};
 const WMOIC={0:'☀︎',1:'🌤',2:'⛅',3:'☁︎',45:'🌫',48:'🌫',51:'🌧',53:'🌧',55:'🌧',56:'🌧',57:'🌧',61:'🌧',63:'🌧',65:'🌧',66:'🌧',67:'🌧',71:'🌨',73:'🌨',75:'🌨',77:'🌨',80:'🌦',81:'🌦',82:'🌦',85:'🌨',86:'🌨',95:'⛈',96:'⛈',99:'⛈'};
-async function fetchJSON(urls){ let err; for(const u of urls){ try{ const r=await fetch(u,{cache:'no-store'}); if(!r.ok){err='HTTP '+r.status;continue;} return await r.json(); }catch(e){err=e.message;} } throw new Error(err||t('rețea indisponibilă')); }
+async function fetchJSON(urls){ let err; for(const u of urls){ try{ const r=await fetch(u,{cache:'no-store',signal:FTO()}); if(!r.ok){err='HTTP '+r.status;continue;} return await r.json(); }catch(e){err=e.message;} } throw new Error(err||t('rețea indisponibilă')); }
 async function fetchAircraft(lat,lon){
   const data=await fetchJSON([
     `https://opendata.adsb.fi/api/v2/lat/${lat.toFixed(3)}/lon/${lon.toFixed(3)}/dist/250`,
@@ -2563,7 +2564,7 @@ function pbWalk(b,start,end,cb){ const p={i:start}; while(p.i<end){ const tag=pb
   if(w===0){ const s=p.i; pbVarint(b,p); cb(f,w,s); }
   else if(w===5){ const s=p.i; p.i+=4; cb(f,w,s); }
   else if(w===1){ const s=p.i; p.i+=8; cb(f,w,s); }
-  else if(w===2){ const len=pbVarint(b,p), s=p.i; p.i+=len; cb(f,w,s,p.i); }
+  else if(w===2){ const len=pbVarint(b,p), s=p.i; p.i=Math.min(p.i+len,end); cb(f,w,s,p.i); } // limitat la `end`: un feed corupt cu lungime uriașă nu mai blochează pagina
   else return; } }
 function pbStr(b,s,e){ try{ return new TextDecoder().decode(b.subarray(s,e)); }catch(_){ return ''; } }
 function pbF32(b,s){ return new DataView(b.buffer,b.byteOffset+s,4).getFloat32(0,true); }
@@ -2586,7 +2587,7 @@ function decodeGtfsRt(buf){ const b=new Uint8Array(buf), out=[];
 async function fetchTransit(){
   const url=(state.feeds.gtfsUrl||'').trim(); if(!url) throw new Error('pune URL-ul feed-ului GTFS-RT');
   const full=(state.feeds.proxy||'').trim()+url;
-  const r=await fetch(full,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
+  const r=await fetch(full,{cache:'no-store',signal:FTO()}); if(!r.ok) throw new Error('HTTP '+r.status);
   const buf=await r.arrayBuffer(); const v=decodeGtfsRt(buf);
   if(!v.length) throw new Error('0 vehicule (feed gol sau alt format)');
   return v.slice(0,4000);
@@ -2718,8 +2719,9 @@ function onOrient(e){
 }
 async function enableAR(){
   try{ if(typeof DeviceOrientationEvent!=='undefined' && DeviceOrientationEvent.requestPermission){ const r=await DeviceOrientationEvent.requestPermission(); if(r!=='granted') throw new Error(t('permisiune refuzată')); } }catch(err){ const st=$('#ar-status'); if(st){st.className='status warn';st.textContent='✕ '+t('senzori de orientare indisponibili');} return; }
-  window.addEventListener('deviceorientationabsolute', onOrient, true);
-  window.addEventListener('deviceorientation', onOrient, true);
+  // Chrome Android emite ambele evenimente (unul absolut, unul relativ la poziția de start): dacă le ascultăm pe amândouă, azimutul sare între ele
+  if('ondeviceorientationabsolute' in window) window.addEventListener('deviceorientationabsolute', onOrient, true);
+  else window.addEventListener('deviceorientation', onOrient, true);
   ar.active=true; if(state.skyObs!=='ground'){ state.skyObs='ground'; const s=$('#skyobs'); if(s)s.value='ground'; } setMode('sky');
   try{ if('wakeLock'in navigator) ar.wake=await navigator.wakeLock.request('screen'); }catch(e){}
   const st=$('#ar-status'); if(st){st.className='status ok';st.textContent='✓ '+t('mișcă telefonul: reticulul urmărește unde arăți');}
