@@ -54,6 +54,10 @@ Descărcați `index.html` și deschideți-l în browser. Poziția Soarelui, Luni
 
 CC0 1.0 Universal (domeniu public) — vezi fișierul LICENSE
 
+## Audit
+
+2026-10-10: verificat în browser că la încărcare și în repaus nu pleacă nicio cerere de rețea; cererile apar doar la acțiunile descrise mai sus. Pagina nu are politică CSP (meta). Corectate accesibilitatea (nume pentru comutatoare, zoom permis) fără modificări de funcționalitate.
+
 ## Autor
 
 Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf

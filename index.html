@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pământul în timp real — Terminator · Lună · Sateliți</title>
 <style>
   :root{
@@ -261,29 +261,29 @@
   <div id="console" aria-label="Consolă de comenzi">
     <div class="sect">
       <div class="h"><span class="ic">◐</span> Straturi</div>
-      <div class="row"><span class="lbl">Lumini urbane (noapte)</span><div class="sw on" data-layer="lights" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Soare (subsolar)</span><div class="sw on" data-layer="sun" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Lună</span><div class="sw on" data-layer="moon" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Sateliți</span><div class="sw on" data-layer="sats" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Urma orbitală (selectat)</span><div class="sw on" data-layer="tracks" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Linia zi/noapte (terminator)</span><div class="sw on" data-layer="termline" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Planete (puncte sub-planetare)</span><div class="sw on" data-layer="planets" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Obiecte notabile (ISS, Hubble…)</span><div class="sw on" data-layer="notable" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Granițe / contururi</span><div class="sw on" data-layer="borders" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Ape teritoriale (12 mn)</span><div class="sw on" data-layer="terrwaters" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Coastă detaliată (10m)</span><div class="sw on" data-layer="coast" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Râuri (Natural Earth)</span><div class="sw on" data-layer="rivers" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Lacuri (Natural Earth)</span><div class="sw on" data-layer="lakes" tabindex="0" role="switch" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-lights">Lumini urbane (noapte)</span><div class="sw on" data-layer="lights" tabindex="0" role="switch" aria-labelledby="lbl-sw-lights" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-sun">Soare (subsolar)</span><div class="sw on" data-layer="sun" tabindex="0" role="switch" aria-labelledby="lbl-sw-sun" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-moon">Lună</span><div class="sw on" data-layer="moon" tabindex="0" role="switch" aria-labelledby="lbl-sw-moon" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-sats">Sateliți</span><div class="sw on" data-layer="sats" tabindex="0" role="switch" aria-labelledby="lbl-sw-sats" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-tracks">Urma orbitală (selectat)</span><div class="sw on" data-layer="tracks" tabindex="0" role="switch" aria-labelledby="lbl-sw-tracks" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-termline">Linia zi/noapte (terminator)</span><div class="sw on" data-layer="termline" tabindex="0" role="switch" aria-labelledby="lbl-sw-termline" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-planets">Planete (puncte sub-planetare)</span><div class="sw on" data-layer="planets" tabindex="0" role="switch" aria-labelledby="lbl-sw-planets" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-notable">Obiecte notabile (ISS, Hubble…)</span><div class="sw on" data-layer="notable" tabindex="0" role="switch" aria-labelledby="lbl-sw-notable" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-borders">Granițe / contururi</span><div class="sw on" data-layer="borders" tabindex="0" role="switch" aria-labelledby="lbl-sw-borders" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-terrwaters">Ape teritoriale (12 mn)</span><div class="sw on" data-layer="terrwaters" tabindex="0" role="switch" aria-labelledby="lbl-sw-terrwaters" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-coast">Coastă detaliată (10m)</span><div class="sw on" data-layer="coast" tabindex="0" role="switch" aria-labelledby="lbl-sw-coast" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-rivers">Râuri (Natural Earth)</span><div class="sw on" data-layer="rivers" tabindex="0" role="switch" aria-labelledby="lbl-sw-rivers" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-lakes">Lacuri (Natural Earth)</span><div class="sw on" data-layer="lakes" tabindex="0" role="switch" aria-labelledby="lbl-sw-lakes" aria-checked="true"></div></div>
       <div class="mini">Geografie vectorială <b>reală</b>: conturul coastei (10m), rețeaua de râuri și lacurile rămân clare la <b>orice nivel de zoom</b> (nu se pixelează ca textura). Continentele și râurile mari se văd mereu; insulele mici, afluenții și lacurile mici apar pe măsură ce mărești.</div>
-      <div class="row"><span class="lbl">Orașe / capitale</span><div class="sw on" data-layer="cities" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">OZN-uri raportate (neexplicate)</span><div class="sw on" data-layer="ufo" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Puncte Lagrange & sonde (JWST…)</span><div class="sw on" data-layer="lagrange" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Linii de distanță (3D)</span><div class="sw on" data-layer="lagLines" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Grilă lat/long</span><div class="sw" data-layer="grid" tabindex="0" role="switch" aria-checked="false"></div></div>
-      <div class="row"><span class="lbl">Detaliu fractal pe glob 3D (zoom infinit)</span><div class="sw on" data-layer="fractalDetail" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Detaliu fractal pe harta 2D</span><div class="sw on" data-layer="fractalMap" tabindex="0" role="switch" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-cities">Orașe / capitale</span><div class="sw on" data-layer="cities" tabindex="0" role="switch" aria-labelledby="lbl-sw-cities" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-ufo">OZN-uri raportate (neexplicate)</span><div class="sw on" data-layer="ufo" tabindex="0" role="switch" aria-labelledby="lbl-sw-ufo" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-lagrange">Puncte Lagrange & sonde (JWST…)</span><div class="sw on" data-layer="lagrange" tabindex="0" role="switch" aria-labelledby="lbl-sw-lagrange" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-lagLines">Linii de distanță (3D)</span><div class="sw on" data-layer="lagLines" tabindex="0" role="switch" aria-labelledby="lbl-sw-lagLines" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-grid">Grilă lat/long</span><div class="sw" data-layer="grid" tabindex="0" role="switch" aria-labelledby="lbl-sw-grid" aria-checked="false"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-fractalDetail">Detaliu fractal pe glob 3D (zoom infinit)</span><div class="sw on" data-layer="fractalDetail" tabindex="0" role="switch" aria-labelledby="lbl-sw-fractalDetail" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-fractalMap">Detaliu fractal pe harta 2D</span><div class="sw on" data-layer="fractalMap" tabindex="0" role="switch" aria-labelledby="lbl-sw-fractalMap" aria-checked="true"></div></div>
       <div class="mini">Relief de suprafață <b>generat procedural</b> (zgomot fractal fBm), nu fotografic: apare detaliu nou la orice nivel de zoom, fără pixelare. Pe globul 3D e calculat în shader (relief + umbre după Soare), tot mai fin pe măsură ce te apropii. Dacă merge greu pe telefon, oprește-l de aici.</div>
-      <div class="row"><span class="lbl">Hartă verticală (mobil)</span><div class="sw" data-layer="mapRot" tabindex="0" role="switch" aria-checked="false"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-mapRot">Hartă verticală (mobil)</span><div class="sw" data-layer="mapRot" tabindex="0" role="switch" aria-labelledby="lbl-sw-mapRot" aria-checked="false"></div></div>
       <div class="mini">Rotește harta plană 90° ca să umple ecranul în <b>portret</b> (pe telefon, harta orizontală apare mică). Click-urile, panoramarea și zoom-ul funcționează normal, rotite odată cu harta. Doar pentru harta 2D.</div>
     </div>
 
@@ -293,9 +293,9 @@
     </div>
 
     <div class="sect">
-      <div class="h"><span class="ic">⟲</span> Sursă de date (TLE)</div>
+      <div class="h" id="lbl-grp"><span class="ic">⟲</span> Sursă de date (TLE)</div>
       <div class="mini" id="src-info">Snapshot încorporat — funcționează <b>offline</b>.</div>
-      <div style="margin:9px 0 7px"><select id="grp">
+      <div style="margin:9px 0 7px"><select id="grp" aria-labelledby="lbl-grp">
         <option value="active">Toți sateliții activi (CelesTrak)</option>
         <option value="stations">Stații spațiale (ISS, CSS…)</option>
         <option value="visual">Vizibili cu ochiul liber</option>
@@ -330,11 +330,11 @@
       <div class="row" style="display:block"><span class="lbl">Observator — vezi cerul de pe:</span>
       <select id="skyobs" aria-label="Observator pentru cer" style="margin-top:6px"><option value="ground" selected>De la sol (Pământ)</option></select></div>
       <div class="mini">Alege un corp ca să vezi cerul real <b>de acolo</b> — aceleași constelații (stelele sunt practic la infinit), dar <b>Soarele, planetele, Pământul, Luna și obiectele interstelare</b> în pozițiile lor reale văzute din acel punct. Trage = privești în jur · scroll/pinch = zoom.</div>
-      <div class="row"><span class="lbl">Calea Lactee</span><div class="sw on" data-layer="milkyway" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Obiecte Messier (deep-sky)</span><div class="sw on" data-layer="messier" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Nume de constelații</span><div class="sw on" data-layer="constnames" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Roiuri de meteori (radianți)</span><div class="sw on" data-layer="meteors" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Ecliptica</span><div class="sw" data-layer="ecliptic" tabindex="0" role="switch" aria-checked="false"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-milkyway">Calea Lactee</span><div class="sw on" data-layer="milkyway" tabindex="0" role="switch" aria-labelledby="lbl-sw-milkyway" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-messier">Obiecte Messier (deep-sky)</span><div class="sw on" data-layer="messier" tabindex="0" role="switch" aria-labelledby="lbl-sw-messier" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-constnames">Nume de constelații</span><div class="sw on" data-layer="constnames" tabindex="0" role="switch" aria-labelledby="lbl-sw-constnames" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-meteors">Roiuri de meteori (radianți)</span><div class="sw on" data-layer="meteors" tabindex="0" role="switch" aria-labelledby="lbl-sw-meteors" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-ecliptic">Ecliptica</span><div class="sw" data-layer="ecliptic" tabindex="0" role="switch" aria-labelledby="lbl-sw-ecliptic" aria-checked="false"></div></div>
       <div class="mini" id="meteor-active"></div>
       <div class="mini">Comută pe modul <b>„Cer"</b> (sus, lângă 2D/3D) și setează locația. Atinge un obiect pe boltă pentru a-l identifica. Stelele (9096), constelațiile, planetele, Luna cu fază și sateliții deasupra orizontului sunt mereu afișate.</div>
     </div>
@@ -342,17 +342,17 @@
     <div class="sect">
       <div class="h"><span class="ic">◉</span> Glob 3D — punct de observație</div>
       <select id="viewpoint" aria-label="Punct de observație 3D"><option value="orbit" selected>Orbită liberă</option></select>
-      <div class="row" style="margin-top:8px"><span class="lbl">Stele reale în fundal (3D)</span><div class="sw on" data-layer="starfield" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Constelații în fundal (3D)</span><div class="sw on" data-layer="constfig" tabindex="0" role="switch" aria-checked="true"></div></div>
+      <div class="row" style="margin-top:8px"><span class="lbl" id="lbl-sw-starfield">Stele reale în fundal (3D)</span><div class="sw on" data-layer="starfield" tabindex="0" role="switch" aria-labelledby="lbl-sw-starfield" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-constfig">Constelații în fundal (3D)</span><div class="sw on" data-layer="constfig" tabindex="0" role="switch" aria-labelledby="lbl-sw-constfig" aria-checked="true"></div></div>
       <div class="mini"><b>Din orice punct, din toate unghiurile:</b> trage cu degetul/mouse-ul ca să rotești și folosește scroll/pinch ca să apropii — vederea pornește din direcția reală a corpului ales și o poți explora liber în jurul Pământului. Comută automat pe <b>3D</b>; tastele <b>[</b> și <b>]</b> derulează perspectivele (resetează unghiul). Lista e generată automat din toate corpurile (Soare, planete, toți sateliții majori ai giganților, toate punctele Lagrange, obiectele interstelare). Pentru corpurile îndepărtate Pământul e mărit, dar <b>direcția, faza și iluminarea sunt cele reale</b>. <b>Notă:</b> sateliții giganților sunt sub ~0,2° unghiular de planeta lor (de la Pământ), deci vederea de pe ei e practic identică cu cea de pe planetă. „Satelit selectat" cere să atingi întâi un satelit artificial.</div>
     </div>
 
     <div class="sect">
       <div class="h"><span class="ic">✈</span> Trafic & atmosferă (live · online)</div>
-      <div class="row"><span class="lbl">Avioane (ADS-B)</span><div class="sw on" data-layer="aircraft" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Baloane-sondă meteo</span><div class="sw on" data-layer="sondes" tabindex="0" role="switch" aria-checked="true"></div></div>
-      <div class="row"><span class="lbl">Radar meteo — reflexii (păsări noaptea)</span><div class="sw" data-layer="radar" tabindex="0" role="switch" aria-checked="false"></div></div>
-      <div class="row"><span class="lbl">Nori — acoperire reală (Open-Meteo)</span><div class="sw" data-layer="clouds" tabindex="0" role="switch" aria-checked="false"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-aircraft">Avioane (ADS-B)</span><div class="sw on" data-layer="aircraft" tabindex="0" role="switch" aria-labelledby="lbl-sw-aircraft" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-sondes">Baloane-sondă meteo</span><div class="sw on" data-layer="sondes" tabindex="0" role="switch" aria-labelledby="lbl-sw-sondes" aria-checked="true"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-radar">Radar meteo — reflexii (păsări noaptea)</span><div class="sw" data-layer="radar" tabindex="0" role="switch" aria-labelledby="lbl-sw-radar" aria-checked="false"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-clouds">Nori — acoperire reală (Open-Meteo)</span><div class="sw" data-layer="clouds" tabindex="0" role="switch" aria-labelledby="lbl-sw-clouds" aria-checked="false"></div></div>
       <div class="seg" style="margin-top:9px">
         <button class="btn amber" id="btn-traffic" style="flex:1">⛓ Actualizează trafic</button>
         <button class="btn" id="btn-weather" style="flex:0 0 auto;width:auto;padding:8px 12px" title="Meteo la locația mea">☁︎</button>
@@ -367,11 +367,11 @@
 
     <div class="sect">
       <div class="h"><span class="ic">⛕</span> Date externe live (surse concrete)</div>
-      <div class="row"><span class="lbl">Trenuri / tramvaie / autobuze (GTFS-RT)</span><div class="sw" data-layer="transit" tabindex="0" role="switch" aria-checked="false"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-transit">Trenuri / tramvaie / autobuze (GTFS-RT)</span><div class="sw" data-layer="transit" tabindex="0" role="switch" aria-labelledby="lbl-sw-transit" aria-checked="false"></div></div>
       <input type="text" id="f-gtfs" placeholder="URL feed GTFS-RT VehiclePositions (.pb)" style="width:100%;margin:4px 0 2px" inputmode="url">
-      <div class="row" style="margin-top:6px"><span class="lbl">Animale / pești (Movebank · OTN)</span><div class="sw" data-layer="animals" tabindex="0" role="switch" aria-checked="false"></div></div>
+      <div class="row" style="margin-top:6px"><span class="lbl" id="lbl-sw-animals">Animale / pești (Movebank · OTN)</span><div class="sw" data-layer="animals" tabindex="0" role="switch" aria-labelledby="lbl-sw-animals" aria-checked="false"></div></div>
       <input type="text" id="f-mv" placeholder="ID studiu Movebank public (ex. 2911040)" style="width:100%;margin:4px 0 2px" inputmode="numeric">
-      <div class="row" style="margin-top:6px"><span class="lbl">Migrație păsări — radar (BirdCast · doar SUA)</span><div class="sw" data-layer="birdcast" tabindex="0" role="switch" aria-checked="false"></div></div>
+      <div class="row" style="margin-top:6px"><span class="lbl" id="lbl-sw-birdcast">Migrație păsări — radar (BirdCast · doar SUA)</span><div class="sw" data-layer="birdcast" tabindex="0" role="switch" aria-labelledby="lbl-sw-birdcast" aria-checked="false"></div></div>
       <input type="text" id="f-bird" placeholder="URL imagine hartă live BirdCast (SUA)" style="width:100%;margin:4px 0 2px" inputmode="url">
       <input type="text" id="f-proxy" placeholder="Proxy CORS opțional (prefix), ex. https://corsproxy.io/?url=" style="width:100%;margin:6px 0 2px" inputmode="url">
       <div class="seg" style="margin-top:8px"><button class="btn amber" id="btn-feeds" style="flex:1">⛓ Adu datele externe</button></div>
@@ -381,8 +381,8 @@
 
     <div class="sect">
       <div class="h"><span class="ic">☼</span> Vreme spațială & geofizică (live)</div>
-      <div class="row"><span class="lbl">Oval auroral (OVATION · NOAA)</span><div class="sw" data-layer="aurora" tabindex="0" role="switch" aria-checked="false"></div></div>
-      <div class="row"><span class="lbl">Cutremure în timp real (USGS · 24h)</span><div class="sw" data-layer="quakes" tabindex="0" role="switch" aria-checked="false"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-aurora">Oval auroral (OVATION · NOAA)</span><div class="sw" data-layer="aurora" tabindex="0" role="switch" aria-labelledby="lbl-sw-aurora" aria-checked="false"></div></div>
+      <div class="row"><span class="lbl" id="lbl-sw-quakes">Cutremure în timp real (USGS · 24h)</span><div class="sw" data-layer="quakes" tabindex="0" role="switch" aria-labelledby="lbl-sw-quakes" aria-checked="false"></div></div>
       <div class="seg" style="margin-top:9px"><button class="btn amber" id="btn-space" style="flex:1">☀ Adu vremea spațială + cutremure</button></div>
       <div class="status" id="space-status"></div>
       <div id="space-box" class="moonbox" style="display:none;margin-top:10px;flex-direction:column;align-items:stretch;gap:0">
@@ -394,7 +394,7 @@
     <div class="sect">
       <div class="h"><span class="ic">✦</span> Treceri vizibile ISS & senzori</div>
       <div class="seg"><button class="btn amber" id="btn-pass" style="flex:1">↻ Calculează trecerile ISS</button></div>
-      <div class="row" style="margin-top:6px"><span class="lbl">Alertă trecere (vibrație + notificare)</span><div class="sw" data-layer="passAlert" tabindex="0" role="switch" aria-checked="false"></div></div>
+      <div class="row" style="margin-top:6px"><span class="lbl" id="lbl-sw-passAlert">Alertă trecere (vibrație + notificare)</span><div class="sw" data-layer="passAlert" tabindex="0" role="switch" aria-labelledby="lbl-sw-passAlert" aria-checked="false"></div></div>
       <div id="pass-list" style="margin-top:4px"></div>
       <div class="seg" style="margin-top:8px"><button class="btn" id="btn-ar" style="flex:1">📱 Îndreaptă spre cer (AR)</button></div>
       <div class="status" id="ar-status"></div>
@@ -422,8 +422,8 @@
         <button data-step="86400">+1z</button>
         <button data-step="604800">+7z</button>
       </div>
-      <div class="tlabel">Moment exact (local)</div>
-      <input type="datetime-local" id="dt-pick" step="1">
+      <div class="tlabel" id="lbl-dt">Moment exact (local)</div>
+      <input type="datetime-local" id="dt-pick" step="1" aria-labelledby="lbl-dt">
       <div style="margin-top:9px"><button class="btn amber" id="btn-now">⦿ Revino la acum (live)</button></div>
     </div>
 
@@ -452,8 +452,8 @@
     </div>
 
     <div class="sect">
-      <div class="h"><span class="ic">◎</span> OZN-uri raportate</div>
-      <div id="ufo-list" class="plist" style="max-height:188px;overflow:auto"></div>
+      <div class="h" id="lbl-ufo"><span class="ic">◎</span> OZN-uri raportate</div>
+      <div id="ufo-list" class="plist" style="max-height:188px;overflow:auto" tabindex="0" role="region" aria-labelledby="lbl-ufo"></div>
       <div class="mini">Cazuri celebre rămase neexplicate oficial sau disputate. Markerele se plasează la locul raportării — click pentru detalii. Lista documentează relatări; nu afirmă origine extraterestră.</div>
     </div>
 
