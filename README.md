@@ -46,6 +46,10 @@ Terra · timp real (titlul paginii: „Pământul în timp real — Terminator �
   - `corsproxy.io`, doar dacă introduceți/folosiți un proxy CORS pentru surse care nu permit accesul direct; proxy-ul vede cererea respectivă (aplicația avertizează explicit).
 - Geolocația („📍 Detectează") se cere doar la apăsare; notificările pentru alerta ISS doar dacă activați alerta.
 
+## Notă despre cazurile OZN/UAP
+
+Lista de cazuri documentează relatări și nu afirmă origine extraterestră. Afirmațiile atribuite unor persoane reale (martori, anchetatori, cercetători) sunt redate din literatura citată și **nu au fost verificate independent**; nota apare și în pagină (panoul „OZN-uri raportate” și secțiunea „Despre”, RO/EN). Lista conține în prezent 94 de cazuri (textul din pagină spune „peste 70”, ceea ce rămâne adevărat).
+
 ## Rulare locală / offline
 
 Descărcați `index.html` și deschideți-l în browser. Poziția Soarelui, Lunii, planetelor, terminatorul, eclipsele și sateliții din snapshotul încorporat funcționează fără internet; actualizarea TLE și feedurile live necesită internet.
@@ -56,7 +60,7 @@ CC0 1.0 Universal (domeniu public) — vezi fișierul LICENSE
 
 ## Audit
 
-2026-10-10: verificat în browser că la încărcare și în repaus nu pleacă nicio cerere de rețea; cererile apar doar la acțiunile descrise mai sus. Pagina nu are politică CSP (meta). Corectate accesibilitatea (nume pentru comutatoare, zoom permis) fără modificări de funcționalitate.
+2026-10-10: verificat în browser că la încărcare și în repaus nu pleacă nicio cerere de rețea; cererile apar doar la acțiunile descrise mai sus. Pagina nu are politică CSP (meta): o listă albă de hosturi ar bloca proxy-ul CORS definit de utilizator și încărcarea TLE propriu, deci nu a fost introdusă. Corectate accesibilitatea (nume pentru comutatoare, zoom permis) fără modificări de funcționalitate.
 
 ## Autor
 
