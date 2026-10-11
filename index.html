@@ -2,6 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' data: blob: https:; media-src 'self' data: blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pământul în timp real — Terminator · Lună · Sateliți</title>
 <style>
@@ -198,7 +199,7 @@
     #console{position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;max-width:none;max-height:74vh;
       border-radius:16px 16px 0 0;display:none;padding-bottom:max(8px,env(safe-area-inset-bottom))}
     #console.open{display:block}
-    #topbar{gap:6px 8px;padding:8px 56px 6px 10px;flex-direction:column;align-items:flex-start}
+    #topbar{background:linear-gradient(rgba(4,6,12,.92),rgba(4,6,12,.7) 75%,rgba(4,6,12,0));gap:6px 8px;padding:8px 56px 6px 10px;flex-direction:column;align-items:flex-start}
     .brand{flex-wrap:wrap;gap:7px}
     .brand h1{font-size:12px;white-space:nowrap}
     .modeseg{margin-left:0}
@@ -214,7 +215,7 @@
 </style>
 </head>
 <body>
-<div id="stage">
+<main id="stage">
   <canvas id="sky" role="img" aria-label="Hartă interactivă a Pământului în timp real: terminator zi/noapte, sateliți, orașe, hidrografie și cazuri OZN"></canvas>
   <canvas id="globe" aria-hidden="true"></canvas>
   <canvas id="glabels" aria-hidden="true"></canvas>
@@ -295,6 +296,7 @@
     <div class="sect">
       <div class="h" id="lbl-grp"><span class="ic">⟲</span> Sursă de date (TLE)</div>
       <div class="mini" id="src-info">Snapshot încorporat — funcționează <b>offline</b>.</div>
+      <div class="mini" id="src-age" role="status" style="display:none;color:var(--amber)"></div>
       <div style="margin:9px 0 7px"><select id="grp" aria-labelledby="lbl-grp">
         <option value="active">Toți sateliții activi (CelesTrak)</option>
         <option value="stations">Stații spațiale (ISS, CSS…)</option>
@@ -651,7 +653,7 @@
       <button class="btn close" id="about-close">Închide</button>
     </div>
   </div>
-</div>
+</main>
 
 <script>/* Minimal SGP4 (near-earth) + Keplerian deep-space fallback. WGS-72. */
 (function (root) {
@@ -1316,7 +1318,17 @@ function afterLoad(label){
   const med=ages.length?ages[ages.length>>1]:0;
   state.epochAgeDays=med;
   $('#src-info').innerHTML = `${SATS.length} ${t('sateliți · sursă:')} <b>${t(label)}</b>`;
+  srcAgeNote();
   rebuildChips();
+}
+function srcAgeNote(){
+  const el=document.getElementById('src-age'); if(!el) return;
+  const d=state.epochAgeDays, en=state.lang==='en';
+  if(!isFinite(d)||d<=7){ el.style.display='none'; return; }
+  const dt=new Date(Date.now()-d*864e5).toISOString().slice(0,10);
+  el.style.display='';
+  el.textContent=en?`⚠ Orbital elements are ~${Math.round(d)} days old (median epoch ${dt}); satellite positions are approximate. Press “Update (online)” for fresh data.`
+                    :`⚠ Elementele orbitale au ~${Math.round(d)} zile (epocă mediană ${dt}); pozițiile sateliților sunt aproximative. Apasă „Actualizează (online)” pentru date proaspete.`;
 }
 
 /* ===================== STATE ===================== */
@@ -2431,6 +2443,8 @@ function bindSwitch(el){
   el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
 }
 $$('.sw').forEach(bindSwitch);
+try{ if(window.matchMedia && matchMedia('(max-width:600px) and (orientation:portrait)').matches){
+  state.mapRot=true; const _mr=document.querySelector('.sw[data-layer="mapRot"]'); if(_mr){_mr.classList.add('on');_mr.setAttribute('aria-checked','true');} } }catch(e){}
 
 function rebuildChips(){
   const cont=$('#chips'); cont.innerHTML='';
@@ -5057,6 +5071,7 @@ function applyLang(){
   try{ if(typeof renderSpaceBox==='function') renderSpaceBox(); }catch(e){}
   try{ if($('#pass-list')&&$('#pass-list').innerHTML.trim()) renderPasses(); }catch(e){}
   const lb=$('#lang-btn'); if(lb) lb.textContent=state.lang==='en'?'RO':'EN';
+  try{ srcAgeNote(); }catch(e){}
 }
 { const lb=$('#lang-btn'); if(lb) lb.onclick=()=>{ state.lang=state.lang==='en'?'ro':'en'; applyLang(); }; }
 { const ub=$('#units-btn'); if(ub){ ub.textContent=state.units==='imperial'?'°F':'°C'; ub.onclick=()=>{ state.units=state.units==='imperial'?'metric':'imperial'; const x=$('#units-btn'); if(x)x.textContent=state.units==='imperial'?'°F':'°C'; try{ if(typeof renderWeather==='function')renderWeather(); if(typeof updateEnvPanel==='function'){state._envSig=null;updateEnvPanel();} }catch(e){} }; } }

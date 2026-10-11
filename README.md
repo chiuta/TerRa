@@ -1,5 +1,7 @@
 # Terra — Pământul în timp real
 
+**Ultima actualizare:** 11 octombrie 2026
+
 Harta și globul Pământului cu terminatorul zi/noapte, Luna, planetele, sateliții și un mod „Cer" (planetariu), într-un singur fișier HTML.
 
 **Live:** https://chiuta.github.io/TerRa/
@@ -60,7 +62,7 @@ CC0 1.0 Universal (domeniu public) — vezi fișierul LICENSE
 
 ## Audit
 
-2026-10-10: verificat în browser că la încărcare și în repaus nu pleacă nicio cerere de rețea; cererile apar doar la acțiunile descrise mai sus. Pagina nu are politică CSP (meta): o listă albă de hosturi ar bloca proxy-ul CORS definit de utilizator și încărcarea TLE propriu, deci nu a fost introdusă. Corectate accesibilitatea (nume pentru comutatoare, zoom permis) fără modificări de funcționalitate.
+2026-10-10: verificat în browser că la încărcare și în repaus nu pleacă nicio cerere de rețea; cererile apar doar la acțiunile descrise mai sus. Pagina nu avea politică CSP; la 2026-10-11 a fost adăugată una, cu `connect-src`/`img-src` limitate la `https:` (nu la o listă fixă de gazde), fiindcă proxy-ul CORS, adresa GTFS-RT și imaginea BirdCast sunt introduse de utilizator și pot fi pe orice domeniu HTTPS. Corectate accesibilitatea (nume pentru comutatoare, zoom permis) fără modificări de funcționalitate.
 
 ## Autor
 
@@ -69,3 +71,11 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 ## English summary
 
 Terra is a single-file real-time Earth viewer: day/night terminator, Moon, planets, satellites (SGP4), eclipses, a 3D globe and a sky planetarium mode, with RO/EN UI. An orbital snapshot is embedded, so it works offline. Optional live feeds contact CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank and, if configured, a CORS proxy (corsproxy.io). No local storage. CC0 1.0.
+
+## Istoric / Changelog
+
+### 11 octombrie 2026
+- Pe telefoane în portret harta 2D pornește acum în modul „Hartă verticală” (umple ecranul, etichete mai ușor de citit); bara de sus are fundal semitransparent.
+- Panoul „Sursă de date (TLE)” avertizează când elementele orbitale încorporate sunt vechi (>7 zile; la 11.10.2026 snapshotul are ~107 zile, epocă mediană 2026-06-26): pozițiile sateliților sunt aproximative până la „Actualizează (online)”.
+- Conținutul este încadrat în `<main>` (axe: 0 încălcări); adăugat CSP (`default-src 'none'`, fără scripturi externe, doar `https:` pentru conexiuni).
+- Nerezolvat: dimensiunea de 2,1 MB (texturi JPEG + date Natural Earth încorporate); recomprimarea imaginilor ar câștiga doar ~5% cu pierdere vizibilă.
