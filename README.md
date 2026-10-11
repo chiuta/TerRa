@@ -24,6 +24,7 @@ Terra · timp real (titlul paginii: „Pământul în timp real — Terminator �
 - Treceri vizibile ale ISS pe 48 h, cu alertă (vibrație + notificare); mediu de suprafață și maree de echilibru pentru locația aleasă.
 - Feeduri live opționale: avioane (ADS-B), baloane-sondă meteo, radar meteo, vreme spațială NOAA (Kp, vânt solar, raze X, oval auroral), cutremure USGS (24 h), Movebank, flux GTFS-RT prin proxy.
 - Interfață în română și engleză (buton „EN" / „RO").
+- Scurtături de tastatură: `1` / `2` / `3` (2D / 3D / Cer), `Spațiu` (pauză / reluare), `N` (înapoi la „acum”), `[` și `]` (perspectivă 3D), `Esc`; inactive cât scrii într-un câmp. Sunt descrise și în fereastra „Despre”.
 
 ## Manual de utilizare
 
@@ -75,6 +76,9 @@ Terra is a single-file real-time Earth viewer: day/night terminator, Moon, plane
 ## Istoric / Changelog
 
 ### 11 octombrie 2026
+- Scurtături de tastatură (1/2/3, Spațiu, N), cu traducere EN în fereastra „Despre”.
+- Etichetele din harta 2D (stații, planete, puncte Lagrange, sonde, Soare, Lună, obiecte notabile) nu se mai suprapun: se mută pe verticală sau se omit.
+- CSP: `script-src` pe hash SHA-256 pentru cele două scripturi, fără `'unsafe-inline'` (conexiunile rămân `https:`).
 - Pe telefoane în portret harta 2D pornește acum în modul „Hartă verticală” (umple ecranul, etichete mai ușor de citit); bara de sus are fundal semitransparent.
 - Panoul „Sursă de date (TLE)” avertizează când elementele orbitale încorporate sunt vechi (>7 zile; la 11.10.2026 snapshotul are ~107 zile, epocă mediană 2026-06-26): pozițiile sateliților sunt aproximative până la „Actualizează (online)”.
 - Conținutul este încadrat în `<main>` (axe: 0 încălcări); adăugat CSP (`default-src 'none'`, fără scripturi externe, doar `https:` pentru conexiuni).

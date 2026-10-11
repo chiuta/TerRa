@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' data: blob: https:; media-src 'self' data: blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-5MZysrxKazCtWAPIXZyiBHv4sgZ5lAmr/sGGR3u8Lcw=' 'sha256-wENyNdzCcyEdOgbT3iH0vAOfbmvhjNSOmwdP6Gu5hLc='; style-src 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' data: blob: https:; media-src 'self' data: blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pământul în timp real — Terminator · Lună · Sateliți</title>
 <style>
@@ -54,6 +54,7 @@
   .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--amber);
     box-shadow:0 0 10px 2px rgba(241,169,58,.6);animation:pulse 3.4s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+  kbd{font-family:ui-monospace,monospace;font-size:.85em;border:1px solid var(--line,#345);border-radius:4px;padding:0 5px;background:rgba(255,255,255,.06)}
   @media (prefers-reduced-motion:reduce){.brand .dot{animation:none}}
   .brand h1{font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin:0;font-weight:600;
     color:#e7eefb}
@@ -602,6 +603,7 @@
       acolo unde nu există un caz real verificabil, nu a fost inventat niciunul.</p>
       <p>Afirmațiile atribuite unor persoane reale (martori, anchetatori, cercetători) sunt redate din literatura citată și nu au fost verificate independent.</p>
       <p><b>Confidențialitate și feeduri live:</b> aplicația nu folosește analytics, cookie-uri sau stocare locală — totul rulează local. Feedurile live (sateliți, avioane, sonde, vreme spațială, cutremure) sunt <b>opționale și oprite implicit</b>; când le activezi, browserul tău contactează direct sursele oficiale (NOAA, USGS, Open-Meteo, CelesTrak ș.a.). Unele surse fără antet CORS pot fi rutate printr-un <b>proxy terț</b> (corsproxy.io), care vede acea cerere — folosește aceste feeduri doar dacă ești de acord cu acest lucru.</p>
+      <p><b>Scurtături de tastatură:</b> <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> comută între 2D, 3D și Cer; <kbd>Spațiu</kbd> pune pauză sau reia timpul; <kbd>N</kbd> revine la „acum” (live); <kbd>[</kbd> și <kbd>]</kbd> schimbă perspectiva în 3D; <kbd>Esc</kbd> închide ferestrele. Nu se activează cât scrii într-un câmp.</p>
       <p><b>Maree (flux/reflux):</b> calculate <b>offline</b> din potențialul mareic de echilibru al Lunii și
       Soarelui la locația ta — captează ritmul semidiurn (~12h25m), sizigiile/cuadratura și momentul
       următorului vârf/reflux. Amplitudinea reală la țărm depinde de batimetrie și de defazajul local.</p>
@@ -1601,6 +1603,7 @@ function draw(now){
   if(state.layers.ufo) drawUFO(m); else ufoScreen=[];
   if(state.layers.aircraft||state.layers.sondes||state.layers.transit||state.layers.animals||state.layers.birdcast) drawLive(m); else liveScreen=[];
   if(state.layers.quakes) drawQuakes2D(m); else quakeScreen=[];
+  PLBL.length=0;
   if(state.layers.sats) drawSats(jdut,gmst,m);
   else satScreen=[];
   if(state.selected && state.layers.tracks) drawTrack(state.selected,jdut,m);
@@ -1866,9 +1869,11 @@ function drawLagrange2D(m){
     const x=ox+(p.lon+180)/360*dw, y=oy+(90-p.lat)/180*dh;
     if(x<ox-4||x>ox+dw+4||y<oy-4||y>oy+dh+4) continue;
     drawDiamond(x,y,3,col);
+    const lgw=Math.max(ctx.measureText(p.name).width,ctx.measureText(fmtKm(p.dist)).width), lgy=plPlace(x+6,y,lgw,20);
+    if(lgy==null) continue;
     ctx.shadowColor='rgba(0,0,0,.85)';ctx.shadowBlur=3;ctx.textAlign='left';ctx.fillStyle=col;
-    ctx.fillText(p.name,x+6,y-4);
-    ctx.fillStyle='rgba(170,185,205,.9)';ctx.fillText(fmtKm(p.dist),x+6,y+5);
+    ctx.fillText(p.name,x+6,lgy-4);
+    ctx.fillStyle='rgba(170,185,205,.9)';ctx.fillText(fmtKm(p.dist),x+6,lgy+5);
     ctx.shadowBlur=0;
   }
   let si=0;
@@ -1877,8 +1882,10 @@ function drawLagrange2D(m){
     if(x<ox-4||x>ox+dw+4||y<oy-4||y>oy+dh+4) continue;
     ctx.beginPath();ctx.arc(x,y,2,0,TWOPI);ctx.fillStyle=s.color;ctx.fill();
     ctx.lineWidth=.7;ctx.strokeStyle='rgba(2,6,12,.6)';ctx.stroke();
+    const spy=y+6+si*11;
+    if(!plFree(x+6,spy,ctx.measureText(s.name).width)) continue;
     ctx.shadowColor='rgba(0,0,0,.85)';ctx.shadowBlur=3;ctx.textAlign='left';ctx.fillStyle=s.color;
-    ctx.fillText(s.name, x+6, y+6+si*11);
+    ctx.fillText(s.name, x+6, spy);
     ctx.shadowBlur=0;
   }
   ctx.restore();
@@ -1893,6 +1900,14 @@ function geo(rec,jdut,gmst){
   const v=res[1]; const vel=Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);
   return {lat:g.lat,lon:g.lon,alt:g.alt,vel};
 }
+
+// Anti-suprapunere pentru etichetele „prioritare” din harta 2D (stații, planete, Lagrange, Soare, Lună, obiecte notabile)
+const PLBL=[];
+function plFree(x,y,w,h){ h=h||11;
+  for(const r of PLBL){ if(x<r.x+r.w+2 && x+w>r.x-2 && Math.abs(y-r.y)<(h+r.h)/2) return false; }
+  PLBL.push({x:x,y:y,w:w,h:h}); return true; }
+function plPlace(x,y,w,h){ const off=[0,12,-12,24,-24,36];
+  for(const o of off){ if(plFree(x,y+o,w,h)) return y+o; } return null; }
 
 function drawSats(jdut,gmst,m){
   satScreen.length=0; lastSatGeo.length=0;
@@ -1916,7 +1931,8 @@ function drawSats(jdut,gmst,m){
       ctx.arc(sx,sy,5.5,0,TWOPI); ctx.stroke();
       const short=s.rec.name.replace(/\(.*\)/,'').trim().split(' ')[0];
       ctx.font='10px ui-monospace,monospace'; ctx.fillStyle='rgba(255,222,150,.95)';
-      ctx.fillText(short,sx+8,sy+3);
+      const sly=plPlace(sx+8,sy+3,ctx.measureText(short).width);
+      if(sly!=null) ctx.fillText(short,sx+8,sly);
     }
   }
 }
@@ -1976,7 +1992,7 @@ function drawPlanets(planets,m){
     const w=ctx.measureText(p.name).width, lx=x+7; let ly=y+3;
     for(const o of off){ ly=y+3+o; let hit=false;
       for(const r of placed){ if(Math.abs(r.x-lx)<(r.w+w)/2+4 && Math.abs(r.y-ly)<11){hit=true;break;} }
-      if(!hit) break; }
+      if(!hit && plFree(lx,ly,w)) break; }
     placed.push({x:lx,y:ly,w});
     ctx.shadowColor='rgba(0,0,0,.85)'; ctx.shadowBlur=3;
     ctx.fillStyle=p.color; ctx.fillText(p.name,lx,ly);
@@ -2015,8 +2031,9 @@ function drawNotable(m){
     // core
     ctx.globalAlpha=1; ctx.beginPath(); ctx.arc(sx,sy,2.3,0,TWOPI); ctx.fill();
     // label
-    ctx.shadowColor='rgba(0,0,0,.9)'; ctx.shadowBlur=3;
-    ctx.fillText(o.short,sx+14,sy-7); ctx.shadowBlur=0;
+    const nly=plPlace(sx+14,sy-7,ctx.measureText(o.short).width);
+    if(nly!=null){ ctx.shadowColor='rgba(0,0,0,.9)'; ctx.shadowBlur=3;
+      ctx.fillText(o.short,sx+14,nly); ctx.shadowBlur=0; }
   }
   ctx.restore();
 }
@@ -2032,7 +2049,7 @@ function drawSun(p,m){
   for(let a=0;a<8;a++){const an=a*Math.PI/4; ctx.beginPath();
     ctx.moveTo(x+Math.cos(an)*8.5,y+Math.sin(an)*8.5); ctx.lineTo(x+Math.cos(an)*13,y+Math.sin(an)*13); ctx.stroke();}
   ctx.font='10px ui-monospace,monospace'; ctx.fillStyle='rgba(255,222,140,.95)';
-  ctx.fillText('Soare',x+15,y+3);
+  if(plFree(x+15,y+3,28)) ctx.fillText('Soare',x+15,y+3);
   ctx.restore();
 }
 function drawMoon(p,illum,elong,m){
@@ -2054,7 +2071,7 @@ function drawMoon(p,illum,elong,m){
   }
   ctx.restore();
   ctx.font='10px ui-monospace,monospace'; ctx.fillStyle='rgba(210,225,250,.95)';
-  ctx.fillText('Lună',x+12,y+3);
+  if(plFree(x+12,y+3,26)) ctx.fillText('Lună',x+12,y+3);
   ctx.restore();
 }
 function drawLoc(m){
@@ -3043,6 +3060,17 @@ document.addEventListener('keydown',e=>{
   if($('#livecard').style.display==='block'){ state.selLive=null; $('#livecard').style.display='none'; return; }
   if($('#skycard').style.display==='block'){ state.selSky=null; $('#skycard').style.display='none'; return; }
   const con=$('#console'); if(matchMedia('(max-width:780px)').matches && con.classList.contains('open')){ con.classList.remove('open'); }
+});
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||e.defaultPrevented) return;
+  const ae=document.activeElement, tag=(ae&&ae.tagName||'').toLowerCase();
+  if(tag==='input'||tag==='textarea'||tag==='select'||(ae&&ae.isContentEditable)) return;
+  const native=(tag==='button'||tag==='a'||tag==='summary'); // Spațiul activează nativ aceste elemente
+  if($('#about').style.display==='flex') return;
+  const k=e.key;
+  if(k==='1'||k==='2'||k==='3'){ const m=k==='1'?'2d':k==='2'?'3d':'sky'; const b=document.querySelector('#mode [data-mode="'+m+'"]'); if(b&&!b.disabled){ e.preventDefault(); b.click(); } }
+  else if(k===' '&&!native){ e.preventDefault(); const b=state.paused?document.querySelector('#speed [data-spd="'+state.speed+'"]'):document.querySelector('#speed [data-spd="0"]'); if(b) b.click(); }
+  else if(k==='n'||k==='N'){ e.preventDefault(); $('#btn-now').click(); }
 });
 function syncPanelToggle(){
   const con=$('#console'), t=$('#panelToggle');
@@ -5041,6 +5069,7 @@ const I18N_EN = {
 "LAT":"LAT","LONG":"LONG","ALT":"ALT","Magnitudine":"Magnitude","Acum":"When","Viteză":"Speed","Rută":"Route","Marcat":"Tagged","Vit. verticală":"Vert. speed"
 };
 const I18N_N={}; for(const _k in I18N_EN) I18N_N[norm(_k)]=I18N_EN[_k];
+I18N_N[norm('<b>Scurtături de tastatură:</b> <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> comută între 2D, 3D și Cer; <kbd>Spațiu</kbd> pune pauză sau reia timpul; <kbd>N</kbd> revine la „acum” (live); <kbd>[</kbd> și <kbd>]</kbd> schimbă perspectiva în 3D; <kbd>Esc</kbd> închide ferestrele. Nu se activează cât scrii într-un câmp.')]='<b>Keyboard shortcuts:</b> <kbd>1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> switch between 2D, 3D and Sky; <kbd>Space</kbd> pauses or resumes time; <kbd>N</kbd> returns to “now” (live); <kbd>[</kbd> and <kbd>]</kbd> change the 3D viewpoint; <kbd>Esc</kbd> closes dialogs. They are inactive while you type in a field.';
 function t(s){ if(state.lang!=='en'||s==null) return s; const v=I18N_N[norm(s)]; return v!=null? v : s; }
 function _txEl(el){
   if(state.lang==='en'){
