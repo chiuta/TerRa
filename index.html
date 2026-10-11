@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-5MZysrxKazCtWAPIXZyiBHv4sgZ5lAmr/sGGR3u8Lcw=' 'sha256-wENyNdzCcyEdOgbT3iH0vAOfbmvhjNSOmwdP6Gu5hLc='; style-src 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' data: blob: https:; media-src 'self' data: blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-5MZysrxKazCtWAPIXZyiBHv4sgZ5lAmr/sGGR3u8Lcw=' 'sha256-GiM9E+Sq0azmuiw8NjGHNlVgoPBLGZLPrMzeV9NClgo='; style-src 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' data: blob: https:; media-src 'self' data: blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pământul în timp real — Terminator · Lună · Sateliți</title>
 <style>
@@ -79,6 +79,8 @@
     padding:6px 0;scrollbar-width:thin}
   #console::-webkit-scrollbar{width:8px}#console::-webkit-scrollbar-thumb{background:var(--faint);border-radius:8px}
   #console.collapsed{display:none}
+  #rot-btn[hidden]{display:none}
+  @media (min-width:601px),(orientation:landscape){#rot-btn{display:none}}
   .sect{padding:12px 14px;border-bottom:1px solid var(--line)}
   .sect:last-child{border-bottom:0}
   .sect>.h{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.16em;
@@ -232,6 +234,7 @@
       <button id="tour-uap-btn" class="tourbtn" title="Tur dedicat: toate cazurile UAP/FAN, din perspectiva observatorului și a obiectului descris">🛸 Cazuri UAP/FAN</button>
       <button id="tour-term-btn" class="tourbtn" title="Tur dedicat: terminatorul (linia zi/noapte) al fiecărei planete și lune naturale, cu corpul în jurul căruia orbitează">🌓 Terminatoare</button>
       <button id="tour-ecl-btn" class="tourbtn" title="Tur dedicat: toate eclipsele de Soare și de Lună, calculate din efemeride și vizitate la momentul lor exact">🌒 Eclipse</button>
+      <button id="rot-btn" class="tourbtn" aria-pressed="false" title="Rotește harta plană 90° (portret / peisaj) — la fel ca „Hartă verticală (mobil)” din Straturi">⟳ Rotește harta</button>
       <button id="lang-btn" class="tourbtn" title="English / Română" aria-label="Language">EN</button>
       <button id="units-btn" class="tourbtn" title="Unități: metric / imperial — Units" aria-label="Units">°C</button>
     </div>
@@ -404,6 +407,8 @@
       <div class="mini">Calculează când <b>ISS</b> e vizibilă cu ochiul liber de la locația ta (la soare, pe cerul tău întunecat) în 48 h, cu direcția și înălțimea maximă. <b>Îndreaptă spre cer</b> folosește busola și giroscopul telefonului: în modul „Cer", un reticul urmărește unde arăți și îți spune ce obiect e acolo (stea, planetă, satelit) — util de Ziua Ufologiei ca să identifici „luminile" de pe cer.</div>
     </div>
 
+    <div class="sect">
+      <div class="h"><span class="ic">⏱</span> Timp — trecut / viitor</div>
       <div class="seg" id="speed">
         <button data-spd="0" title="Pauză">⏸</button>
         <button data-spd="1" class="on">1×</button>
@@ -472,6 +477,7 @@
         <input type="text" id="loc-lon" placeholder="long" inputmode="decimal">
         <button class="btn" id="btn-setloc" style="width:auto;padding:8px 12px">OK</button>
       </div>
+      <div class="mini" id="loc-err" role="alert" style="color:var(--amber)"></div>
       <div class="mini" id="loc-info"></div>
     </div>
 
@@ -2460,8 +2466,11 @@ function bindSwitch(el){
   el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
 }
 $$('.sw').forEach(bindSwitch);
+{ const rb=$('#rot-btn'), sw=document.querySelector('.sw[data-layer="mapRot"]');
+  const syncRot=()=>{ if(rb) rb.setAttribute('aria-pressed',state.mapRot?'true':'false'); };
+  if(rb&&sw){ rb.addEventListener('click',()=>sw.closest('.row').click()); sw.closest('.row').addEventListener('click',syncRot); syncRot(); } }
 try{ if(window.matchMedia && matchMedia('(max-width:600px) and (orientation:portrait)').matches){
-  state.mapRot=true; const _mr=document.querySelector('.sw[data-layer="mapRot"]'); if(_mr){_mr.classList.add('on');_mr.setAttribute('aria-checked','true');} } }catch(e){}
+  state.mapRot=true; { const _rb=document.getElementById('rot-btn'); if(_rb) _rb.setAttribute('aria-pressed','true'); } const _mr=document.querySelector('.sw[data-layer="mapRot"]'); if(_mr){_mr.classList.add('on');_mr.setAttribute('aria-checked','true');} } }catch(e){}
 
 function rebuildChips(){
   const cont=$('#chips'); cont.innerHTML='';
@@ -2557,13 +2566,15 @@ $('#tle-file').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new 
 
 // location
 function setLoc(lat,lon,label){state.loc={lat,lon,label:label||''};$('#loc-lat').value=lat.toFixed(3);$('#loc-lon').value=lon.toFixed(3);}
-$('#btn-setloc').onclick=()=>{const la=parseFloat($('#loc-lat').value),lo=parseFloat($('#loc-lon').value);
-  if(isFinite(la)&&isFinite(lo))setLoc(Math.max(-90,Math.min(90,la)),norm180(lo));};
+$('#btn-setloc').onclick=()=>{const num=v=>parseFloat(String(v).trim().replace(',','.')),la=num($('#loc-lat').value),lo=num($('#loc-lon').value);
+  const er=$('#loc-err'); if(er) er.textContent='';
+  if(isFinite(la)&&isFinite(lo)&&Math.abs(la)<=90&&Math.abs(lo)<=360)setLoc(la,norm180(lo));
+  else if(er) er.textContent=t('Coordonate invalide — lat între −90 și 90, long între −180 și 180 (ex. 44,43 și 26,10)');};
 $('#btn-geo').onclick=()=>{if(!navigator.geolocation){$('#loc-info').textContent=t('Geolocație indisponibilă');return;}
   $('#loc-info').textContent=t('Se localizează…');
   navigator.geolocation.getCurrentPosition(p=>setLoc(p.coords.latitude,p.coords.longitude,'GPS'),
     ()=>{$('#loc-info').textContent=t('Permisiune refuzată — introdu manual');});};
-$('#btn-clearloc').onclick=()=>{state.loc=null;$('#loc-info').textContent='';$('#loc-lat').value='';$('#loc-lon').value='';};
+$('#btn-clearloc').onclick=()=>{{const er=$('#loc-err'); if(er) er.textContent='';} state.loc=null;$('#loc-info').textContent='';$('#loc-lat').value='';$('#loc-lon').value='';};
 
 /* ===================== LIVE ONLINE OBJECTS (aircraft / sondes / weather) ===================== */
 const WMO={0:'cer senin',1:'predominant senin',2:'parțial noros',3:'înnorat',45:'ceață',48:'ceață cu chiciură',51:'burniță slabă',53:'burniță',55:'burniță deasă',56:'burniță înghețată',57:'burniță înghețată deasă',61:'ploaie slabă',63:'ploaie',65:'ploaie puternică',66:'ploaie înghețată',67:'ploaie înghețată puternică',71:'ninsoare slabă',73:'ninsoare',75:'ninsoare puternică',77:'măzăriche',80:'averse',81:'averse',82:'averse puternice',85:'averse de zăpadă',86:'averse de zăpadă puternice',95:'furtună',96:'furtună cu grindină',99:'furtună cu grindină mare'};
@@ -3569,7 +3580,7 @@ function pickGlobe(cx,cy){
 }
 
 // --- mode switch ---
-function applyModeDisplay(){ const is3=state.mode==='3d'; cv.style.display=is3?'none':'block'; glCanvas.style.display=is3?'block':'none'; glab.style.display=is3?'block':'none';
+function applyModeDisplay(){ const is3=state.mode==='3d'; { const rb=document.getElementById('rot-btn'); if(rb) rb.hidden=state.mode!=='2d'; } cv.style.display=is3?'none':'block'; glCanvas.style.display=is3?'block':'none'; glab.style.display=is3?'block':'none';
   $$('#mode button').forEach(b=>{const on=b.dataset.mode===state.mode; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false');}); }
 function setMode(mode){
   if(mode==='3d'){
@@ -5060,6 +5071,8 @@ const I18N_EN = {
 "Geografie vectorială <b>reală</b>: conturul coastei (10m), rețeaua de râuri și lacurile rămân clare la <b>orice nivel de zoom</b> (nu se pixelează ca textura). Continentele și râurile mari se văd mereu; insulele mici, afluenții și lacurile mici apar pe măsură ce mărești.":"<b>Real</b> vector geography: the 10m coastline, the river network and lakes stay crisp at <b>any zoom level</b> (they don't pixelate like the texture). Continents and large rivers are always shown; small islands, tributaries and small lakes appear as you zoom in.",
 // vertical map
 "Hartă verticală (mobil)":"Vertical map (mobile)",
+"⟳ Rotește harta":"⟳ Rotate map",
+"Coordonate invalide — lat între −90 și 90, long între −180 și 180 (ex. 44,43 și 26,10)":"Invalid coordinates — lat between −90 and 90, long between −180 and 180 (e.g. 44.43 and 26.10)",
 "Rotește harta plană 90° ca să umple ecranul în <b>portret</b> (pe telefon, harta orizontală apare mică). Click-urile, panoramarea și zoom-ul funcționează normal, rotite odată cu harta. Doar pentru harta 2D.":"Rotates the flat map 90° to fill the screen in <b>portrait</b> (on a phone the horizontal map looks tiny). Clicks, panning and zoom work normally, rotated along with the map. 2D map only.",
 // env section labels
 "Mediu de suprafață (date reale)":"Surface environment (real data)",

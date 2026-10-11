@@ -23,6 +23,7 @@ Terra · timp real (titlul paginii: „Pământul în timp real — Terminator �
 - Modul „Cer": Calea Lactee, obiecte Messier, constelații, roiuri de meteori, ecliptica, observator de pe sol sau de pe alte corpuri; „Îndreaptă spre cer (AR)" cu busola/giroscopul telefonului.
 - Treceri vizibile ale ISS pe 48 h, cu alertă (vibrație + notificare); mediu de suprafață și maree de echilibru pentru locația aleasă.
 - Feeduri live opționale: avioane (ADS-B), baloane-sondă meteo, radar meteo, vreme spațială NOAA (Kp, vânt solar, raze X, oval auroral), cutremure USGS (24 h), Movebank, flux GTFS-RT prin proxy.
+- Pe telefon în portret: buton „⟳ Rotește harta” (hartă verticală / orizontală).
 - Interfață în română și engleză (buton „EN" / „RO").
 - Scurtături de tastatură: `1` / `2` / `3` (2D / 3D / Cer), `Spațiu` (pauză / reluare), `N` (înapoi la „acum”), `[` și `]` (perspectivă 3D), `Esc`; inactive cât scrii într-un câmp. Sunt descrise și în fereastra „Despre”.
 
@@ -76,6 +77,9 @@ Terra is a single-file real-time Earth viewer: day/night terminator, Moon, plane
 ## Istoric / Changelog
 
 ### 11 octombrie 2026
+- Reparat (defect vechi de structură HTML): un `</div>` în plus închidea prematur panoul de comenzi, deci nouă secțiuni (Faza Lunii, Planete, Locația mea, Mediu de suprafață, Maree etc.) ieșeau din panou și nu puteau fi atinse; acum toate cele 19 secțiuni sunt în panou, iar controlul timpului are titlul „Timp — trecut / viitor”.
+- „Locația mea”: virgula zecimală este acceptată (`44,43`), iar coordonatele în afara intervalului dau un mesaj de eroare în loc să fie tăiate în tăcere.
+- Buton „⟳ Rotește harta” în antet (doar în 2D, pe ecran îngust în portret) pentru a comuta rapid între harta verticală și cea orizontală; etichetele rămân citibile în orientarea orizontală.
 - Scurtături de tastatură (1/2/3, Spațiu, N), cu traducere EN în fereastra „Despre”.
 - Etichetele din harta 2D (stații, planete, puncte Lagrange, sonde, Soare, Lună, obiecte notabile) nu se mai suprapun: se mută pe verticală sau se omit.
 - CSP: `script-src` pe hash SHA-256 pentru cele două scripturi, fără `'unsafe-inline'` (conexiunile rămân `https:`).
