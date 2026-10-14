@@ -4,7 +4,7 @@
   "name": "Pământul în timp real — Terminator · Lună · Sateliți",
   "version": "1.1.0",
   "updated": "2026-10-14",
-  "description": "",
+  "description": "Harta și globul Pământului cu terminatorul zi/noapte, Luna, planetele, sateliții și un mod „Cer” (planetariu), într-un singur fișier HTML.",
   "egress": [
     {
       "host": "https:(orice gazdă)",
@@ -22,8 +22,8 @@
     "WebGL"
   ],
   "storageKeys": [],
-  "sizeBytes": 2523568,
-  "sha256": "fbea55dbc242ca2a5140e516685c648f6b0331c7fa1f658bb82a20b5e52ea602",
+  "sizeBytes": 2524098,
+  "sha256": "3d865d5bffc4e3b615b559f9623a6de120e136ebc21fef79791c86d2fd94bc1a",
   "csp": {
     "present": true,
     "directives": {
