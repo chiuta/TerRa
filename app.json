@@ -18,12 +18,13 @@
     "geolocation",
     "Notification",
     "speechSynthesis",
+    "clipboard",
     "serviceWorker",
     "WebGL"
   ],
   "storageKeys": [],
-  "sizeBytes": 2551285,
-  "sha256": "55bea543f9da942e878bef1e637a587f2d0fed002e9e4629eb5a1af1ab6e7c02",
+  "sizeBytes": 2552472,
+  "sha256": "b6809d62d048c92cde3ab464df6d9fcd6854783ca50a0716c55b0d971223adbf",
   "csp": {
     "present": true,
     "directives": {
