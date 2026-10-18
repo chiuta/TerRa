@@ -1,6 +1,6 @@
 # Terra — Pământul în timp real
 
-**Versiune:** 1.3.0 · **Ultima actualizare:** 18 octombrie 2026
+**Versiune:** 1.4.0 · **Ultima actualizare:** 18 octombrie 2026
 
 Harta și globul Pământului cu terminatorul zi/noapte, Luna, planetele, sateliții și un mod „Cer" (planetariu), într-un singur fișier HTML.
 
@@ -26,6 +26,15 @@ Terra · timp real (titlul paginii: „Pământul în timp real — Terminator �
 - Pe telefon în portret: buton „⟳ Rotește harta” (hartă verticală / orizontală).
 - Interfață în română și engleză (buton „EN" / „RO"); din 1.1.0 ciclul include și HU/DE pentru funcțiile noi.
 - Scurtături de tastatură: `1` / `2` / `3` (2D / 3D / Cer), `Spațiu` (pauză / reluare), `N` (înapoi la „acum”), `[` și `]` (perspectivă 3D), `Esc`; inactive cât scrii într-un câmp. Sunt descrise și în fereastra „Despre”.
+
+## Toate corpurile din ORARIUM (1.4.0)
+
+TerRa are acum ca observator și țintă fiecare dintre cele 45 de corpuri din [ORARIUM](https://chiuta.github.io/orarium/): Soarele, planetele, Luna, sateliții (inclusiv Phobos, Deimos, Hyperion și Charon, adăugați acum), planetele pitice și asteroizii (Ceres, Vesta, Pallas, Hygiea, Psyche, Eros, Bennu, Ryugu, Haumea, Makemake, Eris) și cometa 67P. Aerostatul Venus 50 km nu e un corp separat: are link din Venus.
+
+- Orbitele asteroizilor și ale planetelor pitice folosesc elemente reale JPL SBDB; Ceres, Eros și Eris coincid cu JPL Horizons (≤ 0,007 UA). Pentru Bennu, momentul periheliului e ajustat pe efemerida JPL din 2026-10-18 (elementele JPL au epoca 2010). Sateliții noi folosesc același model circular simplificat ca restul.
+- Panoul „🕰 Ora pe alte lumi” listează toate cele 45 de corpuri, cu unghiul față de Soare și „⚠ conjuncție”, și trei linkuri pe rând: ↗ fișa în ORARIUM, 📡 fereastra de transmisie din locația ta, 👁 cerul de pe acel corp, în TerRa.
+- Invers, ORARIUM are „↗ TerRa” pentru toate cele 44 de corpuri (inclusiv fiecare capăt al unei perechi de comunicare).
+- Ora locală (meridianul 0) apare doar pentru Lună și planete; pentru sateliți și asteroizi vezi ora în ORARIUM.
 
 ## Legătura cu ORARIUM (1.3.0)
 
@@ -114,6 +123,9 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 Terra is a single-file real-time Earth viewer: day/night terminator, Moon, planets, satellites (SGP4), eclipses, a 3D globe and a sky planetarium mode, with RO/EN UI. An orbital snapshot is embedded, so it works offline. Optional live feeds contact CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank and, if configured, a CORS proxy (corsproxy.io). No local storage. MIT licence.
 
 ## Istoric / Changelog
+
+### 18 octombrie 2026 (v1.4.0)
+- Nou: toate cele 45 de corpuri din ORARIUM, cu 15 corpuri adăugate (Phobos, Deimos, Hyperion, Charon, Ceres, Vesta, Pallas, Hygiea, Psyche, Eros, Bennu, Ryugu, Haumea, Makemake, Eris) ca observatoare și ținte; panoul ORARIUM listează toate corpurile, cu linkuri în ambele sensuri.
 
 ### 18 octombrie 2026 (v1.3.0)
 - Nou: legătura cu ORARIUM (panou „Ora pe alte lumi”, banner în modul Cer, linkuri în tururi, link combinat „🔗 + ORARIUM”).
