@@ -1,6 +1,6 @@
 # Terra — Pământul în timp real
 
-**Versiune:** 1.2.0 · **Ultima actualizare:** 18 octombrie 2026
+**Versiune:** 1.3.0 · **Ultima actualizare:** 18 octombrie 2026
 
 Harta și globul Pământului cu terminatorul zi/noapte, Luna, planetele, sateliții și un mod „Cer" (planetariu), într-un singur fișier HTML.
 
@@ -26,6 +26,16 @@ Terra · timp real (titlul paginii: „Pământul în timp real — Terminator �
 - Pe telefon în portret: buton „⟳ Rotește harta” (hartă verticală / orizontală).
 - Interfață în română și engleză (buton „EN" / „RO"); din 1.1.0 ciclul include și HU/DE pentru funcțiile noi.
 - Scurtături de tastatură: `1` / `2` / `3` (2D / 3D / Cer), `Spațiu` (pauză / reluare), `N` (înapoi la „acum”), `[` și `]` (perspectivă 3D), `Esc`; inactive cât scrii într-un câmp. Sunt descrise și în fereastra „Despre”.
+
+## Legătura cu ORARIUM (1.3.0)
+
+TerRa și [ORARIUM](https://chiuta.github.io/orarium/) (ora pe toate lumile) se leagă în ambele sensuri, prin linkuri unice, fără rețea și fără server:
+
+- **Panoul „🕰 Ora pe alte lumi”**: ora locală (meridianul 0) pe Lună și pe planete la momentul din bara de timp, următoarea amiază și următorul miez de noapte, unghiul față de Soare și semnalul „⚠ conjuncție solară”. ↗ deschide corpul în ORARIUM; 📡 deschide fereastra de transmisie din „Locația mea”.
+- **Modul „Cer” de pe alt corp**: sub selectorul de observator apare ora locală pe corp (pentru sateliții lunari: ora solară pe Lună), cu linkuri spre fișa corpului și spre fereastra de transmisie din locația ta.
+- **Tururile** „Terminatoare” și „Eclipse”: la fiecare oprire, link „↗ Ora pe corp / pe Lună în ORARIUM”.
+- **„🔗 + ORARIUM”**: copiază două linkuri unice (vederea din TerRa + ora/transmisia corespunzătoare din ORARIUM).
+- Calculele din panou folosesc aceleași formule ca ORARIUM (orientări IAU, efemeride kepleriene simplificate; precizie de ordinul minutelor) și dau rezultate identice.
 
 ## Link unic (1.2.0)
 
@@ -104,6 +114,9 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 Terra is a single-file real-time Earth viewer: day/night terminator, Moon, planets, satellites (SGP4), eclipses, a 3D globe and a sky planetarium mode, with RO/EN UI. An orbital snapshot is embedded, so it works offline. Optional live feeds contact CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank and, if configured, a CORS proxy (corsproxy.io). No local storage. MIT licence.
 
 ## Istoric / Changelog
+
+### 18 octombrie 2026 (v1.3.0)
+- Nou: legătura cu ORARIUM (panou „Ora pe alte lumi”, banner în modul Cer, linkuri în tururi, link combinat „🔗 + ORARIUM”).
 
 ### 18 octombrie 2026 (v1.2.0)
 - Nou: link unic (fragment URL) pentru mod, observator, moment și locație, plus butonul „🔗 Link unic”; legătură cu ORARIUM.
