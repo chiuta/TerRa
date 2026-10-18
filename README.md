@@ -1,6 +1,6 @@
 # Terra — Pământul în timp real
 
-**Versiune:** 1.4.0 · **Ultima actualizare:** 18 octombrie 2026
+**Versiune:** 1.5.0 · **Ultima actualizare:** 18 octombrie 2026
 
 Harta și globul Pământului cu terminatorul zi/noapte, Luna, planetele, sateliții și un mod „Cer" (planetariu), într-un singur fișier HTML.
 
@@ -123,6 +123,9 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 Terra is a single-file real-time Earth viewer: day/night terminator, Moon, planets, satellites (SGP4), eclipses, a 3D globe and a sky planetarium mode, with RO/EN UI. An orbital snapshot is embedded, so it works offline. Optional live feeds contact CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank and, if configured, a CORS proxy (corsproxy.io). No local storage. MIT licence.
 
 ## Istoric / Changelog
+
+### 18 octombrie 2026 (v1.5.0)
+- Nou: parametrul `ufo=<caz>` (ex. `#v=2d&ufo=valea-plopului`) centrează harta 2D pe cazul din lista OZN și deschide cardul, fără a schimba „Locația mea”; valorile necunoscute sunt ignorate. `from=valeaplopului` afișează butonul „← înapoi” către ValeaPlopului1972. Textul cazului nu a fost modificat.
 
 ### 18 octombrie 2026 (v1.4.0)
 - Nou: toate cele 45 de corpuri din ORARIUM, cu 15 corpuri adăugate (Phobos, Deimos, Hyperion, Charon, Ceres, Vesta, Pallas, Hygiea, Psyche, Eros, Bennu, Ryugu, Haumea, Makemake, Eris) ca observatoare și ținte; panoul ORARIUM listează toate corpurile, cu linkuri în ambele sensuri.

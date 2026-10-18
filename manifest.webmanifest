@@ -1,6 +1,7 @@
 {
   "name": "Pământul în timp real",
   "short_name": "Pământul",
+  "description": "Harta și globul Pământului cu terminatorul zi/noapte, Luna, planetele, sateliții și un mod „Cer” (planetariu), într-un singur fișier HTML.",
   "id": "./",
   "start_url": "./",
   "scope": "./",
