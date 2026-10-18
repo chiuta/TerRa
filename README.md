@@ -1,6 +1,6 @@
 # Terra — Pământul în timp real
 
-**Versiune:** 1.1.0 · **Ultima actualizare:** 14 octombrie 2026
+**Versiune:** 1.2.0 · **Ultima actualizare:** 18 octombrie 2026
 
 Harta și globul Pământului cu terminatorul zi/noapte, Luna, planetele, sateliții și un mod „Cer" (planetariu), într-un singur fișier HTML.
 
@@ -26,6 +26,15 @@ Terra · timp real (titlul paginii: „Pământul în timp real — Terminator �
 - Pe telefon în portret: buton „⟳ Rotește harta” (hartă verticală / orizontală).
 - Interfață în română și engleză (buton „EN" / „RO"); din 1.1.0 ciclul include și HU/DE pentru funcțiile noi.
 - Scurtături de tastatură: `1` / `2` / `3` (2D / 3D / Cer), `Spațiu` (pauză / reluare), `N` (înapoi la „acum”), `[` și `]` (perspectivă 3D), `Esc`; inactive cât scrii într-un câmp. Sunt descrise și în fereastra „Despre”.
+
+## Link unic (1.2.0)
+
+Butonul **„🔗 Link unic”** copiază adresa exactă a vederii curente: modul (2D / 3D / Cer), observatorul din modul Cer (de pe Marte, de pe Io…), momentul (UTC) și locația. Deschis, linkul readuce vederea, cu timpul fixat (pauză) la momentul din link. Formatul e un fragment de adresă, fără server și fără cereri de rețea:
+
+`#v=sky&o=mars&t=2026-10-18T15:00:00Z&ll=44.43,26.10`
+
+- `v` = `2d` | `3d` | `sky`; `o` = observatorul din „Cer” (ex. `mars`, `jupiter`, `io`, `luna`, `sun`, `ground`); `t` = momentul ISO în UTC; `ll` = latitudine,longitudine.
+- Parametrii lipsă sau invalizi sunt ignorați. Folosit și de [ORARIUM](https://chiuta.github.io/orarium/) pentru butoanele „Vezi în TerRa”.
 
 ## Funcții noi (1.1.0)
 
@@ -95,6 +104,9 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 Terra is a single-file real-time Earth viewer: day/night terminator, Moon, planets, satellites (SGP4), eclipses, a 3D globe and a sky planetarium mode, with RO/EN UI. An orbital snapshot is embedded, so it works offline. Optional live feeds contact CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank and, if configured, a CORS proxy (corsproxy.io). No local storage. MIT licence.
 
 ## Istoric / Changelog
+
+### 18 octombrie 2026 (v1.2.0)
+- Nou: link unic (fragment URL) pentru mod, observator, moment și locație, plus butonul „🔗 Link unic”; legătură cu ORARIUM.
 
 ### 14 octombrie 2026 (v1.1.0)
 - Nou: „Efemeride locale” (linie-rezumat în panou + fereastră modală: Soare, Lună, faze, planete, crepuscule, fus orar editabil, precizie declarată); ciclu de limbi RO/EN/HU/DE pentru funcțiile noi; kitul `fff-kit` (`core`, `label`, `bundle`, `ephem`); `tests/fff-r8.test.mjs` (51 de verificări, inclusiv axe în tema luminoasă și cea întunecată, la 1280×800 și 360×740, cu fereastra deschisă). Comparație înainte/după la 1280×800: diferențe sub 0,05 % din pixeli (zgomot de animație/WebGL), captura de ecran nu s-a schimbat; noua secțiune e în panoul de comenzi.
