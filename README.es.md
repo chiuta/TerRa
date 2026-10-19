@@ -10,7 +10,7 @@ Mapa y globo de la Tierra con el terminador día/noche, la Luna, los planetas, l
 
 **En línea:** https://chiuta.github.io/TerRa/
 
-![Captura de pantalla](screenshot.png)
+![Captura de pantalla](screenshot.es.png)
 
 ## Qué es
 

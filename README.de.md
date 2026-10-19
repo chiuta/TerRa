@@ -10,7 +10,7 @@ Karte und Globus der Erde mit der Tag-Nacht-Grenze (Terminator), dem Mond, den P
 
 **Online:** https://chiuta.github.io/TerRa/
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.de.png)
 
 ## Was es ist
 

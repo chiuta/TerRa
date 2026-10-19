@@ -10,7 +10,7 @@ A Föld térképe és földgömbje a nappal/éjszaka határvonallal (terminátor
 
 **Online:** https://chiuta.github.io/TerRa/
 
-![Képernyőkép](screenshot.png)
+![Képernyőkép](screenshot.hu.png)
 
 ## Mi ez
 

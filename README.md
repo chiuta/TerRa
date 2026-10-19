@@ -10,7 +10,7 @@ A map and globe of the Earth with the day/night terminator, the Moon, the planet
 
 **Live:** https://chiuta.github.io/TerRa/
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.en.png)
 
 ## What it is
 

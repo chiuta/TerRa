@@ -10,7 +10,7 @@ Harta și globul Pământului cu terminatorul zi/noapte, Luna, planetele, sateli
 
 **Live:** https://chiuta.github.io/TerRa/
 
-![Captura de ecran](screenshot.png)
+![Captura de ecran](screenshot.ro.png)
 
 ## Ce este
 

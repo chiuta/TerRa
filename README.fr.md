@@ -10,7 +10,7 @@ Carte et globe de la Terre avec le terminateur jour/nuit, la Lune, les planètes
 
 **En ligne :** https://chiuta.github.io/TerRa/
 
-![Capture d'écran](screenshot.png)
+![Capture d'écran](screenshot.fr.png)
 
 ## Qu'est-ce que c'est
 
