@@ -1,162 +1,160 @@
-# Terra — Pământul în timp real
+# Terra — the Earth in real time
 
-**Versiune:** 1.6.0 · **Ultima actualizare:** 19 octombrie 2026
+**English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-Harta și globul Pământului cu terminatorul zi/noapte, Luna, planetele, sateliții și un mod „Cer" (planetariu), într-un singur fișier HTML.
+**Version:** 1.6.0 · **Last updated:** 2026-10-19
+
+A map and globe of the Earth with the day/night terminator, the Moon, the planets, satellites and a "Sky" mode (planetarium), in a single HTML file.
 
 **Live:** https://chiuta.github.io/TerRa/
 
-![Captura de ecran](screenshot.png)
+![Screenshot](screenshot.png)
 
-## Ce este
+## What it is
 
-Terra · timp real (titlul paginii: „Pământul în timp real — Terminator · Lună · Sateliți") calculează în browser poziția Soarelui, a Lunii, a planetelor și a sateliților și le afișează pe o hartă 2D, pe un glob 3D sau într-o vedere de planetariu („Cer"). Un snapshot de date orbitale este încorporat în fișier, deci funcționează și fără internet; feedurile live sunt opționale.
+Terra · real time (the page title: "The Earth in real time — Terminator · Moon · Satellites") computes in the browser the position of the Sun, the Moon, the planets and the satellites and displays them on a 2D map, on a 3D globe or in a planetarium view ("Sky"). A snapshot of orbital data is embedded in the file, so it also works without internet; the live feeds are optional.
 
-## Funcții
+## Features
 
-- Moduri: **2D**, **3D** și **Cer**, plus turuburi ghidate: „▶ Tur ghidat", „🌓 Terminatoare", „🌒 Eclipse" și „🛸 Cazuri UAP/FAN".
-- Terminatorul zi/noapte calculat în timp real, lumini urbane pe partea de noapte, punctul subsolar, punctul sublunar și faza Lunii.
-- Control al timpului: pauză/redare, viteze (1×, 60×, 600×, 3600×, 1 zi/s), salt rapid (−7z … +7z, ±1h) și „Moment exact (local)"; „⦿ Revino la acum (live)".
-- Sateliți propagați cu SGP4 (orbite joase) și model kepleriano-J2 (geostaționari); categorii: stații spațiale, vizibili cu ochiul liber, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, științifici, meteo, observarea Terrei, geostaționari; încărcare de TLE propriu (text sau fișier).
-- Planete și Pluto/Charon ca puncte sub-planetare; obiecte notabile (ISS, Tiangong, Hubble), puncte Lagrange și sonde (JWST, Gaia, Euclid, SOHO, DSCOVR); listă de OZN-uri raportate (documentează relatări, nu afirmă origine extraterestră).
-- Straturi: granițe, ape teritoriale, coastă detaliată, râuri și lacuri (Natural Earth), orașe / capitale, grilă lat/long, relief fractal procedural, hartă verticală pentru mobil.
-- Modul „Cer": Calea Lactee, obiecte Messier, constelații, roiuri de meteori, ecliptica, observator de pe sol sau de pe alte corpuri; „Îndreaptă spre cer (AR)" cu busola/giroscopul telefonului.
-- Treceri vizibile ale ISS pe 48 h, cu alertă (vibrație + notificare); mediu de suprafață și maree de echilibru pentru locația aleasă.
-- Feeduri live opționale: avioane (ADS-B), baloane-sondă meteo, radar meteo, vreme spațială NOAA (Kp, vânt solar, raze X, oval auroral), cutremure USGS (24 h), Movebank, flux GTFS-RT prin proxy.
-- Pe telefon în portret: buton „⟳ Rotește harta” (hartă verticală / orizontală).
-- Interfață în română și engleză (buton „EN" / „RO"); din 1.1.0 ciclul include și HU/DE pentru funcțiile noi.
-- Scurtături de tastatură: `1` / `2` / `3` (2D / 3D / Cer), `Spațiu` (pauză / reluare), `N` (înapoi la „acum”), `[` și `]` (perspectivă 3D), `Esc`; inactive cât scrii într-un câmp. Sunt descrise și în fereastra „Despre”.
+- Modes: **2D**, **3D** and **Sky**, plus guided tours: "▶ Guided tour", "🌓 Terminators", "🌒 Eclipses" and "🛸 UAP/UFO cases".
+- The day/night terminator computed in real time, city lights on the night side, the subsolar point, the sublunar point and the phase of the Moon.
+- Time control: pause/play, speeds (1×, 60×, 600×, 3600×, 1 day/s), quick jumps (−7d … +7d, ±1h) and "Exact moment (local)"; "⦿ Back to now (live)".
+- Satellites propagated with SGP4 (low orbits) and a Keplerian-J2 model (geostationary); categories: space stations, visible to the naked eye, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, scientific, weather, Earth observation, geostationary; loading of your own TLE (text or file).
+- Planets and Pluto/Charon as sub-planetary points; notable objects (ISS, Tiangong, Hubble), Lagrange points and probes (JWST, Gaia, Euclid, SOHO, DSCOVR); a list of reported UFOs (it documents accounts, it does not assert an extraterrestrial origin).
+- Layers: borders, territorial waters, detailed coastline, rivers and lakes (Natural Earth), cities / capitals, lat/long grid, procedural fractal relief, vertical map for mobile.
+- "Sky" mode: the Milky Way, Messier objects, constellations, meteor showers, the ecliptic, an observer on the ground or on other bodies; "Point at the sky (AR)" with the phone's compass/gyroscope.
+- Visible ISS passes over 48 h, with an alert (vibration + notification); surface environment and equilibrium tides for the chosen location.
+- Optional live feeds: aircraft (ADS-B), weather radiosonde balloons, weather radar, NOAA space weather (Kp, solar wind, X-rays, auroral oval), USGS earthquakes (24 h), Movebank, a GTFS-RT feed via a proxy.
+- On a phone in portrait: a "⟳ Rotate the map" button (vertical / horizontal map).
+- Interface in Romanian and English ("EN" / "RO" button); since 1.1.0 the cycle also includes HU/DE for the new features.
+- Keyboard shortcuts: `1` / `2` / `3` (2D / 3D / Sky), `Space` (pause / resume), `N` (back to "now"), `[` and `]` (3D perspective), `Esc`; inactive while you are typing in a field. They are also described in the "About" window.
 
-## Toate corpurile din ORARIUM (1.4.0)
+## All the bodies of ORARIUM (1.4.0)
 
-TerRa are acum ca observator și țintă fiecare dintre cele 45 de corpuri din [ORARIUM](https://chiuta.github.io/orarium/): Soarele, planetele, Luna, sateliții (inclusiv Phobos, Deimos, Hyperion și Charon, adăugați acum), planetele pitice și asteroizii (Ceres, Vesta, Pallas, Hygiea, Psyche, Eros, Bennu, Ryugu, Haumea, Makemake, Eris) și cometa 67P. Aerostatul Venus 50 km nu e un corp separat: are link din Venus.
+TerRa now has as observer and target each of the 45 bodies of [ORARIUM](https://chiuta.github.io/orarium/): the Sun, the planets, the Moon, the satellites (including Phobos, Deimos, Hyperion and Charon, added now), the dwarf planets and asteroids (Ceres, Vesta, Pallas, Hygiea, Psyche, Eros, Bennu, Ryugu, Haumea, Makemake, Eris) and comet 67P. The Venus 50 km aerostat is not a separate body: it is linked from Venus.
 
-- Orbitele asteroizilor și ale planetelor pitice folosesc elemente reale JPL SBDB; Ceres, Eros și Eris coincid cu JPL Horizons (≤ 0,007 UA). Pentru Bennu, momentul periheliului e ajustat pe efemerida JPL din 2026-10-18 (elementele JPL au epoca 2010). Sateliții noi folosesc același model circular simplificat ca restul.
-- Panoul „🕰 Ora pe alte lumi” listează toate cele 45 de corpuri, cu unghiul față de Soare și „⚠ conjuncție”, și trei linkuri pe rând: ↗ fișa în ORARIUM, 📡 fereastra de transmisie din locația ta, 👁 cerul de pe acel corp, în TerRa.
-- Invers, ORARIUM are „↗ TerRa” pentru toate cele 44 de corpuri (inclusiv fiecare capăt al unei perechi de comunicare).
-- Ora locală (meridianul 0) apare doar pentru Lună și planete; pentru sateliți și asteroizi vezi ora în ORARIUM.
+- The orbits of asteroids and dwarf planets use real JPL SBDB elements; Ceres, Eros and Eris agree with JPL Horizons (≤ 0.007 AU). For Bennu, the moment of perihelion is adjusted to the JPL ephemeris of 2026-10-18 (the JPL elements have epoch 2010). The new satellites use the same simplified circular model as the rest.
+- The "🕰 Time on other worlds" panel lists all 45 bodies, with the angle from the Sun and "⚠ conjunction", and three links per row: ↗ the sheet in ORARIUM, 📡 the transmission window from your location, 👁 the sky from that body, in TerRa.
+- Conversely, ORARIUM has "↗ TerRa" for all 44 bodies (including each end of a communication pair).
+- Local time (meridian 0) appears only for the Moon and the planets; for satellites and asteroids see the time in ORARIUM.
 
-## Legătura cu ORARIUM (1.3.0)
+## The link with ORARIUM (1.3.0)
 
-TerRa și [ORARIUM](https://chiuta.github.io/orarium/) (ora pe toate lumile) se leagă în ambele sensuri, prin linkuri unice, fără rețea și fără server:
+TerRa and [ORARIUM](https://chiuta.github.io/orarium/) (time on all worlds) are linked in both directions, through unique links, with no network and no server:
 
-- **Panoul „🕰 Ora pe alte lumi”**: ora locală (meridianul 0) pe Lună și pe planete la momentul din bara de timp, următoarea amiază și următorul miez de noapte, unghiul față de Soare și semnalul „⚠ conjuncție solară”. ↗ deschide corpul în ORARIUM; 📡 deschide fereastra de transmisie din „Locația mea”.
-- **Modul „Cer” de pe alt corp**: sub selectorul de observator apare ora locală pe corp (pentru sateliții lunari: ora solară pe Lună), cu linkuri spre fișa corpului și spre fereastra de transmisie din locația ta.
-- **Tururile** „Terminatoare” și „Eclipse”: la fiecare oprire, link „↗ Ora pe corp / pe Lună în ORARIUM”.
-- **„🔗 + ORARIUM”**: copiază două linkuri unice (vederea din TerRa + ora/transmisia corespunzătoare din ORARIUM).
-- Calculele din panou folosesc aceleași formule ca ORARIUM (orientări IAU, efemeride kepleriene simplificate; precizie de ordinul minutelor) și dau rezultate identice.
+- **The "🕰 Time on other worlds" panel**: local time (meridian 0) on the Moon and on the planets at the moment in the time bar, the next noon and the next midnight, the angle from the Sun and the "⚠ solar conjunction" signal. ↗ opens the body in ORARIUM; 📡 opens the transmission window from "My location".
+- **"Sky" mode from another body**: under the observer selector the local time on the body appears (for lunar satellites: solar time on the Moon), with links to the body's sheet and to the transmission window from your location.
+- The **"Terminators"** and **"Eclipses"** tours: at each stop, a link "↗ Time on the body / on the Moon in ORARIUM".
+- **"🔗 + ORARIUM"**: copies two unique links (the view in TerRa + the corresponding time/transmission in ORARIUM).
+- The calculations in the panel use the same formulas as ORARIUM (IAU orientations, simplified Keplerian ephemerides; accuracy on the order of minutes) and give identical results.
 
-## Link unic (1.2.0)
+## Unique link (1.2.0)
 
-Butonul **„🔗 Link unic”** copiază adresa exactă a vederii curente: modul (2D / 3D / Cer), observatorul din modul Cer (de pe Marte, de pe Io…), momentul (UTC) și locația. Deschis, linkul readuce vederea, cu timpul fixat (pauză) la momentul din link. Formatul e un fragment de adresă, fără server și fără cereri de rețea:
+The **"🔗 Unique link"** button copies the exact address of the current view: the mode (2D / 3D / Sky), the observer in Sky mode (from Mars, from Io…), the moment (UTC) and the location. When opened, the link restores the view, with the time fixed (paused) at the moment in the link. The format is an address fragment, with no server and no network requests:
 
 `#v=sky&o=mars&t=2026-10-18T15:00:00Z&ll=44.43,26.10`
 
-- `v` = `2d` | `3d` | `sky`; `o` = observatorul din „Cer” (ex. `mars`, `jupiter`, `io`, `luna`, `sun`, `ground`); `t` = momentul ISO în UTC; `ll` = latitudine,longitudine.
-- Parametrii lipsă sau invalizi sunt ignorați. Folosit și de [ORARIUM](https://chiuta.github.io/orarium/) pentru butoanele „Vezi în TerRa”.
+- `v` = `2d` | `3d` | `sky`; `o` = the observer in "Sky" (e.g. `mars`, `jupiter`, `io`, `luna`, `sun`, `ground`); `t` = the ISO moment in UTC; `ll` = latitude,longitude.
+- Missing or invalid parameters are ignored. Also used by [ORARIUM](https://chiuta.github.io/orarium/) for the "See in TerRa" buttons.
 
-## Funcții noi (1.1.0)
+## New features (1.1.0)
 
-Secțiunea **„Efemeride locale”** din panou (linia-rezumat) și fereastra **„Deschide efemeridele locale”**, calculate local, fără rețea, cu `FFF.ephem`, pentru „Locația mea” și momentul din controlul de timp (inclusiv timp simulat):
+The **"Local ephemerides"** section of the panel (the summary line) and the **"Open the local ephemerides"** window, computed locally, with no network, with `FFF.ephem`, for "My location" and the moment in the time control (including simulated time):
 
-- **Rezumat** în panou: răsărit/apus Soare, faza Lunii și iluminarea.
-- **Fereastră:** Soare (răsărit, trecere, apus, durata zilei, crepuscule), Lună (fază, iluminare, vârstă, distanță, răsărit/apus, următoarele faze) și tabel cu Soare, Lună și planete (longitudine ecliptică cu semn, altitudine/azimut, răsărit/apus, magnitudine, elongație).
-- Fusul orar pentru ore: al browserului implicit, editabil (nume IANA).
-- Precizia declarată e în fereastră; orele sunt rotunjite la minut.
-- Ciclul de limbi este acum RO → EN → HU → DE (butonul din antet); textele vechi ale aplicației rămân în română/engleză (în HU/DE se vede engleza), funcțiile noi au toate cele patru limbi. Traducerile în maghiară (hu) și germană (de) ale funcțiilor noi sunt **automate și neverificate nativ**; la fel ar fi orice altă limbă adăugată ulterior (fr/it/es/pt nu sunt oferite în această aplicație).
-- Cât timp fereastra e deschisă, scurtăturile de tastatură ale aplicației (`1`/`2`/`3`/`Spațiu`/`N`) sunt inactive; `Esc` închide fereastra.
+- **Summary** in the panel: Sun rise/set, the phase of the Moon and its illumination.
+- **Window:** Sun (rise, transit, set, day length, twilights), Moon (phase, illumination, age, distance, rise/set, next phases) and a table with the Sun, the Moon and the planets (signed ecliptic longitude, altitude/azimuth, rise/set, magnitude, elongation).
+- The time zone for hours: the browser's by default, editable (IANA name).
+- The declared accuracy is in the window; the times are rounded to the minute.
+- The language cycle is now RO → EN → HU → DE (the button in the header); the app's older texts remain in Romanian/English (in HU/DE you see English), the new features have all four languages. The Hungarian (hu) and German (de) translations of the new features are **automatic and not natively verified**; the same would hold for any other language added later (fr/it/es/pt are not offered in this application).
+- While the window is open, the app's keyboard shortcuts (`1`/`2`/`3`/`Space`/`N`) are inactive; `Esc` closes the window.
 
-## Manual de utilizare
+## User guide
 
-1. Deschideți pagina; alegeți **2D**, **3D** sau **Cer** din bara de sus.
-2. Setați locația în panoul „Locația mea" (buton „📍 Detectează" sau coordonate manuale) pentru treceri ISS, maree și vederea de pe sol.
-3. Deschideți ☰ pentru „Straturi" și celelalte panouri; bifați ce doriți să vedeți.
-4. Controlați timpul din bara de jos (pauză, viteză, salturi, „Moment exact"); „⦿ Revino la acum (live)" revine la ora curentă.
-5. Trageți pentru a roti/panorama, derulați sau ciupiți pentru zoom; atingeți un satelit sau un marcator pentru detalii și urma orbitală. În modul 3D, tastele `[` și `]` derulează perspectivele de observare.
-6. Pentru date actuale: „⟲ Actualizează (online)" în panoul de sateliți; „↺ Revino la snapshotul offline" revine la datele încorporate.
-7. Feeduri live: apăsați butoanele „Adu …" din panourile respective (ele sunt oprite implicit).
-8. Schimbați limba cu butonul „EN"/„RO".
+1. Open the page; choose **2D**, **3D** or **Sky** from the top bar.
+2. Set the location in the "My location" panel ("📍 Detect" button or manual coordinates) for ISS passes, tides and the view from the ground.
+3. Open ☰ for "Layers" and the other panels; tick what you want to see.
+4. Control the time from the bottom bar (pause, speed, jumps, "Exact moment"); "⦿ Back to now (live)" returns to the current time.
+5. Drag to rotate/pan, scroll or pinch to zoom; tap a satellite or a marker for details and the orbital track. In 3D mode, the `[` and `]` keys cycle through the viewing perspectives.
+6. For current data: "⟲ Update (online)" in the satellites panel; "↺ Back to the offline snapshot" returns to the embedded data.
+7. Live feeds: press the "Fetch …" buttons in the respective panels (they are off by default).
+8. Change the language with the "EN"/"RO" button.
 
-## Confidențialitate și rețea
+## Privacy and network
 
-- Aplicația nu folosește cookie-uri, `localStorage` sau alt tip de stocare locală (nu am găsit apeluri de stocare în cod) și nu are analitice.
-- Fără acțiunile dumneavoastră, aplicația nu face cereri de rețea. Când activați funcții online, browserul contactează direct:
-  - `celestrak.org` (TLE sateliți) și, ca rezervă, `raw.githubusercontent.com` (oglindă CelesTrak);
-  - `services.swpc.noaa.gov` (vreme spațială, oval auroral) și `earthquake.usgs.gov` (cutremure);
-  - `api.open-meteo.com` (meteo curent la locația aleasă);
-  - `opendata.adsb.fi` și `api.adsb.lol` (avioane în jurul locației dumneavoastră, coordonatele sunt trimise în cerere);
-  - `api.v2.sondehub.org` (baloane-sondă), `api.rainviewer.com` și `tilecache.rainviewer.com` (radar meteo), `www.movebank.org` (date de animale, studii publice);
-  - `corsproxy.io`, doar dacă introduceți/folosiți un proxy CORS pentru surse care nu permit accesul direct; proxy-ul vede cererea respectivă (aplicația avertizează explicit).
-- Geolocația („📍 Detectează") se cere doar la apăsare; notificările pentru alerta ISS doar dacă activați alerta.
+- The application uses no cookies, `localStorage` or any other kind of local storage (I found no storage calls in the code) and has no analytics.
+- Without your actions, the application makes no network requests. When you enable online features, the browser contacts directly:
+  - `celestrak.org` (satellite TLEs) and, as a fallback, `raw.githubusercontent.com` (a CelesTrak mirror);
+  - `services.swpc.noaa.gov` (space weather, auroral oval) and `earthquake.usgs.gov` (earthquakes);
+  - `api.open-meteo.com` (current weather at the chosen location);
+  - `opendata.adsb.fi` and `api.adsb.lol` (aircraft around your location, the coordinates are sent in the request);
+  - `api.v2.sondehub.org` (radiosonde balloons), `api.rainviewer.com` and `tilecache.rainviewer.com` (weather radar), `www.movebank.org` (animal data, public studies);
+  - `corsproxy.io`, only if you enter/use a CORS proxy for sources that do not allow direct access; the proxy sees that request (the application warns explicitly).
+- Geolocation ("📍 Detect") is requested only on press; notifications for the ISS alert only if you enable the alert.
 
-- 1.1.0: efemeridele locale nu fac cereri de rețea și nu stochează nimic; folosesc „Locația mea” deja setată (geolocația „📍 Detectează” rămâne la cerere, ca înainte). Kitul `fff-kit` (`core`, `label`, `bundle`, `ephem`) adaugă butonul de transparență; la pornire nu scrie nimic în `localStorage`. Feedurile online enumerate mai sus nu s-au schimbat.
-## Notă despre cazurile OZN/UAP
+- 1.1.0: the local ephemerides make no network requests and store nothing; they use the "My location" already set (the "📍 Detect" geolocation remains on request, as before). The `fff-kit` kit (`core`, `label`, `bundle`, `ephem`) adds the transparency button; at start-up it writes nothing to `localStorage`. The online feeds listed above have not changed.
+## Note on UFO/UAP cases
 
-Lista de cazuri documentează relatări și nu afirmă origine extraterestră. Afirmațiile atribuite unor persoane reale (martori, anchetatori, cercetători) sunt redate din literatura citată și **nu au fost verificate independent**; nota apare și în pagină (panoul „OZN-uri raportate” și secțiunea „Despre”, RO/EN). Lista conține în prezent 94 de cazuri (textul din pagină spune „peste 70”, ceea ce rămâne adevărat).
+The list of cases documents accounts and does not assert an extraterrestrial origin. Claims attributed to real persons (witnesses, investigators, researchers) are reproduced from the cited literature and **have not been independently verified**; the note also appears on the page (the "Reported UFOs" panel and the "About" section, RO/EN). The list currently contains 94 cases (the text on the page says "over 70", which remains true).
 
-## Limite (funcțiile noi)
+## Limits (new features)
 
-- **Efemeride locale — precizie.** Față de JPL DE421/DE423: poziții aparente ale Soarelui și planetelor ≤ 3″ (Neptun ≤ 5″, Pluto ≤ 7″), Luna ≤ 1,5″; răsărit/apus Soare ≤ 6 s, Lună ≤ 25 s; faze ≤ 30 s. Față de pyephem 4.2.1 (test în `tests/`): răsărit/apus ≤ 0,5 s, faze ≤ 6 s, alt/az ≤ 0,003°. Orele sunt rotunjite la minut. În realitate răsăritul/apusul diferă cu minute (refracție reală, relief, altitudine — nemodelate); ΔT e incert cu ≈ ±1 s în 2027. Nu e potrivit pentru navigație. Calculele existente ale hărții/globului/cerului (terminator, Lună, planete în vedere) nu au fost înlocuite și nu au fost modificate; poziția sateliților rămâne dependentă de vârsta elementelor TLE.
+- **Local ephemerides — accuracy.** Compared with JPL DE421/DE423: apparent positions of the Sun and planets ≤ 3″ (Neptune ≤ 5″, Pluto ≤ 7″), Moon ≤ 1.5″; Sun rise/set ≤ 6 s, Moon ≤ 25 s; phases ≤ 30 s. Compared with pyephem 4.2.1 (test in `tests/`): rise/set ≤ 0.5 s, phases ≤ 6 s, alt/az ≤ 0.003°. The times are rounded to the minute. In reality sunrise/sunset differ by minutes (real refraction, terrain, altitude — not modelled); ΔT is uncertain by ≈ ±1 s in 2027. Not suitable for navigation. The existing map/globe/sky calculations (terminator, Moon, planets in view) were not replaced and were not modified; the position of the satellites remains dependent on the age of the TLE elements.
 
-## Teste
+## Tests
 
-`node tests/fff-r8.test.mjs` (Playwright din `/opt/node-tools`, Chromium local, rețeaua blocată; `tests/_lib.mjs` are ajutoarele comune). Valorile de referință sunt în `tests/ref-c3a.json`: momentele de răsărit/apus/trecere (Soare, Lună; 5 locuri × 4 date), 56 de momente de fază și 54 de poziții alt/az, calculate independent cu **pyephem 4.2.1** (folosit doar offline pentru a genera numerele; nu face parte din aplicație). Fiecare test are pragul scris în cod; testul de accesibilitate (axe-core, `bypassCSP`) rulează și în dialoguri/panouri deschise, la 1280×800 și 360×740.
+`node tests/fff-r8.test.mjs` (Playwright from `/opt/node-tools`, local Chromium, network blocked; `tests/_lib.mjs` has the shared helpers). The reference values are in `tests/ref-c3a.json`: the rise/set/transit moments (Sun, Moon; 5 places × 4 dates), 56 phase moments and 54 alt/az positions, computed independently with **pyephem 4.2.1** (used only offline to generate the numbers; it is not part of the application). Each test has its threshold written in the code; the accessibility test (axe-core, `bypassCSP`) also runs in open dialogs/panels, at 1280×800 and 360×740.
 
-## Rulare locală / offline
+## Running locally / offline
 
-Descărcați `index.html` și deschideți-l în browser. Poziția Soarelui, Lunii, planetelor, terminatorul, eclipsele și sateliții din snapshotul încorporat funcționează fără internet; actualizarea TLE și feedurile live necesită internet.
+Download `index.html` and open it in the browser. The position of the Sun, the Moon, the planets, the terminator, the eclipses and the satellites in the embedded snapshot work without internet; the TLE update and the live feeds require internet.
 
-## Licență
+## Licence
 
-MIT — vezi fișierul LICENSE
+MIT — see the LICENSE file
 
 ## Audit
 
-2026-10-10: verificat în browser că la încărcare și în repaus nu pleacă nicio cerere de rețea; cererile apar doar la acțiunile descrise mai sus. Pagina nu avea politică CSP; la 2026-10-11 a fost adăugată una, cu `connect-src`/`img-src` limitate la `https:` (nu la o listă fixă de gazde), fiindcă proxy-ul CORS, adresa GTFS-RT și imaginea BirdCast sunt introduse de utilizator și pot fi pe orice domeniu HTTPS. Corectate accesibilitatea (nume pentru comutatoare, zoom permis) fără modificări de funcționalitate.
+2026-10-10: verified in the browser that on load and at rest no network request leaves; requests appear only on the actions described above. The page had no CSP policy; on 2026-10-11 one was added, with `connect-src`/`img-src` limited to `https:` (not to a fixed list of hosts), because the CORS proxy, the GTFS-RT address and the BirdCast image are entered by the user and may be on any HTTPS domain. Accessibility was fixed (names for toggles, zoom allowed) without functional changes.
 
-## Autor
+## Author
 
 Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 
-## English summary
+## History / Changelog
 
-Terra is a single-file real-time Earth viewer: day/night terminator, Moon, planets, satellites (SGP4), eclipses, a 3D globe and a sky planetarium mode, with RO/EN UI. An orbital snapshot is embedded, so it works offline. Optional live feeds contact CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank and, if configured, a CORS proxy (corsproxy.io). No local storage. MIT licence.
+### 19 October 2026 (v1.6.0)
+- New: "↗ Bolta" in Sky mode (from the ground): the same moment and the same Location in the offline planetarium Bolta; no t= when the time is "now", hidden outside 1900–2100.
+- Privacy: a Location taken from GPS is rounded to ~1 km in the links to ORARIUM and Bolta.
+- "← back" for the sources ECLIPSA, Eclipsa 2027, Horoscop, Field Observer, Horizons.
+- The "← back" button is no longer covered by the Buy Me a Coffee widget (bottom left): it sits above it.
+- A discreet warning "Reduced accuracy after 2100: ΔT extrapolated, Pluto unavailable." (ro/en, hu/de via en) only when the simulated date or the one from `t=` exceeds 2100.
 
-## Istoric / Changelog
+### 18 October 2026 (v1.5.0)
+- New: the `ufo=<case>` parameter (e.g. `#v=2d&ufo=valea-plopului`) centres the 2D map on the case from the UFO list and opens the card, without changing "My location"; unknown values are ignored. `from=valeaplopului` shows the "← back" button to ValeaPlopului1972. The text of the case was not modified.
 
-### 19 octombrie 2026 (v1.6.0)
-- Nou: „↗ Bolta” în modul Cer (de la sol): același moment și aceeași Locație în planetariul offline Bolta; fără t= când ora e „acum”, ascuns în afara 1900–2100.
-- Confidențialitate: o Locație luată din GPS se rotunjește la ~1 km în linkurile spre ORARIUM și Bolta.
-- „← înapoi” pentru sursele ECLIPSA, Eclipsa 2027, Horoscop, Field Observer, Horizons.
-- Butonul „← înapoi” nu mai e acoperit de widgetul Buy Me a Coffee (stânga-jos): stă deasupra lui.
-- Avertisment discret „Precizie scăzută după 2100: ΔT extrapolat, Pluto indisponibil.” (ro/en, hu/de prin en) doar când data simulată sau din `t=` depășește 2100.
+### 18 October 2026 (v1.4.0)
+- New: all 45 bodies of ORARIUM, with 15 bodies added (Phobos, Deimos, Hyperion, Charon, Ceres, Vesta, Pallas, Hygiea, Psyche, Eros, Bennu, Ryugu, Haumea, Makemake, Eris) as observers and targets; the ORARIUM panel lists all the bodies, with links in both directions.
 
-### 18 octombrie 2026 (v1.5.0)
-- Nou: parametrul `ufo=<caz>` (ex. `#v=2d&ufo=valea-plopului`) centrează harta 2D pe cazul din lista OZN și deschide cardul, fără a schimba „Locația mea”; valorile necunoscute sunt ignorate. `from=valeaplopului` afișează butonul „← înapoi” către ValeaPlopului1972. Textul cazului nu a fost modificat.
+### 18 October 2026 (v1.3.0)
+- New: the link with ORARIUM ("Time on other worlds" panel, banner in Sky mode, links in the tours, combined link "🔗 + ORARIUM").
 
-### 18 octombrie 2026 (v1.4.0)
-- Nou: toate cele 45 de corpuri din ORARIUM, cu 15 corpuri adăugate (Phobos, Deimos, Hyperion, Charon, Ceres, Vesta, Pallas, Hygiea, Psyche, Eros, Bennu, Ryugu, Haumea, Makemake, Eris) ca observatoare și ținte; panoul ORARIUM listează toate corpurile, cu linkuri în ambele sensuri.
+### 18 October 2026 (v1.2.0)
+- New: a unique link (URL fragment) for mode, observer, moment and location, plus the "🔗 Unique link" button; link with ORARIUM.
 
-### 18 octombrie 2026 (v1.3.0)
-- Nou: legătura cu ORARIUM (panou „Ora pe alte lumi”, banner în modul Cer, linkuri în tururi, link combinat „🔗 + ORARIUM”).
+### 14 October 2026 (v1.1.0)
+- New: "Local ephemerides" (summary line in the panel + modal window: Sun, Moon, phases, planets, twilights, editable time zone, declared accuracy); RO/EN/HU/DE language cycle for the new features; the `fff-kit` kit (`core`, `label`, `bundle`, `ephem`); `tests/fff-r8.test.mjs` (51 checks, including axe in the light and dark themes, at 1280×800 and 360×740, with the window open). Before/after comparison at 1280×800: differences under 0.05% of pixels (animation/WebGL noise), the screenshot did not change; the new section is in the controls panel.
 
-### 18 octombrie 2026 (v1.2.0)
-- Nou: link unic (fragment URL) pentru mod, observator, moment și locație, plus butonul „🔗 Link unic”; legătură cu ORARIUM.
+### 12 October 2026 (v1.0.0)
+- 1.0.0 — 2026-10-12: the version and the last-updated date are shown in the application
 
-### 14 octombrie 2026 (v1.1.0)
-- Nou: „Efemeride locale” (linie-rezumat în panou + fereastră modală: Soare, Lună, faze, planete, crepuscule, fus orar editabil, precizie declarată); ciclu de limbi RO/EN/HU/DE pentru funcțiile noi; kitul `fff-kit` (`core`, `label`, `bundle`, `ephem`); `tests/fff-r8.test.mjs` (51 de verificări, inclusiv axe în tema luminoasă și cea întunecată, la 1280×800 și 360×740, cu fereastra deschisă). Comparație înainte/după la 1280×800: diferențe sub 0,05 % din pixeli (zgomot de animație/WebGL), captura de ecran nu s-a schimbat; noua secțiune e în panoul de comenzi.
-
-### 12 octombrie 2026 (v1.0.0)
-- 1.0.0 — 2026-10-12: versiunea și data ultimei actualizări sunt afișate în aplicație
-
-### 11 octombrie 2026
-- Reparat (defect vechi de structură HTML): un `</div>` în plus închidea prematur panoul de comenzi, deci nouă secțiuni (Faza Lunii, Planete, Locația mea, Mediu de suprafață, Maree etc.) ieșeau din panou și nu puteau fi atinse; acum toate cele 19 secțiuni sunt în panou, iar controlul timpului are titlul „Timp — trecut / viitor”.
-- „Locația mea”: virgula zecimală este acceptată (`44,43`), iar coordonatele în afara intervalului dau un mesaj de eroare în loc să fie tăiate în tăcere.
-- Buton „⟳ Rotește harta” în antet (doar în 2D, pe ecran îngust în portret) pentru a comuta rapid între harta verticală și cea orizontală; etichetele rămân citibile în orientarea orizontală.
-- Scurtături de tastatură (1/2/3, Spațiu, N), cu traducere EN în fereastra „Despre”.
-- Etichetele din harta 2D (stații, planete, puncte Lagrange, sonde, Soare, Lună, obiecte notabile) nu se mai suprapun: se mută pe verticală sau se omit.
-- CSP: `script-src` pe hash SHA-256 pentru cele două scripturi, fără `'unsafe-inline'` (conexiunile rămân `https:`).
-- Pe telefoane în portret harta 2D pornește acum în modul „Hartă verticală” (umple ecranul, etichete mai ușor de citit); bara de sus are fundal semitransparent.
-- Panoul „Sursă de date (TLE)” avertizează când elementele orbitale încorporate sunt vechi (>7 zile; la 11.10.2026 snapshotul are ~107 zile, epocă mediană 2026-06-26): pozițiile sateliților sunt aproximative până la „Actualizează (online)”.
-- Conținutul este încadrat în `<main>` (axe: 0 încălcări); adăugat CSP (`default-src 'none'`, fără scripturi externe, doar `https:` pentru conexiuni).
-- Nerezolvat: dimensiunea de 2,1 MB (texturi JPEG + date Natural Earth încorporate); recomprimarea imaginilor ar câștiga doar ~5% cu pierdere vizibilă.
+### 11 October 2026
+- Fixed (a long-standing HTML structure defect): an extra `</div>` closed the controls panel prematurely, so nine sections (Moon phase, Planets, My location, Surface environment, Tides etc.) fell out of the panel and could not be touched; now all 19 sections are in the panel, and the time control has the title "Time — past / future".
+- "My location": the decimal comma is accepted (`44,43`), and coordinates out of range give an error message instead of being silently clipped.
+- A "⟳ Rotate the map" button in the header (2D only, on a narrow screen in portrait) to switch quickly between the vertical and the horizontal map; the labels remain readable in the horizontal orientation.
+- Keyboard shortcuts (1/2/3, Space, N), with an EN translation in the "About" window.
+- The labels in the 2D map (stations, planets, Lagrange points, probes, Sun, Moon, notable objects) no longer overlap: they are moved vertically or omitted.
+- CSP: `script-src` by SHA-256 hash for the two scripts, without `'unsafe-inline'` (connections remain `https:`).
+- On phones in portrait the 2D map now starts in "Vertical map" mode (it fills the screen, labels are easier to read); the top bar has a semi-transparent background.
+- The "Data source (TLE)" panel warns when the embedded orbital elements are old (>7 days; on 11.10.2026 the snapshot is ~107 days old, median epoch 2026-06-26): satellite positions are approximate until "Update (online)".
+- The content is wrapped in `<main>` (axe: 0 violations); a CSP was added (`default-src 'none'`, no external scripts, only `https:` for connections).
+- Unresolved: the size of 2.1 MB (JPEG textures + embedded Natural Earth data); recompressing the images would gain only ~5% with visible loss.
