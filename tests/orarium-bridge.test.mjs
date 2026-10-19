@@ -31,7 +31,7 @@ const T = "2026-10-18T15:00:00Z";
   check("ora pe Lună coerentă", h.luna >= 0 && h.luna < 24);
   const obs = await page.evaluate(() => ({hid: document.getElementById("orb-obs").hidden, hrefs: [...document.querySelectorAll("#orb-obs a")].map(a => a.href)}));
   check("bannerul de observator apare pentru Marte", obs.hid === false);
-  check("link fișă ORARIUM cu corp și moment", obs.hrefs.some(u => u === `https://chiuta.github.io/orarium/#body=marte&t=${T}`), obs.hrefs);
+  check("link fișă ORARIUM cu corp și moment", obs.hrefs.some(u => u === `https://chiuta.github.io/orarium/#body=marte&t=${T}&from=terra`), obs.hrefs);
   check("link transmisie cu stația din Locația mea", obs.hrefs.some(u => u.includes("view=link") && u.includes("b=marte") && u.includes("station=44.4300,26.1000")), obs.hrefs);
   await page.click("#lnk2-btn"); await page.waitForTimeout(200);
   const clip = await page.evaluate(() => navigator.clipboard.readText());

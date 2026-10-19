@@ -1,6 +1,6 @@
 # Terra — Pământul în timp real
 
-**Versiune:** 1.5.0 · **Ultima actualizare:** 18 octombrie 2026
+**Versiune:** 1.6.0 · **Ultima actualizare:** 19 octombrie 2026
 
 Harta și globul Pământului cu terminatorul zi/noapte, Luna, planetele, sateliții și un mod „Cer" (planetariu), într-un singur fișier HTML.
 
@@ -123,6 +123,13 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 Terra is a single-file real-time Earth viewer: day/night terminator, Moon, planets, satellites (SGP4), eclipses, a 3D globe and a sky planetarium mode, with RO/EN UI. An orbital snapshot is embedded, so it works offline. Optional live feeds contact CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank and, if configured, a CORS proxy (corsproxy.io). No local storage. MIT licence.
 
 ## Istoric / Changelog
+
+### 19 octombrie 2026 (v1.6.0)
+- Nou: „↗ Bolta” în modul Cer (de la sol): același moment și aceeași Locație în planetariul offline Bolta; fără t= când ora e „acum”, ascuns în afara 1900–2100.
+- Confidențialitate: o Locație luată din GPS se rotunjește la ~1 km în linkurile spre ORARIUM și Bolta.
+- „← înapoi” pentru sursele ECLIPSA, Eclipsa 2027, Horoscop, Field Observer, Horizons.
+- Butonul „← înapoi” nu mai e acoperit de widgetul Buy Me a Coffee (stânga-jos): stă deasupra lui.
+- Avertisment discret „Precizie scăzută după 2100: ΔT extrapolat, Pluto indisponibil.” (ro/en, hu/de prin en) doar când data simulată sau din `t=` depășește 2100.
 
 ### 18 octombrie 2026 (v1.5.0)
 - Nou: parametrul `ufo=<caz>` (ex. `#v=2d&ufo=valea-plopului`) centrează harta 2D pe cazul din lista OZN și deschide cardul, fără a schimba „Locația mea”; valorile necunoscute sunt ignorate. `from=valeaplopului` afișează butonul „← înapoi” către ValeaPlopului1972. Textul cazului nu a fost modificat.
