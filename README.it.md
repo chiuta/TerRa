@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.6.0 · **Ultimo aggiornamento:** 2026-10-19
+**Versione:** 1.7.0 · **Ultimo aggiornamento:** 2026-10-19
+
+Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
 Mappa e globo della Terra con il terminatore giorno/notte, la Luna, i pianeti, i satelliti e una modalità «Cielo» (planetario), in un unico file HTML.
 
@@ -26,7 +28,7 @@ Terra · tempo reale (titolo della pagina: «La Terra in tempo reale — Termina
 - Passaggi visibili della ISS nelle 48 h, con allarme (vibrazione + notifica); ambiente di superficie e maree di equilibrio per la località scelta.
 - Feed in diretta facoltativi: aerei (ADS-B), palloni sonda meteo, radar meteo, meteo spaziale NOAA (Kp, vento solare, raggi X, ovale aurorale), terremoti USGS (24 h), Movebank, flusso GTFS-RT tramite proxy.
 - Su telefono in verticale: pulsante «⟳ Ruota la mappa» (mappa verticale / orizzontale).
-- Interfaccia in rumeno e inglese (pulsante «EN» / «RO»); dalla 1.1.0 il ciclo include anche HU/DE per le nuove funzioni.
+- Interfaccia in 8 lingue: RO, EN, FR, IT, ES, PT, DE, HU (selettore di lingua).
 - Scorciatoie da tastiera: `1` / `2` / `3` (2D / 3D / Cielo), `Spazio` (pausa / ripresa), `N` (ritorno ad «adesso»), `[` e `]` (prospettiva 3D), `Esc`; inattive mentre si scrive in un campo. Sono descritte anche nella finestra «Informazioni».
 
 ## Tutti i corpi di ORARIUM (1.4.0)
@@ -65,7 +67,7 @@ La sezione **«Effemeridi locali»** del pannello (la riga di riepilogo) e la fi
 - **Finestra:** Sole (alba, transito, tramonto, durata del giorno, crepuscoli), Luna (fase, illuminazione, età, distanza, sorgere/tramonto, prossime fasi) e una tabella con Sole, Luna e pianeti (longitudine eclittica con segno, altezza/azimut, sorgere/tramonto, magnitudine, elongazione).
 - Il fuso orario per le ore: quello del browser per impostazione predefinita, modificabile (nome IANA).
 - La precisione dichiarata è nella finestra; gli orari sono arrotondati al minuto.
-- Il ciclo delle lingue è ora RO → EN → HU → DE (il pulsante nell'intestazione); i vecchi testi dell'applicazione restano in rumeno/inglese (in HU/DE si vede l'inglese), le nuove funzioni hanno tutte e quattro le lingue. Le traduzioni in ungherese (hu) e tedesco (de) delle nuove funzioni sono **automatiche e non verificate da madrelingua**; lo stesso varrebbe per qualsiasi altra lingua aggiunta in seguito (fr/it/es/pt non sono offerte in questa applicazione).
+- L'interfaccia ha 8 lingue (RO, EN, FR, IT, ES, PT, DE, HU), scelte dal selettore di lingua. Le traduzioni fr/it/es/pt/de/hu sono **automatiche e non verificate da madrelingua**.
 - Finché la finestra è aperta, le scorciatoie da tastiera dell'applicazione (`1`/`2`/`3`/`Spazio`/`N`) sono inattive; `Esc` chiude la finestra.
 
 ## Manuale d'uso

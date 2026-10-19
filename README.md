@@ -2,7 +2,9 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.6.0 · **Last updated:** 2026-10-19
+**Version:** 1.7.0 · **Last updated:** 2026-10-19
+
+Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
 A map and globe of the Earth with the day/night terminator, the Moon, the planets, satellites and a "Sky" mode (planetarium), in a single HTML file.
 
@@ -26,7 +28,7 @@ Terra · real time (the page title: "The Earth in real time — Terminator · Mo
 - Visible ISS passes over 48 h, with an alert (vibration + notification); surface environment and equilibrium tides for the chosen location.
 - Optional live feeds: aircraft (ADS-B), weather radiosonde balloons, weather radar, NOAA space weather (Kp, solar wind, X-rays, auroral oval), USGS earthquakes (24 h), Movebank, a GTFS-RT feed via a proxy.
 - On a phone in portrait: a "⟳ Rotate the map" button (vertical / horizontal map).
-- Interface in Romanian and English ("EN" / "RO" button); since 1.1.0 the cycle also includes HU/DE for the new features.
+- Interface in 8 languages: RO, EN, FR, IT, ES, PT, DE, HU (language selector).
 - Keyboard shortcuts: `1` / `2` / `3` (2D / 3D / Sky), `Space` (pause / resume), `N` (back to "now"), `[` and `]` (3D perspective), `Esc`; inactive while you are typing in a field. They are also described in the "About" window.
 
 ## All the bodies of ORARIUM (1.4.0)
@@ -65,7 +67,7 @@ The **"Local ephemerides"** section of the panel (the summary line) and the **"O
 - **Window:** Sun (rise, transit, set, day length, twilights), Moon (phase, illumination, age, distance, rise/set, next phases) and a table with the Sun, the Moon and the planets (signed ecliptic longitude, altitude/azimuth, rise/set, magnitude, elongation).
 - The time zone for hours: the browser's by default, editable (IANA name).
 - The declared accuracy is in the window; the times are rounded to the minute.
-- The language cycle is now RO → EN → HU → DE (the button in the header); the app's older texts remain in Romanian/English (in HU/DE you see English), the new features have all four languages. The Hungarian (hu) and German (de) translations of the new features are **automatic and not natively verified**; the same would hold for any other language added later (fr/it/es/pt are not offered in this application).
+- The interface has 8 languages (RO, EN, FR, IT, ES, PT, DE, HU), chosen from the language selector. The fr/it/es/pt/de/hu translations are **automatic and not natively verified**.
 - While the window is open, the app's keyboard shortcuts (`1`/`2`/`3`/`Space`/`N`) are inactive; `Esc` closes the window.
 
 ## User guide

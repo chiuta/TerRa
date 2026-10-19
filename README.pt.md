@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.6.0 · **Última atualização:** 2026-10-19
+**Versão:** 1.7.0 · **Última atualização:** 2026-10-19
+
+Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
 Mapa e globo da Terra com o terminador dia/noite, a Lua, os planetas, os satélites e um modo «Céu» (planetário), num único ficheiro HTML.
 
@@ -26,7 +28,7 @@ O Terra · tempo real (título da página: «A Terra em tempo real — Terminado
 - Passagens visíveis da ISS em 48 h, com alerta (vibração + notificação); ambiente de superfície e marés de equilíbrio para a localização escolhida.
 - Feeds em direto opcionais: aviões (ADS-B), balões-sonda meteorológicos, radar meteorológico, meteorologia espacial da NOAA (Kp, vento solar, raios X, oval auroral), sismos USGS (24 h), Movebank, fluxo GTFS-RT através de proxy.
 - No telemóvel em vertical: botão «⟳ Rodar o mapa» (mapa vertical / horizontal).
-- Interface em romeno e inglês (botão «EN» / «RO»); desde a 1.1.0 o ciclo inclui também HU/DE para as funcionalidades novas.
+- Interface em 8 idiomas: RO, EN, FR, IT, ES, PT, DE, HU (seletor de idioma).
 - Atalhos de teclado: `1` / `2` / `3` (2D / 3D / Céu), `Espaço` (pausa / retomar), `N` (voltar a «agora»), `[` e `]` (perspetiva 3D), `Esc`; inativos enquanto escreve num campo. Estão também descritos na janela «Acerca».
 
 ## Todos os corpos do ORARIUM (1.4.0)
@@ -65,7 +67,7 @@ A secção **«Efemérides locais»** do painel (a linha-resumo) e a janela **«
 - **Janela:** Sol (nascer, passagem, pôr, duração do dia, crepúsculos), Lua (fase, iluminação, idade, distância, nascer/pôr, próximas fases) e uma tabela com o Sol, a Lua e os planetas (longitude eclítica com sinal, altitude/azimute, nascer/pôr, magnitude, elongação).
 - O fuso horário para as horas: o do navegador por predefinição, editável (nome IANA).
 - A precisão declarada está na janela; as horas são arredondadas ao minuto.
-- O ciclo de idiomas é agora RO → EN → HU → DE (o botão do cabeçalho); os textos antigos da aplicação permanecem em romeno/inglês (em HU/DE vê-se inglês), as funcionalidades novas têm os quatro idiomas. As traduções para húngaro (hu) e alemão (de) das funcionalidades novas são **automáticas e não verificadas por nativos**; o mesmo valeria para qualquer outro idioma acrescentado depois (fr/it/es/pt não são oferecidos nesta aplicação).
+- A interface tem 8 línguas (RO, EN, FR, IT, ES, PT, DE, HU), escolhidas no seletor de língua. As traduções fr/it/es/pt/de/hu são **automáticas e não verificadas por falantes nativos**.
 - Enquanto a janela está aberta, os atalhos de teclado da aplicação (`1`/`2`/`3`/`Espaço`/`N`) estão inativos; `Esc` fecha a janela.
 
 ## Manual de utilização

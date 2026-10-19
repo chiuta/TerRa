@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.6.0 · **Utolsó frissítés:** 2026-10-19
+**Verzió:** 1.7.0 · **Utolsó frissítés:** 2026-10-19
+
+A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
 A Föld térképe és földgömbje a nappal/éjszaka határvonallal (terminátor), a Holddal, a bolygókkal, a műholdakkal és egy „Égbolt” móddal (planetárium), egyetlen HTML-fájlban.
 
@@ -26,7 +28,7 @@ A Terra · valós idő (az oldal címe: „A Föld valós időben — Termináto
 - Az ISS látható átvonulásai 48 órára, riasztással (rezgés + értesítés); felszíni környezet és egyensúlyi árapály a választott helyre.
 - Opcionális élő adatfolyamok: repülőgépek (ADS-B), meteorológiai szondaballonok, időjárási radar, NOAA űridőjárás (Kp, napszél, röntgen, sarki fény ovális), USGS földrengések (24 óra), Movebank, GTFS-RT adatfolyam proxyn keresztül.
 - Telefonon álló tájolásban: „⟳ Térkép elforgatása” gomb (függőleges / vízszintes térkép).
-- A felület román és angol nyelvű („EN” / „RO” gomb); az 1.1.0 óta a ciklus az új funkciókhoz a HU/DE nyelvet is tartalmazza.
+- Felület 8 nyelven: RO, EN, FR, IT, ES, PT, DE, HU (nyelvválasztó).
 - Billentyűparancsok: `1` / `2` / `3` (2D / 3D / Égbolt), `Szóköz` (szünet / folytatás), `N` (vissza a „mostra”), `[` és `]` (3D perspektíva), `Esc`; mezőbe gépelés közben inaktívak. A „Névjegy” ablakban is le vannak írva.
 
 ## Az ORARIUM összes égiteste (1.4.0)
@@ -65,7 +67,7 @@ A panel **„Helyi efemeridák”** szakasza (az összegző sor) és a **„Hely
 - **Ablak:** Nap (kelte, delelés, nyugta, nappalhossz, szürkületek), Hold (fázis, megvilágítás, kor, távolság, kelte/nyugta, következő fázisok) és egy táblázat a Nappal, a Holddal és a bolygókkal (előjeles ekliptikai hosszúság, magasság/azimut, kelte/nyugta, fényesség, elongáció).
 - Az órák időzónája: alapértelmezés szerint a böngészőé, szerkeszthető (IANA-név).
 - A megadott pontosság az ablakban található; az időpontok percre vannak kerekítve.
-- A nyelvi ciklus mostantól RO → EN → HU → DE (a fejléc gombja); az alkalmazás régebbi szövegei román/angol nyelvűek maradnak (HU/DE esetén angolul látszanak), az új funkciók mind a négy nyelven elérhetők. Az új funkciók magyar (hu) és német (de) fordításai **automatikusak, és anyanyelvi beszélők nem ellenőrizték őket**; ugyanez igaz lenne bármely később hozzáadott nyelvre (az fr/it/es/pt nem érhető el ebben az alkalmazásban).
+- A felület 8 nyelvű (RO, EN, FR, IT, ES, PT, DE, HU), a nyelvválasztóból választható. Az fr/it/es/pt/de/hu fordítások **automatikusak, és anyanyelvi beszélők nem ellenőrizték őket**.
 - Amíg az ablak nyitva van, az alkalmazás billentyűparancsai (`1`/`2`/`3`/`Szóköz`/`N`) inaktívak; az `Esc` bezárja az ablakot.
 
 ## Használati útmutató

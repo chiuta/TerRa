@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.6.0 · **Zuletzt aktualisiert:** 2026-10-19
+**Version:** 1.7.0 · **Zuletzt aktualisiert:** 2026-10-19
+
+Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
 Karte und Globus der Erde mit der Tag-Nacht-Grenze (Terminator), dem Mond, den Planeten, Satelliten und einem Modus „Himmel“ (Planetarium), in einer einzigen HTML-Datei.
 
@@ -26,7 +28,7 @@ Terra · Echtzeit (Seitentitel: „Die Erde in Echtzeit — Terminator · Mond �
 - Sichtbare ISS-Überflüge in 48 Std., mit Alarm (Vibration + Benachrichtigung); Oberflächenumgebung und Gleichgewichtsgezeiten für den gewählten Ort.
 - Optionale Live-Feeds: Flugzeuge (ADS-B), Wetter-Radiosondenballons, Wetterradar, NOAA-Weltraumwetter (Kp, Sonnenwind, Röntgenstrahlung, Polarlichtoval), USGS-Erdbeben (24 Std.), Movebank, GTFS-RT-Feed über einen Proxy.
 - Auf dem Telefon im Hochformat: Schaltfläche „⟳ Karte drehen“ (vertikale / horizontale Karte).
-- Oberfläche auf Rumänisch und Englisch (Schaltfläche „EN“ / „RO“); seit 1.1.0 umfasst der Zyklus für die neuen Funktionen auch HU/DE.
+- Oberfläche in 8 Sprachen: RO, EN, FR, IT, ES, PT, DE, HU (Sprachwähler).
 - Tastenkürzel: `1` / `2` / `3` (2D / 3D / Himmel), `Leertaste` (Pause / Fortsetzen), `N` (zurück zu „jetzt“), `[` und `]` (3D-Perspektive), `Esc`; inaktiv, solange du in ein Feld tippst. Sie sind auch im Fenster „Über“ beschrieben.
 
 ## Alle Körper von ORARIUM (1.4.0)
@@ -65,7 +67,7 @@ Der Abschnitt **„Lokale Ephemeriden“** im Panel (die Zusammenfassungszeile) 
 - **Fenster:** Sonne (Aufgang, Kulmination, Untergang, Tageslänge, Dämmerungen), Mond (Phase, Beleuchtung, Alter, Entfernung, Auf-/Untergang, nächste Phasen) und eine Tabelle mit Sonne, Mond und Planeten (ekliptikale Länge mit Vorzeichen, Höhe/Azimut, Auf-/Untergang, Helligkeit, Elongation).
 - Die Zeitzone für die Uhrzeiten: standardmäßig die des Browsers, editierbar (IANA-Name).
 - Die angegebene Genauigkeit steht im Fenster; die Zeiten sind auf die Minute gerundet.
-- Der Sprachzyklus ist jetzt RO → EN → HU → DE (die Schaltfläche in der Kopfzeile); die älteren Texte der Anwendung bleiben auf Rumänisch/Englisch (in HU/DE sieht man Englisch), die neuen Funktionen haben alle vier Sprachen. Die ungarischen (hu) und deutschen (de) Übersetzungen der neuen Funktionen sind **automatisch und nicht von Muttersprachlern überprüft**; dasselbe gälte für jede später hinzugefügte Sprache (fr/it/es/pt werden in dieser Anwendung nicht angeboten).
+- Die Oberfläche hat 8 Sprachen (RO, EN, FR, IT, ES, PT, DE, HU), die im Sprachwähler ausgewählt werden. Die Übersetzungen fr/it/es/pt/de/hu sind **automatisch und nicht muttersprachlich geprüft**.
 - Solange das Fenster geöffnet ist, sind die Tastenkürzel der Anwendung (`1`/`2`/`3`/`Leertaste`/`N`) inaktiv; `Esc` schließt das Fenster.
 
 ## Bedienungsanleitung

@@ -2,7 +2,9 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.6.0 · **Ultima actualizare:** 2026-10-19
+**Versiune:** 1.7.0 · **Ultima actualizare:** 2026-10-19
+
+Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
 Harta și globul Pământului cu terminatorul zi/noapte, Luna, planetele, sateliții și un mod „Cer" (planetariu), într-un singur fișier HTML.
 
@@ -26,7 +28,7 @@ Terra · timp real (titlul paginii: „Pământul în timp real — Terminator �
 - Treceri vizibile ale ISS pe 48 h, cu alertă (vibrație + notificare); mediu de suprafață și maree de echilibru pentru locația aleasă.
 - Feeduri live opționale: avioane (ADS-B), baloane-sondă meteo, radar meteo, vreme spațială NOAA (Kp, vânt solar, raze X, oval auroral), cutremure USGS (24 h), Movebank, flux GTFS-RT prin proxy.
 - Pe telefon în portret: buton „⟳ Rotește harta” (hartă verticală / orizontală).
-- Interfață în română și engleză (buton „EN" / „RO"); din 1.1.0 ciclul include și HU/DE pentru funcțiile noi.
+- Interfață în 8 limbi: RO, EN, FR, IT, ES, PT, DE, HU (selector de limbă).
 - Scurtături de tastatură: `1` / `2` / `3` (2D / 3D / Cer), `Spațiu` (pauză / reluare), `N` (înapoi la „acum”), `[` și `]` (perspectivă 3D), `Esc`; inactive cât scrii într-un câmp. Sunt descrise și în fereastra „Despre”.
 
 ## Toate corpurile din ORARIUM (1.4.0)
@@ -65,7 +67,7 @@ Secțiunea **„Efemeride locale”** din panou (linia-rezumat) și fereastra **
 - **Fereastră:** Soare (răsărit, trecere, apus, durata zilei, crepuscule), Lună (fază, iluminare, vârstă, distanță, răsărit/apus, următoarele faze) și tabel cu Soare, Lună și planete (longitudine ecliptică cu semn, altitudine/azimut, răsărit/apus, magnitudine, elongație).
 - Fusul orar pentru ore: al browserului implicit, editabil (nume IANA).
 - Precizia declarată e în fereastră; orele sunt rotunjite la minut.
-- Ciclul de limbi este acum RO → EN → HU → DE (butonul din antet); textele vechi ale aplicației rămân în română/engleză (în HU/DE se vede engleza), funcțiile noi au toate cele patru limbi. Traducerile în maghiară (hu) și germană (de) ale funcțiilor noi sunt **automate și neverificate nativ**; la fel ar fi orice altă limbă adăugată ulterior (fr/it/es/pt nu sunt oferite în această aplicație).
+- Interfața are 8 limbi (RO, EN, FR, IT, ES, PT, DE, HU), alese din selectorul de limbă. Traducerile fr/it/es/pt/de/hu sunt **automate și neverificate nativ**.
 - Cât timp fereastra e deschisă, scurtăturile de tastatură ale aplicației (`1`/`2`/`3`/`Spațiu`/`N`) sunt inactive; `Esc` închide fereastra.
 
 ## Manual de utilizare
