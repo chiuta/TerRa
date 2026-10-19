@@ -30,7 +30,7 @@ await page.evaluate(() => document.getElementById("lang-btn").click()); await pa
 v = await vis(); check("EN: text tradus", /Reduced accuracy after 2100: ΔT extrapolated, Pluto unavailable/.test(v.txt), v);
 await page.evaluate(() => document.getElementById("lang-btn").click()); await page.waitForTimeout(200);
 await page.evaluate(() => document.getElementById("lang-btn").click()); await page.waitForTimeout(300);
-v = await vis(); check("HU/DE: folosește textul EN (ca restul aplicației)", /Reduced accuracy/.test(v.txt), v);
+v = await vis(); check("HU/DE: text tradus (DE)", /Verminderte Genauigkeit/.test(v.txt), v);
 await page.evaluate(() => document.getElementById("btn-now").click()); await page.waitForTimeout(500);
 v = await vis(); check("„Revino la acum”: avertismentul dispare", v.hidden === true, v);
 check("0 erori", st.errs.length === 0, st.errs);

@@ -18,8 +18,8 @@ console.log("1. pornire, versiune, 0 erori");
   check("0 pageerror/console error", st.errs.length === 0, st.errs);
   check("0 cereri de rețea", st.net.length === 0, st.net);
   check("0 violări CSP", (await page.evaluate(() => window.__csp)).length === 0);
-  check("#app-version arată 1.6.0 · 2026-10-19", /1\.6\.0 · 2026-10-19/.test((await page.textContent("#app-version")).replace(/\s+/g, " ")));
-  check("meta application-version 1.6.0", (await page.getAttribute('meta[name="application-version"]', "content")) === "1.6.0");
+  check("#app-version arată 1.7.0 · 2026-10-19", /1\.7\.0 · 2026-10-19/.test((await page.textContent("#app-version")).replace(/\s+/g, " ")));
+  check("meta application-version 1.7.0", (await page.getAttribute('meta[name="application-version"]', "content")) === "1.7.0");
   check("meta last-updated 2026-10-19", (await page.getAttribute('meta[name="last-updated"]', "content")) === "2026-10-19");
   check("linia-rezumat de efemeride pentru București (răsărit, apus, Lună)", /București: Răsărit Soare \d\d:\d\d, apus \d\d:\d\d/.test(await page.textContent("#eph-sum")), await page.textContent("#eph-sum"));
   check("fără depășire orizontală 1280", (await hOverflow(page)) <= 0);
@@ -130,7 +130,7 @@ console.log("7. limbi: ro → en → hu → de");
   const {browser, page} = await launch({clock: NOON, timezoneId: "Europe/Bucharest"});
   await page.waitForTimeout(2500);
   const seq = [], titles = {}, sums = {};
-  for (let i = 0; i < 4; i++) { const l = await page.evaluate(() => document.documentElement.lang); seq.push(l); sums[l] = await page.textContent("#eph-sum"); await openDlg(page); titles[l] = await page.textContent("#ephDlgTitle"); await closeDlg(page); await page.click("#lang-btn"); await page.waitForTimeout(250); }
+  for (let i = 0; i < 4; i++) { const l = await page.evaluate(() => document.documentElement.lang); seq.push(l); sums[l] = await page.textContent("#eph-sum"); await openDlg(page); titles[l] = await page.textContent("#ephDlgTitle"); await closeDlg(page); await page.evaluate(() => document.getElementById("lang-btn").click()); await page.waitForTimeout(250); }
   check("ciclul de limbi atinge ro, en, hu, de", ["ro", "en", "hu", "de"].every(l => seq.includes(l)), seq);
   check("titlul dialogului diferă în hu și de față de en", titles.hu !== titles.en && titles.de !== titles.en && titles.hu !== titles.de, titles);
   check("rezumatul e tradus (hu: Napkelte, de: Sonnenaufgang)", /Napkelte/i.test(sums.hu) && /Sonnenaufgang/i.test(sums.de), sums);
@@ -147,7 +147,7 @@ for (const scheme of ["light", "dark"]) for (const [w, h] of [[1280, 800], [360,
   const v1 = (await axeRun(page)) || [];
   check(`${scheme} ${w}: axe 0 (dialog deschis)`, v1.length === 0, v1);
   check(`${scheme} ${w}: fără depășire orizontală în dialog`, (await page.evaluate(() => { const d = document.getElementById("ephDialog"); return Math.max(d.scrollWidth - d.clientWidth, document.documentElement.scrollWidth - document.documentElement.clientWidth); })) <= 0);
-  if (scheme === "light") for (const l of ["en", "hu", "de"]) { await closeDlg(page); while ((await page.evaluate(() => document.documentElement.lang)) !== l) { await page.click("#lang-btn"); await page.waitForTimeout(200); } await openDlg(page); const v = (await axeRun(page)) || []; check(`${w}: axe 0 în ${l}`, v.length === 0, v); }
+  if (scheme === "light") for (const l of ["en", "hu", "de"]) { await closeDlg(page); while ((await page.evaluate(() => document.documentElement.lang)) !== l) { await page.evaluate(() => document.getElementById("lang-btn").click()); await page.waitForTimeout(200); } await openDlg(page); const v = (await axeRun(page)) || []; check(`${w}: axe 0 în ${l}`, v.length === 0, v); }
   await browser.close();
 }
 summary();
