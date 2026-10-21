@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.7.1 · **Last updated:** 2026-10-19
+**Version:** 1.7.2 · **Last updated:** 2026-10-21
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,9 @@ MIT — see the LICENSE file
 Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 
 ## History / Changelog
+
+### 21 October 2026 (v1.7.2)
+- The Valea Plopului card and tour step were reworded and attributed: "according to accounts … presented in the cited sources as the first attested and expert-assessed case … not independently verified; the case remains disputed" (no longer stated as fact); the date is "September 1972", the locality "Poșești", the measurement credited to Justin Capră "according to accounts". The tour caption is now translated in fr/it/es/pt/de/hu (it previously fell back to English). The Valea Plopului text is aligned with ValeaPlopului1972; test `tests/vp-case.test.mjs`.
 
 ### 19 October 2026 (v1.6.0)
 - New: "↗ Bolta" in Sky mode (from the ground): the same moment and the same Location in the offline planetarium Bolta; no t= when the time is "now", hidden outside 1900–2100.

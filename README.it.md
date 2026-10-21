@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.7.1 · **Ultimo aggiornamento:** 2026-10-19
+**Versione:** 1.7.2 · **Ultimo aggiornamento:** 2026-10-21
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,9 @@ MIT — vedi il file LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Contatto: alexio@trom.tf
 
 ## Cronologia / Changelog
+
+### 21 ottobre 2026 (v1.7.2)
+- La scheda e il passo del tour su Valea Plopului sono stati riformulati e attribuiti: «secondo i resoconti … presentato nelle fonti citate come il primo caso attestato e sottoposto a perizia … non verificato in modo indipendente; il caso resta controverso» (non è più affermato come fatto); la data è «settembre 1972», la località «Poșești», la misurazione attribuita a Justin Capră «secondo i resoconti». La didascalia del tour è ora tradotta in fr/it/es/pt/de/hu (prima ricadeva sull'inglese). Il testo su Valea Plopului è allineato con ValeaPlopului1972; test `tests/vp-case.test.mjs`.
 
 ### 19 ottobre 2026 (v1.6.0)
 - Novità: «↗ Bolta» in modalità Cielo (da terra): stesso istante e stessa posizione nel planetario offline Bolta; senza t= quando l'ora è «adesso», nascosto fuori dal 1900–2100.

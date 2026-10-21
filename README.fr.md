@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.7.1 · **Dernière mise à jour :** 2026-10-19
+**Version :** 1.7.2 · **Dernière mise à jour :** 2026-10-21
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,9 @@ MIT — voir le fichier LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Contact : alexio@trom.tf
 
 ## Historique / Changelog
+
+### 21 octobre 2026 (v1.7.2)
+- La fiche et l'étape de visite Valea Plopului ont été reformulées et attribuées : « selon les témoignages … présenté dans les sources citées comme le premier cas attesté et expertisé … non vérifié de façon indépendante ; le cas reste contesté » (ce n'est plus affirmé comme un fait) ; la date est « septembre 1972 », la localité « Poșești », la mesure attribuée à Justin Capră « selon les témoignages ». La légende de la visite est désormais traduite en fr/it/es/pt/de/hu (elle retombait auparavant sur l'anglais). Le texte sur Valea Plopului est aligné avec ValeaPlopului1972 ; test `tests/vp-case.test.mjs`.
 
 ### 19 octobre 2026 (v1.6.0)
 - Nouveau : « ↗ Bolta » en mode Ciel (depuis le sol) : même instant et même lieu dans le planétarium hors ligne Bolta ; pas de t= lorsque l'heure est « maintenant », masqué hors de 1900–2100.

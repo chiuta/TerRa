@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.7.1 · **Última actualización:** 2026-10-19
+**Versión:** 1.7.2 · **Última actualización:** 2026-10-21
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,9 @@ MIT — véase el archivo LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Contacto: alexio@trom.tf
 
 ## Historial / Changelog
+
+### 21 de octubre de 2026 (v1.7.2)
+- La ficha y el paso del recorrido de Valea Plopului se reformularon y se atribuyeron: «según los relatos … presentado en las fuentes citadas como el primer caso atestiguado y peritado … no verificado de forma independiente; el caso sigue siendo disputado» (ya no se afirma como un hecho); la fecha es «septiembre de 1972», la localidad «Poșești», la medición atribuida a Justin Capră «según los relatos». La leyenda del recorrido está ahora traducida en fr/it/es/pt/de/hu (antes recurría al inglés). El texto sobre Valea Plopului está alineado con ValeaPlopului1972; prueba `tests/vp-case.test.mjs`.
 
 ### 19 de octubre de 2026 (v1.6.0)
 - Novedad: «↗ Bolta» en modo Cielo (desde el suelo): el mismo instante y la misma ubicación en el planetario sin conexión Bolta; sin t= cuando la hora es «ahora», oculto fuera de 1900–2100.

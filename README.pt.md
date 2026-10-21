@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.7.1 · **Última atualização:** 2026-10-19
+**Versão:** 1.7.2 · **Última atualização:** 2026-10-21
 
 Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,9 @@ MIT — ver o ficheiro LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Contacto: alexio@trom.tf
 
 ## Histórico / Changelog
+
+### 21 de outubro de 2026 (v1.7.2)
+- O cartão e o passo da visita de Valea Plopului foram reformulados e atribuídos: «segundo os relatos … apresentado nas fontes citadas como o primeiro caso atestado e periciado … não verificado de forma independente; o caso continua disputado» (já não é afirmado como facto); a data é «setembro de 1972», a localidade «Poșești», a medição atribuída a Justin Capră «segundo os relatos». A legenda da visita está agora traduzida em fr/it/es/pt/de/hu (antes recorria ao inglês). O texto sobre Valea Plopului está alinhado com ValeaPlopului1972; teste `tests/vp-case.test.mjs`.
 
 ### 19 de outubro de 2026 (v1.6.0)
 - Novo: «↗ Bolta» no modo Céu (a partir do solo): o mesmo instante e a mesma localização no planetário offline Bolta; sem t= quando a hora é «agora», oculto fora de 1900–2100.

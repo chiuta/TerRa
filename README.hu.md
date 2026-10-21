@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.7.1 · **Utolsó frissítés:** 2026-10-19
+**Verzió:** 1.7.2 · **Utolsó frissítés:** 2026-10-21
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,9 @@ MIT — lásd a LICENSE fájlt
 Alexio — Alexandru-Ionuț Chiuță. Kapcsolat: alexio@trom.tf
 
 ## Előzmények / Changelog
+
+### 2026. október 21. (v1.7.2)
+- A Valea Plopului kártya és túralépés szövege átfogalmazva és forrásmegjelöléssel ellátva: „a beszámolók szerint … az idézett források az első igazolt és szakértőileg vizsgált esetként mutatják be … függetlenül nem ellenőrzött; az eset vitatott marad” (már nem tényként szerepel); a dátum „1972 szeptember”, a helység „Poșești”, a Justin Capră-nak tulajdonított mérés „a beszámolók szerint”. A túra felirata mostantól fr/it/es/pt/de/hu nyelven is le van fordítva (korábban angolra esett vissza). A Valea Plopului-szöveg egységes a ValeaPlopului1972-vel; `tests/vp-case.test.mjs` teszt.
 
 ### 2026. október 19. (v1.6.0)
 - Új: „↗ Bolta” Égbolt módban (a földről): ugyanaz az időpont és ugyanaz a hely a Bolta offline planetáriumban; t= nélkül, ha az idő „most”, az 1900–2100 tartományon kívül rejtve.

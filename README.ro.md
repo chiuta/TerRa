@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.7.1 · **Ultima actualizare:** 2026-10-19
+**Versiune:** 1.7.2 · **Ultima actualizare:** 2026-10-21
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -127,6 +127,9 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 Terra este un vizualizator în timp real al Pământului într-un singur fișier: terminator zi/noapte, Lună, planete, sateliți (SGP4), eclipse, un glob 3D și un mod de planetariu al cerului, cu interfață RO/EN. Un instantaneu orbital este încorporat, deci funcționează offline. Fluxurile live opționale contactează CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank și, dacă este configurat, un proxy CORS (corsproxy.io). Fără stocare locală. Licență MIT.
 
 ## Istoric / Changelog
+
+### 21 octombrie 2026 (v1.7.2)
+- Cardul și pasul de tur Valea Plopului au fost reformulate și atribuite: „potrivit relatărilor … prezentat în sursele citate drept primul caz atestat și expertizat … neverificat independent; cazul rămâne disputat” (nu mai este afirmat ca fapt); data este „septembrie 1972”, localitatea „Poșești”, măsurătoarea atribuită lui Justin Capră „potrivit relatărilor”. Legenda turului este acum tradusă în fr/it/es/pt/de/hu (înainte cădea pe engleză). Textul Valea Plopului este aliniat cu ValeaPlopului1972; test `tests/vp-case.test.mjs`.
 
 ### 19 octombrie 2026 (v1.6.0)
 - Nou: „↗ Bolta” în modul Cer (de la sol): același moment și aceeași Locație în planetariul offline Bolta; fără t= când ora e „acum”, ascuns în afara 1900–2100.
