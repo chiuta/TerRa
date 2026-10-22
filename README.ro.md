@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.7.2 · **Ultima actualizare:** 2026-10-21
+**Versiune:** 1.7.3 · **Ultima actualizare:** 2026-10-22
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -127,6 +127,10 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 Terra este un vizualizator în timp real al Pământului într-un singur fișier: terminator zi/noapte, Lună, planete, sateliți (SGP4), eclipse, un glob 3D și un mod de planetariu al cerului, cu interfață RO/EN. Un instantaneu orbital este încorporat, deci funcționează offline. Fluxurile live opționale contactează CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank și, dacă este configurat, un proxy CORS (corsproxy.io). Fără stocare locală. Licență MIT.
 
 ## Istoric / Changelog
+
+### 22 octombrie 2026 (v1.7.3)
+- Reparat widgetul zi/noapte („Ora pe corp”): rândul Pământ nu mai afișează „unghi față de Soare NaN°” și un număr absurd de minute până la amiază/miez de noapte (lipsea ziua solară a Pământului din tabelul de perioade, iar unghiul față de Soare era calculat pentru Pământ față de el însuși).
+- Interfață: paragrafele din ghid, secțiunea „Încarcă TLE propriu”, etichetele de maree, legendele cazurilor („relatări”, „din 1981”), legenda categoriilor de sateliți, butoanele „Înainte/Înapoi” și titlul/descrierea paginii urmează acum limba interfeței în toate cele 8 limbi.
 
 ### 21 octombrie 2026 (v1.7.2)
 - Cardul și pasul de tur Valea Plopului au fost reformulate și atribuite: „potrivit relatărilor … prezentat în sursele citate drept primul caz atestat și expertizat … neverificat independent; cazul rămâne disputat” (nu mai este afirmat ca fapt); data este „septembrie 1972”, localitatea „Poșești”, măsurătoarea atribuită lui Justin Capră „potrivit relatărilor”. Legenda turului este acum tradusă în fr/it/es/pt/de/hu (înainte cădea pe engleză). Textul Valea Plopului este aliniat cu ValeaPlopului1972; test `tests/vp-case.test.mjs`.

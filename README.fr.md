@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.7.2 · **Dernière mise à jour :** 2026-10-21
+**Version :** 1.7.3 · **Dernière mise à jour :** 2026-10-22
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,10 @@ MIT — voir le fichier LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Contact : alexio@trom.tf
 
 ## Historique / Changelog
+
+### 22 octobre 2026 (v1.7.3)
+- Correction du widget jour/nuit (« Heure sur le corps ») : la ligne Terre n'affiche plus « angle par rapport au Soleil NaN° » ni un nombre absurde de minutes avant midi/minuit (le jour solaire de la Terre manquait dans le tableau des périodes et l'angle au Soleil était calculé pour la Terre par rapport à elle-même).
+- Interface : les paragraphes du guide, la section « Charger votre propre TLE », les libellés de marée, les légendes des cas (« signalements », « de 1981 »), la légende des catégories de satellites, les boutons « Avancer/Reculer » et le titre/la description de la page suivent désormais la langue de l'interface dans les 8 langues.
 
 ### 21 octobre 2026 (v1.7.2)
 - La fiche et l'étape de visite Valea Plopului ont été reformulées et attribuées : « selon les témoignages … présenté dans les sources citées comme le premier cas attesté et expertisé … non vérifié de façon indépendante ; le cas reste contesté » (ce n'est plus affirmé comme un fait) ; la date est « septembre 1972 », la localité « Poșești », la mesure attribuée à Justin Capră « selon les témoignages ». La légende de la visite est désormais traduite en fr/it/es/pt/de/hu (elle retombait auparavant sur l'anglais). Le texte sur Valea Plopului est aligné avec ValeaPlopului1972 ; test `tests/vp-case.test.mjs`.

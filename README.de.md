@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.7.2 · **Zuletzt aktualisiert:** 2026-10-21
+**Version:** 1.7.3 · **Zuletzt aktualisiert:** 2026-10-22
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,10 @@ MIT — siehe Datei LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Kontakt: alexio@trom.tf
 
 ## Verlauf / Changelog
+
+### 22. Oktober 2026 (v1.7.3)
+- Das Tag/Nacht-Widget („Zeit auf dem Körper“) repariert: Die Erdzeile zeigt nicht mehr „Winkel zur Sonne NaN°“ oder eine absurde Minutenzahl bis Mittag/Mitternacht (der Sonnentag der Erde fehlte in der Periodentabelle, und der Winkel zur Sonne wurde für die Erde gegen sich selbst berechnet).
+- Oberfläche: die Absätze der Anleitung, der Abschnitt „Eigenes TLE laden“, die Gezeitenbeschriftungen, die Fallbeschriftungen („Berichte“, „von 1981“), die Legende der Satellitenkategorien, die Schaltflächen „Vor/Zurück“ sowie Seitentitel und -beschreibung folgen jetzt in allen 8 Sprachen der Oberflächensprache.
 
 ### 21. Oktober 2026 (v1.7.2)
 - Karte und Tourschritt zu Valea Plopului wurden umformuliert und mit Quellenzuschreibung versehen: „laut Berichten … in den zitierten Quellen als erster beglaubigter und begutachteter Fall dargestellt … nicht unabhängig überprüft; der Fall bleibt umstritten“ (nicht mehr als Tatsache formuliert); das Datum lautet „September 1972“, der Ort „Poșești“, die Messung wird Justin Capră „laut Berichten“ zugeschrieben. Die Tour-Legende ist jetzt in fr/it/es/pt/de/hu übersetzt (zuvor fiel sie auf Englisch zurück). Der Text zu Valea Plopului ist mit ValeaPlopului1972 abgeglichen; Test `tests/vp-case.test.mjs`.

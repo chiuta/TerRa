@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.7.2 · **Last updated:** 2026-10-21
+**Version:** 1.7.3 · **Last updated:** 2026-10-22
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,10 @@ MIT — see the LICENSE file
 Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 
 ## History / Changelog
+
+### 22 October 2026 (v1.7.3)
+- Fixed the day/night widget ("Time on the body"): the Earth row no longer shows "angle from the Sun NaN°" or an absurd number of minutes until noon/midnight (the solar day of the Earth was missing from the table of periods and the angle to the Sun was computed for the Earth against itself).
+- Interface: the guide paragraphs, the "Load your own TLE" section, the tide labels, the case captions ("reports", "from 1981"), the satellite category legend, the "Forward/Backward" buttons and the page title/description now follow the interface language in all 8 languages.
 
 ### 21 October 2026 (v1.7.2)
 - The Valea Plopului card and tour step were reworded and attributed: "according to accounts … presented in the cited sources as the first attested and expert-assessed case … not independently verified; the case remains disputed" (no longer stated as fact); the date is "September 1972", the locality "Poșești", the measurement credited to Justin Capră "according to accounts". The tour caption is now translated in fr/it/es/pt/de/hu (it previously fell back to English). The Valea Plopului text is aligned with ValeaPlopului1972; test `tests/vp-case.test.mjs`.
