@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.7.3 · **Ultima actualizare:** 2026-10-22
+**Versiune:** 1.7.4 · **Ultima actualizare:** 2026-10-22
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -128,6 +128,7 @@ Terra este un vizualizator în timp real al Pământului într-un singur fișier
 
 ## Istoric / Changelog
 
+- 1.7.4 — 2026-10-22: **remediere**: numele planetelor, intrarea Hubble, etichetele „Salt rapid” și „Moment exact (local)” și eticheta cardului OZN urmează acum limba interfeței; listele de planete, obiecte notabile și puncte Lagrange se reconstruiesc la schimbarea limbii.
 ### 22 octombrie 2026 (v1.7.3)
 - Reparat widgetul zi/noapte („Ora pe corp”): rândul Pământ nu mai afișează „unghi față de Soare NaN°” și un număr absurd de minute până la amiază/miez de noapte (lipsea ziua solară a Pământului din tabelul de perioade, iar unghiul față de Soare era calculat pentru Pământ față de el însuși).
 - Interfață: paragrafele din ghid, secțiunea „Încarcă TLE propriu”, etichetele de maree, legendele cazurilor („relatări”, „din 1981”), legenda categoriilor de sateliți, butoanele „Înainte/Înapoi” și titlul/descrierea paginii urmează acum limba interfeței în toate cele 8 limbi.

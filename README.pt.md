@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.7.3 · **Última atualização:** 2026-10-22
+**Versão:** 1.7.4 · **Última atualização:** 2026-10-22
 
 Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -124,6 +124,7 @@ Alexio — Alexandru-Ionuț Chiuță. Contacto: alexio@trom.tf
 
 ## Histórico / Changelog
 
+- 1.7.4 — 2026-10-22: **correção**: os nomes dos planetas, a entrada do Hubble, os rótulos «Salto rápido» e «Momento exato (local)» e a etiqueta da ficha OVNI seguem agora o idioma da interface; as listas de planetas, objetos notáveis e pontos de Lagrange são reconstruídas ao mudar de idioma.
 ### 22 de outubro de 2026 (v1.7.3)
 - Corrigido o widget dia/noite («Hora no corpo»): a linha da Terra já não mostra «ângulo em relação ao Sol NaN°» nem um número absurdo de minutos até ao meio-dia/meia-noite (faltava o dia solar da Terra na tabela de períodos e o ângulo ao Sol era calculado para a Terra em relação a si própria).
 - Interface: os parágrafos do guia, a secção «Carregar o seu próprio TLE», as etiquetas de maré, as legendas dos casos («relatos», «de 1981»), a legenda das categorias de satélites, os botões «Avançar/Recuar» e o título/a descrição da página acompanham agora o idioma da interface nos 8 idiomas.

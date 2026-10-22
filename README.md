@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.7.3 · **Last updated:** 2026-10-22
+**Version:** 1.7.4 · **Last updated:** 2026-10-22
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -124,6 +124,7 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 
 ## History / Changelog
 
+- 1.7.4 — 2026-10-22: **fix**: planet names, the Hubble entry, the “Quick jump” and “Exact moment (local)” labels and the UFO-card tag now follow the interface language; the planet, notable-object and Lagrange lists are rebuilt on language change.
 ### 22 October 2026 (v1.7.3)
 - Fixed the day/night widget ("Time on the body"): the Earth row no longer shows "angle from the Sun NaN°" or an absurd number of minutes until noon/midnight (the solar day of the Earth was missing from the table of periods and the angle to the Sun was computed for the Earth against itself).
 - Interface: the guide paragraphs, the "Load your own TLE" section, the tide labels, the case captions ("reports", "from 1981"), the satellite category legend, the "Forward/Backward" buttons and the page title/description now follow the interface language in all 8 languages.

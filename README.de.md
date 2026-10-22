@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.7.3 · **Zuletzt aktualisiert:** 2026-10-22
+**Version:** 1.7.4 · **Zuletzt aktualisiert:** 2026-10-22
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -124,6 +124,7 @@ Alexio — Alexandru-Ionuț Chiuță. Kontakt: alexio@trom.tf
 
 ## Verlauf / Changelog
 
+- 1.7.4 — 2026-10-22: **Korrektur**: Planetennamen, der Hubble-Eintrag, die Beschriftungen „Schneller Sprung“ und „Genauer Zeitpunkt (lokal)“ sowie das Etikett der UFO-Karte folgen jetzt der Oberflächensprache; die Listen der Planeten, markanten Objekte und Lagrange-Punkte werden beim Sprachwechsel neu aufgebaut.
 ### 22. Oktober 2026 (v1.7.3)
 - Das Tag/Nacht-Widget („Zeit auf dem Körper“) repariert: Die Erdzeile zeigt nicht mehr „Winkel zur Sonne NaN°“ oder eine absurde Minutenzahl bis Mittag/Mitternacht (der Sonnentag der Erde fehlte in der Periodentabelle, und der Winkel zur Sonne wurde für die Erde gegen sich selbst berechnet).
 - Oberfläche: die Absätze der Anleitung, der Abschnitt „Eigenes TLE laden“, die Gezeitenbeschriftungen, die Fallbeschriftungen („Berichte“, „von 1981“), die Legende der Satellitenkategorien, die Schaltflächen „Vor/Zurück“ sowie Seitentitel und -beschreibung folgen jetzt in allen 8 Sprachen der Oberflächensprache.
