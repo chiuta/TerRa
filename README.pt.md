@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.7.5 · **Última atualização:** 2026-10-22
+**Versão:** 1.7.6 · **Última atualização:** 2026-10-22
 
 Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,9 @@ MIT — ver o ficheiro LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Contacto: alexio@trom.tf
 
 ## Histórico / Changelog
+
+### 1.7.6 — 2026-10-22
+- fff-kit 1.1.2: PBKDF2 com 600.000 iterações, proteção anti-clickjacking
 
 ### 1.7.5 — 2026-10-22
 - Móvel: o texto tem pelo menos 12 px e os botões e campos têm áreas táteis maiores em ecrãs estreitos.
