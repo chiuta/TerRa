@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.7.4 · **Utolsó frissítés:** 2026-10-22
+**Verzió:** 1.7.5 · **Utolsó frissítés:** 2026-10-22
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,11 @@ MIT — lásd a LICENSE fájlt
 Alexio — Alexandru-Ionuț Chiuță. Kapcsolat: alexio@trom.tf
 
 ## Előzmények / Changelog
+
+### 1.7.5 — 2026-10-22
+- Mobil: a szöveg legalább 12 px, a gombok és mezők érintési felülete pedig nagyobb keskeny képernyőn.
+- Akadálymentesség: a TLE-beillesztő mező, az élő adatforrások mezői (GTFS-RT, Movebank, BirdCast, CORS-proxy) és a szélességi/hosszúsági mezők mostantól a képernyőolvasók által felolvasott névvel rendelkeznek (8 nyelv).
+- Keskeny képernyőn a lebegő „Buy Me a Coffee” gomb el van rejtve, amíg a vezérlőpanel nyitva van, így már nem takarja el a panel szövegét.
 
 - 1.7.4 — 2026-10-22: **javítás**: a bolygók nevei, a Hubble-bejegyzés, a „Gyors ugrás” és a „Pontos időpont (helyi)” feliratok, valamint az UFO-kártya címkéje mostantól a felület nyelvét követik; a bolygók, a nevezetes objektumok és a Lagrange-pontok listája nyelvváltáskor újraépül.
 ### 2026. október 22. (v1.7.3)

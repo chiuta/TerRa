@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.7.4 · **Ultimo aggiornamento:** 2026-10-22
+**Versione:** 1.7.5 · **Ultimo aggiornamento:** 2026-10-22
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,11 @@ MIT — vedi il file LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Contatto: alexio@trom.tf
 
 ## Cronologia / Changelog
+
+### 1.7.5 — 2026-10-22
+- Mobile: il testo è di almeno 12 px e pulsanti e campi hanno aree tattili più grandi sugli schermi stretti.
+- Accessibilità: la casella di incolla TLE, i campi dei feed in tempo reale (GTFS-RT, Movebank, BirdCast, proxy CORS) e i campi latitudine/longitudine hanno ora un nome annunciato dagli screen reader (8 lingue).
+- Sugli schermi stretti il pulsante flottante «Buy Me a Coffee» è nascosto finché il pannello dei comandi è aperto, quindi non copre più il testo del pannello.
 
 - 1.7.4 — 2026-10-22: **correzione**: i nomi dei pianeti, la voce Hubble, le etichette «Salto rapido» e «Momento esatto (locale)» e l’etichetta della scheda UFO seguono ora la lingua dell’interfaccia; gli elenchi di pianeti, oggetti notevoli e punti di Lagrange vengono ricostruiti al cambio di lingua.
 ### 22 ottobre 2026 (v1.7.3)

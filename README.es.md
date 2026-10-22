@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.7.4 · **Última actualización:** 2026-10-22
+**Versión:** 1.7.5 · **Última actualización:** 2026-10-22
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,11 @@ MIT — véase el archivo LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Contacto: alexio@trom.tf
 
 ## Historial / Changelog
+
+### 1.7.5 — 2026-10-22
+- Móvil: el texto mide al menos 12 px y los botones y campos tienen áreas táctiles mayores en pantallas estrechas.
+- Accesibilidad: el cuadro para pegar TLE, los campos de las fuentes en vivo (GTFS-RT, Movebank, BirdCast, proxy CORS) y los campos de latitud/longitud tienen ahora un nombre que anuncian los lectores de pantalla (8 idiomas).
+- En pantallas estrechas, el botón flotante «Buy Me a Coffee» se oculta mientras el panel de controles está abierto, así que ya no tapa el texto del panel.
 
 - 1.7.4 — 2026-10-22: **corrección**: los nombres de los planetas, la entrada de Hubble, las etiquetas «Salto rápido» y «Momento exacto (local)» y la etiqueta de la ficha OVNI siguen ahora el idioma de la interfaz; las listas de planetas, objetos notables y puntos de Lagrange se reconstruyen al cambiar de idioma.
 ### 22 de octubre de 2026 (v1.7.3)

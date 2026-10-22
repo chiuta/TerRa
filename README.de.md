@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.7.4 · **Zuletzt aktualisiert:** 2026-10-22
+**Version:** 1.7.5 · **Zuletzt aktualisiert:** 2026-10-22
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,11 @@ MIT — siehe Datei LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Kontakt: alexio@trom.tf
 
 ## Verlauf / Changelog
+
+### 1.7.5 — 2026-10-22
+- Mobil: Der Text ist mindestens 12 px groß, und Schaltflächen und Felder haben auf schmalen Bildschirmen größere Touch-Flächen.
+- Barrierefreiheit: Das TLE-Einfügefeld, die Felder der Live-Feeds (GTFS-RT, Movebank, BirdCast, CORS-Proxy) und die Breiten-/Längengrad-Felder haben jetzt Namen, die Screenreader ansagen (8 Sprachen).
+- Auf schmalen Bildschirmen ist die schwebende Schaltfläche „Buy Me a Coffee“ ausgeblendet, solange das Bedienfeld geöffnet ist; sie verdeckt den Text des Feldes also nicht mehr.
 
 - 1.7.4 — 2026-10-22: **Korrektur**: Planetennamen, der Hubble-Eintrag, die Beschriftungen „Schneller Sprung“ und „Genauer Zeitpunkt (lokal)“ sowie das Etikett der UFO-Karte folgen jetzt der Oberflächensprache; die Listen der Planeten, markanten Objekte und Lagrange-Punkte werden beim Sprachwechsel neu aufgebaut.
 ### 22. Oktober 2026 (v1.7.3)

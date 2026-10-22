@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.7.4 · **Ultima actualizare:** 2026-10-22
+**Versiune:** 1.7.5 · **Ultima actualizare:** 2026-10-22
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -127,6 +127,11 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 Terra este un vizualizator în timp real al Pământului într-un singur fișier: terminator zi/noapte, Lună, planete, sateliți (SGP4), eclipse, un glob 3D și un mod de planetariu al cerului, cu interfață RO/EN. Un instantaneu orbital este încorporat, deci funcționează offline. Fluxurile live opționale contactează CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank și, dacă este configurat, un proxy CORS (corsproxy.io). Fără stocare locală. Licență MIT.
 
 ## Istoric / Changelog
+
+### 1.7.5 — 2026-10-22
+- Mobil: textul are cel puțin 12 px, iar butoanele și câmpurile au ținte tactile mai mari pe ecrane înguste.
+- Accesibilitate: caseta de lipire TLE, câmpurile fluxurilor live (GTFS-RT, Movebank, BirdCast, proxy CORS) și câmpurile latitudine/longitudine au acum nume anunțate de cititoarele de ecran (8 limbi).
+- Pe ecrane înguste, butonul flotant „Buy Me a Coffee” este ascuns cât timp panoul de comenzi e deschis, deci nu mai acoperă textul panoului.
 
 - 1.7.4 — 2026-10-22: **remediere**: numele planetelor, intrarea Hubble, etichetele „Salt rapid” și „Moment exact (local)” și eticheta cardului OZN urmează acum limba interfeței; listele de planete, obiecte notabile și puncte Lagrange se reconstruiesc la schimbarea limbii.
 ### 22 octombrie 2026 (v1.7.3)
