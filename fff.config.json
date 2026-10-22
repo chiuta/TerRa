@@ -1,0 +1,5 @@
+{
+  "exceptions": [
+    {"rule": "i18n-parity", "reason": "Fals pozitiv: RUMB_L este un tabel rar de înlocuiri ale literelor cardinale (N/E/S/W) pentru punctele busolei; o literă lipsă înseamnă „aceeași literă ca în engleză” (compass16 cade pe RUMB_EN). Ex.: en are {} intenționat, iar ro/fr/it/es/pt înlocuiesc doar W."}
+  ]
+}

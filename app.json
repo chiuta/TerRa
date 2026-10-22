@@ -26,8 +26,8 @@
   "storageKeys": [
     "terra.lang"
   ],
-  "sizeBytes": 3023054,
-  "sha256": "9abcbc574d08fee0cb49f63ef7ee6d4b05dc044c10ee74df0cf1a7f70b72f39d",
+  "sizeBytes": 3023379,
+  "sha256": "713c44cda2ceccf35002ed538c2875fc1be7be636c58f606ae585665ab62abc0",
   "csp": {
     "present": true,
     "directives": {
@@ -83,5 +83,11 @@
       "ephem"
     ]
   },
-  "selfSerializing": false
+  "selfSerializing": false,
+  "exceptions": [
+    {
+      "rule": "i18n-parity",
+      "reason": "Fals pozitiv: RUMB_L este un tabel rar de înlocuiri ale literelor cardinale (N/E/S/W) pentru punctele busolei; o literă lipsă înseamnă „aceeași literă ca în engleză” (compass16 cade pe RUMB_EN). Ex.: en are {} intenționat, iar ro/fr/it/es/pt înlocuiesc doar W."
+    }
+  ]
 }
