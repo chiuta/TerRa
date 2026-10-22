@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.7.7 · **Utolsó frissítés:** 2026-10-22
+**Verzió:** 1.7.8 · **Utolsó frissítés:** 2026-10-22
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,7 @@ MIT — lásd a LICENSE fájlt
 Alexio — Alexandru-Ionuț Chiuță. Kapcsolat: alexio@trom.tf
 
 ## Előzmények / Changelog
+- **1.7.8 — 2026-10-22:** Szöveg és célpontok: legalább 12 px a kijelölő kártyákon (telemetriai értékek, címkék), a bemutató számlálóján, a billentyűtippeken és a lábjegyzeteken; az efemerisz-konzol hivatkozásai (↗ 📡 👁) legalább 24 px-esek (durva mutatónál 44 px). Újabb ellenőrzés 360 és 1366 px-en: nincs 24 px alatti célpont és 12 px alatti szöveg.
 
 ### 1.7.7 — 2026-10-22
 

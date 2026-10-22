@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.7.7 · **Ultimo aggiornamento:** 2026-10-22
+**Versione:** 1.7.8 · **Ultimo aggiornamento:** 2026-10-22
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,7 @@ MIT — vedi il file LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Contatto: alexio@trom.tf
 
 ## Cronologia / Changelog
+- **1.7.8 — 2026-10-22:** Testo e bersagli: minimo 12 px nelle schede di selezione (valori di telemetria, etichette), nel contatore del tour, nei suggerimenti da tastiera e nelle note a piè di pagina; i link della console delle effemeridi (↗ 📡 👁) sono di almeno 24 px (44 px su puntatore grossolano). Nuovo audit a 360 e 1366 px: nessun bersaglio sotto 24 px né testo sotto 12 px.
 
 ### 1.7.7 — 2026-10-22
 

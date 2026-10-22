@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.7.7 · **Última atualização:** 2026-10-22
+**Versão:** 1.7.8 · **Última atualização:** 2026-10-22
 
 Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,7 @@ MIT — ver o ficheiro LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Contacto: alexio@trom.tf
 
 ## Histórico / Changelog
+- **1.7.8 — 2026-10-22:** Texto e alvos: mínimo de 12 px nas fichas de seleção (valores de telemetria, etiquetas), no contador da visita, nas dicas de teclado e nas notas do rodapé; as ligações da consola de efemérides (↗ 📡 👁) têm pelo menos 24 px (44 px com ponteiro grosseiro). Nova auditoria a 360 e 1366 px: nenhum alvo abaixo de 24 px nem texto abaixo de 12 px.
 
 ### 1.7.7 — 2026-10-22
 

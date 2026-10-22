@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.7.7 · **Última actualización:** 2026-10-22
+**Versión:** 1.7.8 · **Última actualización:** 2026-10-22
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,7 @@ MIT — véase el archivo LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Contacto: alexio@trom.tf
 
 ## Historial / Changelog
+- **1.7.8 — 2026-10-22:** Texto y objetivos: mínimo 12 px en las fichas de selección (valores de telemetría, etiquetas), el contador del recorrido, las pistas de teclado y las notas del pie; los enlaces de la consola de efemérides (↗ 📡 👁) miden al menos 24 px (44 px con puntero grueso). Nueva auditoría a 360 y 1366 px: ningún objetivo por debajo de 24 px ni texto por debajo de 12 px.
 
 ### 1.7.7 — 2026-10-22
 

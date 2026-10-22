@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.7.7 · **Dernière mise à jour :** 2026-10-22
+**Version :** 1.7.8 · **Dernière mise à jour :** 2026-10-22
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,7 @@ MIT — voir le fichier LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Contact : alexio@trom.tf
 
 ## Historique / Changelog
+- **1.7.8 — 2026-10-22:** Texte et cibles : minimum 12 px dans les cartes de sélection (valeurs de télémétrie, étiquettes), le compteur de la visite, les indices clavier et les notes de pied de page ; les liens de la console d’éphémérides (↗ 📡 👁) font au moins 24 px (44 px sur pointeur grossier). Nouvel audit à 360 et 1366 px : aucune cible sous 24 px ni texte sous 12 px.
 
 ### 1.7.7 — 2026-10-22
 

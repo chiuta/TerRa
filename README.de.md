@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.7.7 · **Zuletzt aktualisiert:** 2026-10-22
+**Version:** 1.7.8 · **Zuletzt aktualisiert:** 2026-10-22
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -123,6 +123,7 @@ MIT — siehe Datei LICENSE
 Alexio — Alexandru-Ionuț Chiuță. Kontakt: alexio@trom.tf
 
 ## Verlauf / Changelog
+- **1.7.8 — 2026-10-22:** Text und Ziele: mindestens 12 px in den Auswahlkarten (Telemetriewerte, Tags), dem Tour-Zähler, den Tastaturhinweisen und den Fußnoten; die Links der Ephemeriden-Konsole (↗ 📡 👁) sind mindestens 24 px groß (44 px bei grobem Zeiger). Erneute Prüfung bei 360 und 1366 px: kein Ziel unter 24 px und kein Text unter 12 px.
 
 ### 1.7.7 — 2026-10-22
 

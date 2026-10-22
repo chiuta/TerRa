@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.7.7 · **Ultima actualizare:** 2026-10-22
+**Versiune:** 1.7.8 · **Ultima actualizare:** 2026-10-22
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -127,6 +127,7 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 Terra este un vizualizator în timp real al Pământului într-un singur fișier: terminator zi/noapte, Lună, planete, sateliți (SGP4), eclipse, un glob 3D și un mod de planetariu al cerului, cu interfață RO/EN. Un instantaneu orbital este încorporat, deci funcționează offline. Fluxurile live opționale contactează CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank și, dacă este configurat, un proxy CORS (corsproxy.io). Fără stocare locală. Licență MIT.
 
 ## Istoric / Changelog
+- **1.7.8 — 2026-10-22:** Text și ținte: minimum 12 px în cardurile de selecție (valori de telemetrie, etichete), contorul turului, indiciile de tastatură și notele din subsol; legăturile din consola de efemeride (↗ 📡 👁) au cel puțin 24 px (44 px pe pointer grosier). Re-audit la 360 și 1366 px: nicio țintă sub 24 px și niciun text sub 12 px.
 
 ### 1.7.7 — 2026-10-22
 
