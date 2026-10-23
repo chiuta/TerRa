@@ -83,7 +83,7 @@ La sección **«Efemérides locales»** del panel (la línea de resumen) y la ve
 
 ## Privacidad y red
 
-- La aplicación no usa cookies, `localStorage` ni ningún otro tipo de almacenamiento local (no encontré llamadas de almacenamiento en el código) y no tiene analítica.
+- La aplicación no usa cookies y no tiene analítica. Lo único que se guarda en el navegador es el idioma elegido de la interfaz (`localStorage`, clave `terra.lang`); el resto se ejecuta en local y no se almacena nada más.
 - Sin tus acciones, la aplicación no realiza solicitudes de red. Cuando activas funciones en línea, el navegador contacta directamente con:
   - `celestrak.org` (TLE de satélites) y, como respaldo, `raw.githubusercontent.com` (espejo de CelesTrak);
   - `services.swpc.noaa.gov` (meteorología espacial, óvalo auroral) y `earthquake.usgs.gov` (terremotos);

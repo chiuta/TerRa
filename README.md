@@ -83,7 +83,7 @@ The **"Local ephemerides"** section of the panel (the summary line) and the **"O
 
 ## Privacy and network
 
-- The application uses no cookies, `localStorage` or any other kind of local storage (I found no storage calls in the code) and has no analytics.
+- The application uses no cookies and has no analytics. The only thing kept in the browser is the chosen interface language (`localStorage`, key `terra.lang`); the rest runs locally and nothing else is stored.
 - Without your actions, the application makes no network requests. When you enable online features, the browser contacts directly:
   - `celestrak.org` (satellite TLEs) and, as a fallback, `raw.githubusercontent.com` (a CelesTrak mirror);
   - `services.swpc.noaa.gov` (space weather, auroral oval) and `earthquake.usgs.gov` (earthquakes);
