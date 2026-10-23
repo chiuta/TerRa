@@ -83,7 +83,7 @@ Secțiunea **„Efemeride locale”** din panou (linia-rezumat) și fereastra **
 
 ## Confidențialitate și rețea
 
-- Aplicația nu folosește cookie-uri, `localStorage` sau alt tip de stocare locală (nu am găsit apeluri de stocare în cod) și nu are analitice.
+- Aplicația nu folosește cookie-uri și nu are analitice. Singurul lucru păstrat în browser este limba aleasă a interfeței (`localStorage`, cheia `terra.lang`); restul rulează local și nu se stochează nimic altceva.
 - Fără acțiunile dumneavoastră, aplicația nu face cereri de rețea. Când activați funcții online, browserul contactează direct:
   - `celestrak.org` (TLE sateliți) și, ca rezervă, `raw.githubusercontent.com` (oglindă CelesTrak);
   - `services.swpc.noaa.gov` (vreme spațială, oval auroral) și `earthquake.usgs.gov` (cutremure);

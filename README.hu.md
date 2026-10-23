@@ -83,7 +83,7 @@ A panel **„Helyi efemeridák”** szakasza (az összegző sor) és a **„Hely
 
 ## Adatvédelem és hálózat
 
-- Az alkalmazás nem használ sütiket, `localStorage`-ot vagy más helyi tárolást (a kódban nem találtam tárolási hívásokat), és nincs benne analitika.
+- Az alkalmazás nem használ sütiket, és nincs benne analitika. A böngészőben csak a választott felületi nyelv marad meg (`localStorage`, kulcs: `terra.lang`); minden más helyben fut, és semmi más nem tárolódik.
 - A te műveleteid nélkül az alkalmazás nem küld hálózati kéréseket. Amikor online funkciókat kapcsolsz be, a böngésző közvetlenül ezekkel veszi fel a kapcsolatot:
   - `celestrak.org` (műhold-TLE-k) és tartalékként `raw.githubusercontent.com` (CelesTrak-tükör);
   - `services.swpc.noaa.gov` (űridőjárás, sarki fény ovális) és `earthquake.usgs.gov` (földrengések);

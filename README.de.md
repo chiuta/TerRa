@@ -83,7 +83,7 @@ Der Abschnitt **„Lokale Ephemeriden“** im Panel (die Zusammenfassungszeile) 
 
 ## Datenschutz und Netzwerk
 
-- Die Anwendung verwendet keine Cookies, kein `localStorage` und keine andere Art lokaler Speicherung (im Code habe ich keine Speicheraufrufe gefunden) und hat keine Analytics.
+- Die Anwendung verwendet keine Cookies und hat keine Analytics. Im Browser wird nur die gewählte Oberflächensprache gespeichert (`localStorage`, Schlüssel `terra.lang`); alles andere läuft lokal, nichts sonst wird gespeichert.
 - Ohne deine Aktionen stellt die Anwendung keine Netzwerkanfragen. Wenn du Online-Funktionen aktivierst, kontaktiert der Browser direkt:
   - `celestrak.org` (Satelliten-TLE) und als Ausweichlösung `raw.githubusercontent.com` (CelesTrak-Spiegel);
   - `services.swpc.noaa.gov` (Weltraumwetter, Polarlichtoval) und `earthquake.usgs.gov` (Erdbeben);

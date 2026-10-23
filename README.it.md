@@ -83,7 +83,7 @@ La sezione **«Effemeridi locali»** del pannello (la riga di riepilogo) e la fi
 
 ## Privacy e rete
 
-- L'applicazione non usa cookie, `localStorage` né altro tipo di archiviazione locale (non ho trovato chiamate di archiviazione nel codice) e non ha analytics.
+- L'applicazione non usa cookie e non ha analytics. L'unica cosa conservata nel browser è la lingua scelta dell'interfaccia (`localStorage`, chiave `terra.lang`); il resto gira in locale e non viene memorizzato altro.
 - Senza le tue azioni, l'applicazione non effettua richieste di rete. Quando attivi funzioni online, il browser contatta direttamente:
   - `celestrak.org` (TLE dei satelliti) e, come riserva, `raw.githubusercontent.com` (mirror di CelesTrak);
   - `services.swpc.noaa.gov` (meteo spaziale, ovale aurorale) e `earthquake.usgs.gov` (terremoti);
