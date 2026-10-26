@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.7.10 · **Ultima actualizare:** 2026-10-26
+**Versiune:** 2.0.0 · **Ultima actualizare:** 2026-10-26
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -18,6 +18,8 @@ Terra · timp real (titlul paginii: „Pământul în timp real — Terminator �
 
 ## Funcții
 
+- **Măsurare pe elipsoid (2.0.0):** butonul „📏 Măsoară distanța (hartă 2D)” din panoul de timp. Atingi două puncte pe harta 2D și obții distanța geodezică pe elipsoidul WGS-84 (formula lui Vincenty, verificată cu cazul de referință Flinders Peak–Buninyong = 54 972,271 m), distanța pe sferă, diferența, azimutul inițial și final și elevația Soarelui în fiecare punct la momentul ales (zi / amurg civil, nautic, astronomic / noapte). Pentru puncte aproape antipodale metoda nu converge și se afișează doar distanța pe sferă. Atenție: calculul este pe elipsoid, nu pe geoidul EGM (nu există model de geoid în aplicație).
+- **Zi/noapte la dată aleasă:** exista deja (câmpul „Moment exact”); v2.0.0 adaugă elevația Soarelui în punctele măsurate. **Deriva continentală nu e inclusă:** aplicația nu conține date paleo-geografice, iar acestea nu se inventează.
 - Moduri: **2D**, **3D** și **Cer**, plus turuburi ghidate: „▶ Tur ghidat", „🌓 Terminatoare", „🌒 Eclipse" și „🛸 Cazuri UAP/FAN".
 - Terminatorul zi/noapte calculat în timp real, lumini urbane pe partea de noapte, punctul subsolar, punctul sublunar și faza Lunii.
 - Control al timpului: pauză/redare, viteze (1×, 60×, 600×, 3600×, 1 zi/s), salt rapid (−7z … +7z, ±1h) și „Moment exact (local)"; „⦿ Revino la acum (live)".
@@ -127,6 +129,7 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 Terra este un vizualizator în timp real al Pământului într-un singur fișier: terminator zi/noapte, Lună, planete, sateliți (SGP4), eclipse, un glob 3D și un mod de planetariu al cerului, cu interfață RO/EN. Un instantaneu orbital este încorporat, deci funcționează offline. Fluxurile live opționale contactează CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank și, dacă este configurat, un proxy CORS (corsproxy.io). Fără stocare locală. Licență MIT.
 
 ## Istoric / Changelog
+- **2.0.0 — 2026-10-26:** măsurare de distanțe pe elipsoidul WGS-84 (Vincenty) cu elevația Soarelui la momentul ales.
 - **1.7.8 — 2026-10-22:** Text și ținte: minimum 12 px în cardurile de selecție (valori de telemetrie, etichete), contorul turului, indiciile de tastatură și notele din subsol; legăturile din consola de efemeride (↗ 📡 👁) au cel puțin 24 px (44 px pe pointer grosier). Re-audit la 360 și 1366 px: nicio țintă sub 24 px și niciun text sub 12 px.
 
 ### 1.7.7 — 2026-10-22

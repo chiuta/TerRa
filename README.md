@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.7.10 · **Last updated:** 2026-10-26
+**Version:** 2.0.0 · **Last updated:** 2026-10-26
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -18,6 +18,8 @@ Terra · real time (the page title: "The Earth in real time — Terminator · Mo
 
 ## Features
 
+- **Measurement on the ellipsoid (2.0.0):** the "📏 Measure distance (2D map)" button in the time panel. Tap two points on the 2D map to get the geodesic distance on the WGS-84 ellipsoid (Vincenty's formula, checked against the Flinders Peak–Buninyong reference case = 54,972.271 m), the spherical distance, the difference, the initial and final azimuth, and the Sun's elevation at each point for the chosen moment (day / civil, nautical, astronomical twilight / night). For nearly antipodal points the method does not converge and only the spherical distance is shown. Note: computed on the ellipsoid, not on the EGM geoid (the app has no geoid model).
+- **Day/night at a chosen date:** already available (the "Exact moment" field); v2.0.0 adds the Sun's elevation at the measured points. **Continental drift is not included:** the app has no palaeogeographic data, and none is invented.
 - Modes: **2D**, **3D** and **Sky**, plus guided tours: "▶ Guided tour", "🌓 Terminators", "🌒 Eclipses" and "🛸 UAP/UFO cases".
 - The day/night terminator computed in real time, city lights on the night side, the subsolar point, the sublunar point and the phase of the Moon.
 - Time control: pause/play, speeds (1×, 60×, 600×, 3600×, 1 day/s), quick jumps (−7d … +7d, ±1h) and "Exact moment (local)"; "⦿ Back to now (live)".
@@ -123,6 +125,7 @@ MIT — see the LICENSE file
 Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 
 ## History / Changelog
+- **2.0.0 — 2026-10-26:** distance measurement on the WGS-84 ellipsoid (Vincenty) with the Sun's elevation at the chosen moment.
 - **1.7.8 — 2026-10-22:** Text and targets: minimum 12 px in the selection cards (telemetry values, tags), the tour counter, keyboard hints and footer notes; the ephemeris-console links (↗ 📡 👁) are at least 24 px (44 px on coarse pointers). Re-audit at 360 and 1366 px: no target under 24 px and no text under 12 px.
 
 ### 1.7.7 — 2026-10-22
