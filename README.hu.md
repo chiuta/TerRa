@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 2.0.0 · **Utolsó frissítés:** 2026-10-26
+**Verzió:** 2.1.0 · **Utolsó frissítés:** 2026-10-27
+
+**Állapot:** stabil · **Offline:** teljes a térképhez, a Naphoz, a Holdhoz, a bolygókhoz és a beágyazott műhold-pillanatképhez; a TLE-frissítés és az élő csatornák internetet igényelnek (az utoljára letöltött TLE-készlet https/localhost alatt offline újratölthető)
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -81,9 +83,17 @@ A panel **„Helyi efemeridák”** szakasza (az összegző sor) és a **„Hely
 7. Élő adatfolyamok: nyomd meg a „Lekérés …” gombokat a megfelelő paneleken (alapértelmezés szerint ki vannak kapcsolva).
 8. A nyelvet az „EN”/„RO” gombbal válthatod.
 
+## A TLE forrása és az adatok kora (2.1.0)
+
+- **Forrás.** A műholdelemek a CelesTrak nyilvános TLE-adatai (a 18th Space Defense Squadron adatai). A beágyazott pillanatkép 1527 objektumot tartalmaz a CelesTrak `stations` (24), `science` (49), `weather` (74), `resource` (167), `oneweb` (120), `starlink` (520) és `geo` (573) csoportjaiból, valamint az ISS-t, a Tiangongot és a Hubble-t „figyelemre méltó” objektumként. A „⟲ Frissítés (online)” a kiválasztott csoportot a `celestrak.org`-ról tölti le (tartalék: tükör a `raw.githubusercontent.com`-on).
+- **A pillanatkép kora.** Az epochák **2026-06-06 és 2026-07-01** között vannak, a medián **2026-06-28** (a fájlban lévő adatokból számolva; a letöltés pontos időpontját nem rögzítették, így a pillanatkép 2026-07-01-én vagy később készült). 2026-10-27-én a medián ≈ 120 napos. Ilyen régi elemekkel a műholdak helyzete közelítő; az alkalmazás 7 napnál régebbi adatoknál figyelmeztet.
+- **Az alkalmazásban.** Az „Adatforrás (TLE)” panel most megmutatja a forrást és az epochák tartományát/mediánját (letöltött készletnél a letöltés idejét és a csoportot; helyi másolatnál azt, mikor töltötték le).
+- **Offline másolat (új).** Sikeres frissítés után az utoljára letöltött készlet ebben a böngészőben marad (Cache Storage; nem a `localStorage`-ban, nem a `.fff.json` mentésekben). A „💾 Utoljára letöltött adatok (helyi másolat)” gomb internet nélkül újratölti, a „Helyi másolat törlése” pedig eltávolítja. Csak https vagy localhost alatt működik (`file://`-ról nem); a 6 MB feletti készleteket nem menti. A pillanatkép marad az alapértelmezett forrás.
+- **Javítás.** A TLE-epocha julián dátummá alakítása 1–2 nappal korábbi értéket adott, így az SGP4 1–2 nappal tovább propagált, és a műholdak rossz helyen jelentek meg. A javítás után a pillanatkép 72 alacsony pályás műholdja 0,001 km-en belül egyezik a `sgp4` (Python) referenciakönyvtárral +0, +6 óra és +24 óra esetén; a `tests/tle-cache.test.mjs` az ISS-t ellenőrzi. Nem ellenőrzött: a mélyűri objektumok (periódus > 225 perc, a geostacionáriusokat is beleértve), amelyek egyszerűsített Kepler–J2 modellt használnak.
+
 ## Adatvédelem és hálózat
 
-- Az alkalmazás nem használ sütiket, és nincs benne analitika. A böngészőben csak a választott felületi nyelv marad meg (`localStorage`, kulcs: `terra.lang`); minden más helyben fut, és semmi más nem tárolódik.
+- Az alkalmazás nem használ sütiket, és nincs benne analitika. A böngészőben csak a választott felületi nyelv marad meg (`localStorage`, kulcs: `terra.lang`); minden más helyben fut, és semmi más nem tárolódik. A 2.1.0-ban sikeres frissítés után az utoljára letöltött TLE-készlet a Cache Storage-ban is megmarad (nyilvános adat, sehová sem kerül; a panelből törölhető).
 - A te műveleteid nélkül az alkalmazás nem küld hálózati kéréseket. Amikor online funkciókat kapcsolsz be, a böngésző közvetlenül ezekkel veszi fel a kapcsolatot:
   - `celestrak.org` (műhold-TLE-k) és tartalékként `raw.githubusercontent.com` (CelesTrak-tükör);
   - `services.swpc.noaa.gov` (űridőjárás, sarki fény ovális) és `earthquake.usgs.gov` (földrengések);

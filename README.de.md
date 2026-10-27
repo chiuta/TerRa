@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 2.0.0 · **Zuletzt aktualisiert:** 2026-10-26
+**Version:** 2.1.0 · **Zuletzt aktualisiert:** 2026-10-27
+
+**Status:** stabil · **Offline:** vollständig für Karte, Sonne, Mond, Planeten und den eingebetteten Satelliten-Snapshot; die TLE-Aktualisierung und die Live-Feeds brauchen Internet (der zuletzt heruntergeladene TLE-Satz lässt sich auf https/localhost offline neu laden)
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -81,9 +83,17 @@ Der Abschnitt **„Lokale Ephemeriden“** im Panel (die Zusammenfassungszeile) 
 7. Live-Feeds: Drücke die Schaltflächen „Abrufen …“ in den jeweiligen Panels (sie sind standardmäßig aus).
 8. Wechsle die Sprache mit der Schaltfläche „EN“/„RO“.
 
+## Quelle der TLE und Alter der Daten (2.1.0)
+
+- **Quelle.** Die Satellitenelemente sind öffentliche TLE von CelesTrak (Daten der 18th Space Defense Squadron). Der eingebettete Snapshot enthält 1.527 Objekte aus den CelesTrak-Gruppen `stations` (24), `science` (49), `weather` (74), `resource` (167), `oneweb` (120), `starlink` (520) und `geo` (573), dazu ISS, Tiangong und Hubble als „bemerkenswerte“ Objekte. „⟲ Aktualisieren (online)“ lädt die gewählte Gruppe von `celestrak.org` (Ausweichziel: ein Spiegel auf `raw.githubusercontent.com`).
+- **Alter des Snapshots.** Epochen zwischen **2026-06-06 und 2026-07-01**, Median **2026-06-28** (aus den Daten in der Datei berechnet; das genaue Download-Datum wurde nicht festgehalten, der Snapshot entstand also am 2026-07-01 oder danach). Am 2026-10-27 ist der Median ≈ 120 Tage alt. Satellitenpositionen sind bei so alten Elementen nur ungefähr; die App warnt ab 7 Tagen.
+- **In der App.** Das Panel „Datenquelle (TLE)“ zeigt jetzt die Quelle und den Bereich/Median der Epochen (bei einem heruntergeladenen Satz: Download-Zeit und Gruppe; bei einer lokalen Kopie: wann sie heruntergeladen wurde).
+- **Offline-Kopie (neu).** Nach einer erfolgreichen Aktualisierung bleibt der zuletzt heruntergeladene Satz in diesem Browser (Cache Storage; nicht in `localStorage`, nicht in `.fff.json`-Sicherungen). Die Schaltfläche „💾 Zuletzt heruntergeladene Daten (lokale Kopie)“ lädt ihn ohne Internet neu, „Lokale Kopie löschen“ entfernt ihn. Es funktioniert nur über https oder localhost (nicht von `file://`); Sätze über 6 MB werden nicht gespeichert. Der Snapshot bleibt die Standardquelle.
+- **Korrektur.** Die Umrechnung der TLE-Epoche in das Julianische Datum lag 1–2 Tage zu früh, sodass SGP4 1–2 Tage zu lang propagierte und Satelliten an falschen Positionen gezeichnet wurden. Nach der Korrektur stimmen 72 Satelliten niedriger Bahn aus dem Snapshot mit der Referenzbibliothek `sgp4` (Python) auf 0,001 km bei +0, +6 h und +24 h überein; `tests/tle-cache.test.mjs` prüft die ISS. Nicht geprüft: Objekte im tiefen Raum (Periode > 225 min, einschließlich geostationärer), die ein vereinfachtes Kepler-J2-Modell nutzen.
+
 ## Datenschutz und Netzwerk
 
-- Die Anwendung verwendet keine Cookies und hat keine Analytics. Im Browser wird nur die gewählte Oberflächensprache gespeichert (`localStorage`, Schlüssel `terra.lang`); alles andere läuft lokal, nichts sonst wird gespeichert.
+- Die Anwendung verwendet keine Cookies und hat keine Analytics. Im Browser wird nur die gewählte Oberflächensprache gespeichert (`localStorage`, Schlüssel `terra.lang`); alles andere läuft lokal, nichts sonst wird gespeichert. In 2.1.0 wird nach einer erfolgreichen Aktualisierung der zuletzt heruntergeladene TLE-Satz auch im Cache Storage gehalten (öffentliche Daten, werden nirgendwohin gesendet; im Panel löschbar).
 - Ohne deine Aktionen stellt die Anwendung keine Netzwerkanfragen. Wenn du Online-Funktionen aktivierst, kontaktiert der Browser direkt:
   - `celestrak.org` (Satelliten-TLE) und als Ausweichlösung `raw.githubusercontent.com` (CelesTrak-Spiegel);
   - `services.swpc.noaa.gov` (Weltraumwetter, Polarlichtoval) und `earthquake.usgs.gov` (Erdbeben);

@@ -2,7 +2,9 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 2.0.0 · **Ultima actualizare:** 2026-10-26
+**Versiune:** 2.1.0 · **Ultima actualizare:** 2026-10-27
+
+**Stare:** stabil · **Offline:** complet pentru hartă, Soare, Lună, planete și snapshotul de sateliți încorporat; actualizarea TLE și feedurile live cer internet (ultimul set TLE descărcat se poate reîncărca offline pe https/localhost)
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -83,9 +85,17 @@ Secțiunea **„Efemeride locale”** din panou (linia-rezumat) și fereastra **
 7. Feeduri live: apăsați butoanele „Adu …" din panourile respective (ele sunt oprite implicit).
 8. Schimbați limba cu butonul „EN"/„RO".
 
+## Sursa TLE și vechimea datelor (2.1.0)
+
+- **Sursa.** Elementele sateliților sunt TLE publice de la CelesTrak (date ale 18th Space Defense Squadron). Snapshotul încorporat conține 1 527 de obiecte din grupurile CelesTrak `stations` (24), `science` (49), `weather` (74), `resource` (167), `oneweb` (120), `starlink` (520) și `geo` (573), plus ISS, Tiangong și Hubble ca obiecte „notabile”. „⟲ Actualizează (online)” descarcă grupul ales de pe `celestrak.org` (rezervă: o oglindă pe `raw.githubusercontent.com`).
+- **Vechimea snapshotului.** Epoci între **2026-06-06 și 2026-07-01**, mediană **2026-06-28** (calculate din datele din fișier; data exactă a descărcării nu a fost înregistrată, deci snapshotul a fost făcut la 2026-07-01 sau după). La 2026-10-27 mediana are ≈ 120 de zile. Pozițiile sateliților sunt aproximative pentru elemente atât de vechi; aplicația avertizează când au peste 7 zile.
+- **În aplicație.** Panoul „Sursă de date (TLE)” arată acum sursa și intervalul/mediana epocilor (pentru un set descărcat: ora descărcării și grupul; pentru o copie locală: când a fost descărcată).
+- **Copie offline (nou).** După o actualizare reușită, ultimul set descărcat se păstrează în acest browser (Cache Storage; nu în `localStorage`, nu în copiile `.fff.json`). Butonul „💾 Ultimele date descărcate (copie locală)” îl reîncarcă fără internet, iar „Șterge copia locală” îl elimină. Funcționează doar pe https sau localhost (nu din `file://`); seturile peste 6 MB nu se salvează. Snapshotul rămâne sursa implicită.
+- **Corecție.** Conversia epocii TLE în zi iuliană ieșea cu 1–2 zile prea devreme, deci SGP4 propaga cu 1–2 zile prea mult, iar sateliții erau desenați în poziții greșite. După corecție, 72 de sateliți de orbită joasă din snapshot coincid cu biblioteca de referință `sgp4` (Python) la 0,001 km la +0, +6 h și +24 h; `tests/tle-cache.test.mjs` verifică ISS. Neverificat: obiectele de spațiu adânc (perioadă > 225 min, inclusiv geostaționarii), care folosesc un model kepleriano-J2 simplificat.
+
 ## Confidențialitate și rețea
 
-- Aplicația nu folosește cookie-uri și nu are analitice. Singurul lucru păstrat în browser este limba aleasă a interfeței (`localStorage`, cheia `terra.lang`); restul rulează local și nu se stochează nimic altceva.
+- Aplicația nu folosește cookie-uri și nu are analitice. Singurul lucru păstrat în browser este limba aleasă a interfeței (`localStorage`, cheia `terra.lang`); restul rulează local și nu se stochează nimic altceva. În 2.1.0, după o actualizare reușită, ultimul set TLE descărcat se păstrează și în Cache Storage (date publice, nu pleacă nicăieri; se pot șterge din panou).
 - Fără acțiunile dumneavoastră, aplicația nu face cereri de rețea. Când activați funcții online, browserul contactează direct:
   - `celestrak.org` (TLE sateliți) și, ca rezervă, `raw.githubusercontent.com` (oglindă CelesTrak);
   - `services.swpc.noaa.gov` (vreme spațială, oval auroral) și `earthquake.usgs.gov` (cutremure);
