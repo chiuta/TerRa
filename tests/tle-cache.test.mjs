@@ -1,4 +1,4 @@
-// TerRa 2.1.0 — sursa/vechimea TLE afișate din date reale + copie locală (Cache Storage) pentru offline.
+// TerRa 2.2.0 — sursa/vechimea TLE afișate din date reale + copie locală (Cache Storage) pentru offline.
 // Rulare: node tests/tle-cache.test.mjs   (Playwright: PW_ROOT=/opt/node-tools/package.json; Chromium: CHROMIUM_PATH=...)
 // Pagina e servită de pe http://localhost (context sigur → Cache Storage); CelesTrak este simulat (fără rețea reală).
 import http from "node:http";

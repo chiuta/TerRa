@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 2.1.0 · **Dernière mise à jour :** 2026-10-27
+**Version :** 2.2.0 · **Dernière mise à jour :** 2026-10-27
 
 **État :** stable · **Hors ligne :** complet pour la carte, le Soleil, la Lune, les planètes et le snapshot de satellites intégré ; la mise à jour des TLE et les flux en direct demandent internet (le dernier jeu de TLE téléchargé peut être rechargé hors ligne sur https/localhost)
 
@@ -23,7 +23,7 @@ Terra · temps réel (titre de la page : « La Terre en temps réel — Terminat
 - Modes : **2D**, **3D** et **Ciel**, plus des visites guidées : « ▶ Visite guidée », « 🌓 Terminateurs », « 🌒 Éclipses » et « 🛸 Cas OVNI/PAN ».
 - Le terminateur jour/nuit calculé en temps réel, les lumières des villes côté nuit, le point subsolaire, le point sublunaire et la phase de la Lune.
 - Contrôle du temps : pause/lecture, vitesses (1×, 60×, 600×, 3600×, 1 jour/s), sauts rapides (−7 j … +7 j, ±1 h) et « Instant exact (local) » ; « ⦿ Revenir à maintenant (direct) ».
-- Satellites propagés avec SGP4 (orbites basses) et un modèle képlérien-J2 (géostationnaires) ; catégories : stations spatiales, visibles à l'œil nu, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, scientifiques, météo, observation de la Terre, géostationnaires ; chargement de vos propres TLE (texte ou fichier).
+- Satellites propagés avec SGP4 (orbites basses) et SDP4 (espace lointain : géostationnaires, GPS, Molniya ; secours képlérien-J2 en cas d'erreur) ; catégories : stations spatiales, visibles à l'œil nu, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, scientifiques, météo, observation de la Terre, géostationnaires ; chargement de vos propres TLE (texte ou fichier).
 - Planètes et Pluton/Charon comme points subplanétaires ; objets remarquables (ISS, Tiangong, Hubble), points de Lagrange et sondes (JWST, Gaia, Euclid, SOHO, DSCOVR) ; liste d'OVNI signalés (elle documente des témoignages, elle n'affirme aucune origine extraterrestre).
 - Couches : frontières, eaux territoriales, côte détaillée, fleuves et lacs (Natural Earth), villes / capitales, grille lat/long, relief fractal procédural, carte verticale pour mobile.
 - Mode « Ciel » : Voie lactée, objets Messier, constellations, essaims de météores, écliptique, observateur au sol ou sur d'autres corps ; « Pointer vers le ciel (AR) » avec la boussole/le gyroscope du téléphone.
@@ -132,7 +132,19 @@ MIT — voir le fichier LICENSE
 
 Alexio — Alexandru-Ionuț Chiuță. Contact : alexio@trom.tf
 
+## SDP4 for deep space (2.2.0)
+
+_(English only; not yet translated into this language. Machine translation intentionally not added to avoid errors in technical statements.)_
+
+- Satellites with a period ≥ 225 min (geostationary, GPS, Molniya, 12-hour orbits) are now propagated with **SDP4** (lunisolar perturbations + geosynchronous and 12-hour resonances) instead of the simplified Keplerian-J2 model; the Keplerian-J2 model remains only as a fallback if SDP4 reports an error.
+- **Validated against the Python `sgp4` library 2.27 (WGS-72):** 6,080 deep-space points from the embedded set (608 satellites × 10 epochs, from −7 to +30 days), maximum deviation **2.7·10⁻⁸ km** (velocity 3.7·10⁻¹² km/s), covering resonance cases irez 0/1/2; the Vallado verification set (33 TLEs, 225 deep points): 2.4·10⁻⁹ km. The reference in `tests/sdp4-ref.json` (56 satellites, 455 deep points) is regenerated with `tests/gen-sdp4-ref.py`; `tests/sdp4.test.mjs`: 531/531.
+- Limit: validation is against the reference SGP4/SDP4 implementation on TLEs, not against measured positions; the embedded TLEs have June 2026 epochs, so about 4 months old (see "Data source (TLE)").
+
 ## Historique / Changelog
+
+### 2.2.0 — 2026-10-27
+- SDP4 for deep space, validated against `sgp4` (Python).
+
 - **1.7.8 — 2026-10-22:** Texte et cibles : minimum 12 px dans les cartes de sélection (valeurs de télémétrie, étiquettes), le compteur de la visite, les indices clavier et les notes de pied de page ; les liens de la console d’éphémérides (↗ 📡 👁) font au moins 24 px (44 px sur pointeur grossier). Nouvel audit à 360 et 1366 px : aucune cible sous 24 px ni texte sous 12 px.
 
 ### 1.7.7 — 2026-10-22

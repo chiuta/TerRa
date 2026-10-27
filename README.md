@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 2.1.0 · **Last updated:** 2026-10-27
+**Version:** 2.2.0 · **Last updated:** 2026-10-27
 
 **Status:** stable · **Offline:** complete for the map, Sun, Moon, planets and the embedded satellite snapshot; the TLE update and the live feeds need internet (the last downloaded TLE set can be reloaded offline on https/localhost)
 
@@ -25,7 +25,7 @@ Terra · real time (the page title: "The Earth in real time — Terminator · Mo
 - Modes: **2D**, **3D** and **Sky**, plus guided tours: "▶ Guided tour", "🌓 Terminators", "🌒 Eclipses" and "🛸 UAP/UFO cases".
 - The day/night terminator computed in real time, city lights on the night side, the subsolar point, the sublunar point and the phase of the Moon.
 - Time control: pause/play, speeds (1×, 60×, 600×, 3600×, 1 day/s), quick jumps (−7d … +7d, ±1h) and "Exact moment (local)"; "⦿ Back to now (live)".
-- Satellites propagated with SGP4 (low orbits) and a Keplerian-J2 model (geostationary); categories: space stations, visible to the naked eye, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, scientific, weather, Earth observation, geostationary; loading of your own TLE (text or file).
+- Satellites propagated with SGP4 (low orbits) and SDP4 (deep space: geostationary, GPS, Molniya; Keplerian-J2 fallback on error); categories: space stations, visible to the naked eye, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, scientific, weather, Earth observation, geostationary; loading of your own TLE (text or file).
 - Planets and Pluto/Charon as sub-planetary points; notable objects (ISS, Tiangong, Hubble), Lagrange points and probes (JWST, Gaia, Euclid, SOHO, DSCOVR); a list of reported UFOs (it documents accounts, it does not assert an extraterrestrial origin).
 - Layers: borders, territorial waters, detailed coastline, rivers and lakes (Natural Earth), cities / capitals, lat/long grid, procedural fractal relief, vertical map for mobile.
 - "Sky" mode: the Milky Way, Messier objects, constellations, meteor showers, the ecliptic, an observer on the ground or on other bodies; "Point at the sky (AR)" with the phone's compass/gyroscope.
@@ -134,7 +134,17 @@ MIT — see the LICENSE file
 
 Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 
+## SDP4 for deep space (2.2.0)
+
+- Satellites with a period ≥ 225 min (geostationary, GPS, Molniya, 12-hour orbits) are now propagated with **SDP4** (lunisolar perturbations + geosynchronous and 12-hour resonances) instead of the simplified Keplerian-J2 model; the Keplerian-J2 model remains only as a fallback if SDP4 reports an error.
+- **Validated against the Python `sgp4` library 2.27 (WGS-72):** 6,080 deep-space points from the embedded set (608 satellites × 10 epochs, from −7 to +30 days), maximum deviation **2.7·10⁻⁸ km** (velocity 3.7·10⁻¹² km/s), covering resonance cases irez 0/1/2; the Vallado verification set (33 TLEs, 225 deep points): 2.4·10⁻⁹ km. The reference in `tests/sdp4-ref.json` (56 satellites, 455 deep points) is regenerated with `tests/gen-sdp4-ref.py`; `tests/sdp4.test.mjs`: 531/531.
+- Limit: validation is against the reference SGP4/SDP4 implementation on TLEs, not against measured positions; the embedded TLEs have June 2026 epochs, so about 4 months old (see "Data source (TLE)").
+
 ## History / Changelog
+
+### 2.2.0 — 2026-10-27
+- SDP4 for deep space, validated against `sgp4` (Python).
+
 - **2.0.0 — 2026-10-26:** distance measurement on the WGS-84 ellipsoid (Vincenty) with the Sun's elevation at the chosen moment.
 - **1.7.8 — 2026-10-22:** Text and targets: minimum 12 px in the selection cards (telemetry values, tags), the tour counter, keyboard hints and footer notes; the ephemeris-console links (↗ 📡 👁) are at least 24 px (44 px on coarse pointers). Re-audit at 360 and 1366 px: no target under 24 px and no text under 12 px.
 

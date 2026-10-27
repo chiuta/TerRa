@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 2.1.0 · **Ultimo aggiornamento:** 2026-10-27
+**Versione:** 2.2.0 · **Ultimo aggiornamento:** 2026-10-27
 
 **Stato:** stabile · **Offline:** completo per mappa, Sole, Luna, pianeti e snapshot dei satelliti incorporato; l'aggiornamento dei TLE e i feed live richiedono internet (l'ultimo set TLE scaricato si può ricaricare offline su https/localhost)
 
@@ -23,7 +23,7 @@ Terra · tempo reale (titolo della pagina: «La Terra in tempo reale — Termina
 - Modalità: **2D**, **3D** e **Cielo**, più visite guidate: «▶ Visita guidata», «🌓 Terminatori», «🌒 Eclissi» e «🛸 Casi UFO/UAP».
 - Il terminatore giorno/notte calcolato in tempo reale, le luci delle città sul lato notturno, il punto subsolare, il punto sublunare e la fase della Luna.
 - Controllo del tempo: pausa/riproduzione, velocità (1×, 60×, 600×, 3600×, 1 giorno/s), salti rapidi (−7g … +7g, ±1h) e «Momento esatto (locale)»; «⦿ Torna ad adesso (diretta)».
-- Satelliti propagati con SGP4 (orbite basse) e un modello kepleriano-J2 (geostazionari); categorie: stazioni spaziali, visibili a occhio nudo, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, scientifici, meteo, osservazione della Terra, geostazionari; caricamento di TLE propri (testo o file).
+- Satelliti propagati con SGP4 (orbite basse) e SDP4 (spazio profondo: geostazionari, GPS, Molniya; riserva kepleriana-J2 in caso di errore); categorie: stazioni spaziali, visibili a occhio nudo, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, scientifici, meteo, osservazione della Terra, geostazionari; caricamento di TLE propri (testo o file).
 - Pianeti e Plutone/Caronte come punti subplanetari; oggetti notevoli (ISS, Tiangong, Hubble), punti di Lagrange e sonde (JWST, Gaia, Euclid, SOHO, DSCOVR); elenco di UFO segnalati (documenta resoconti, non afferma un'origine extraterrestre).
 - Livelli: confini, acque territoriali, costa dettagliata, fiumi e laghi (Natural Earth), città / capitali, griglia lat/long, rilievo frattale procedurale, mappa verticale per dispositivi mobili.
 - Modalità «Cielo»: Via Lattea, oggetti Messier, costellazioni, sciami meteorici, eclittica, osservatore da terra o da altri corpi; «Punta verso il cielo (AR)» con la bussola/il giroscopio del telefono.
@@ -132,7 +132,19 @@ MIT — vedi il file LICENSE
 
 Alexio — Alexandru-Ionuț Chiuță. Contatto: alexio@trom.tf
 
+## SDP4 for deep space (2.2.0)
+
+_(English only; not yet translated into this language. Machine translation intentionally not added to avoid errors in technical statements.)_
+
+- Satellites with a period ≥ 225 min (geostationary, GPS, Molniya, 12-hour orbits) are now propagated with **SDP4** (lunisolar perturbations + geosynchronous and 12-hour resonances) instead of the simplified Keplerian-J2 model; the Keplerian-J2 model remains only as a fallback if SDP4 reports an error.
+- **Validated against the Python `sgp4` library 2.27 (WGS-72):** 6,080 deep-space points from the embedded set (608 satellites × 10 epochs, from −7 to +30 days), maximum deviation **2.7·10⁻⁸ km** (velocity 3.7·10⁻¹² km/s), covering resonance cases irez 0/1/2; the Vallado verification set (33 TLEs, 225 deep points): 2.4·10⁻⁹ km. The reference in `tests/sdp4-ref.json` (56 satellites, 455 deep points) is regenerated with `tests/gen-sdp4-ref.py`; `tests/sdp4.test.mjs`: 531/531.
+- Limit: validation is against the reference SGP4/SDP4 implementation on TLEs, not against measured positions; the embedded TLEs have June 2026 epochs, so about 4 months old (see "Data source (TLE)").
+
 ## Cronologia / Changelog
+
+### 2.2.0 — 2026-10-27
+- SDP4 for deep space, validated against `sgp4` (Python).
+
 - **1.7.8 — 2026-10-22:** Testo e bersagli: minimo 12 px nelle schede di selezione (valori di telemetria, etichette), nel contatore del tour, nei suggerimenti da tastiera e nelle note a piè di pagina; i link della console delle effemeridi (↗ 📡 👁) sono di almeno 24 px (44 px su puntatore grossolano). Nuovo audit a 360 e 1366 px: nessun bersaglio sotto 24 px né testo sotto 12 px.
 
 ### 1.7.7 — 2026-10-22
