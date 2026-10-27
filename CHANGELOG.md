@@ -2,6 +2,21 @@
 
 Format: SemVer (MAJOR.MINOR.PATCH). Intrările mai vechi sunt copiate din README (secțiunea „History / Changelog”), neschimbate.
 
+## 2.2.0 — 2026-10-27 (anterior: 2.1.0)
+
+Stare: stabil
+Offline: complet pentru hartă, Soare, Lună, planete și snapshotul de sateliți încorporat; actualizarea TLE și feedurile live cer internet
+
+Tura 2 a recenziei:
+- **SDP4 (spațiu adânc)**, port din Vallado et al. (2006): perturbații lunisolare (dscom/dpper), rezonanțe geosincronă și de 12 h (dsinit/dspace). Satelitul cu perioadă ≥ 225 min nu mai folosește Kepler+J2; acesta rămâne doar rezervă la eroare SDP4.
+- Validat față de biblioteca Python `sgp4` 2.27 (WGS-72): 6 080 de puncte deep din setul încorporat (rezonanțe irez 0/1/2), abatere maximă 2,7·10⁻⁸ km; setul Vallado (33 TLE, 225 puncte deep) 2,4·10⁻⁹ km; near-earth: 8 352 de puncte comparate cu versiunea 2.1.0 coincid la sub 10⁻⁶ km, cu o singură excepție (obiectul de test Vallado 29141, în decădere, la +30 de zile: 1,6 km, unde noua versiune coincide cu Python; abatere maximă față de Python pe tot setul near-earth: 3,6·10⁻⁵ km).
+- Teste noi: `tests/sdp4.test.mjs` (531 de verificări, fără browser) cu referința `tests/sdp4-ref.json` și generatorul `tests/gen-sdp4-ref.py`.
+- Texte: despre/ghid (RO, EN) și traducerile fr/it/es/pt/de/hu ale paragrafului despre propagare, marcate „traducere automată”; README (8 limbi) corectat.
+- NU s-a făcut: validare față de poziții măsurate; actualizarea TLE-urilor încorporate (cere descărcare); test al Cache Storage din `file://`.
+- Versiune 2.2.0 în `index.html`, `sw.js`, `app.json`, teste.
+
+---
+
 ## 2.1.0 — 2026-10-27 (anterior: 2.0.0)
 
 Stare: stabil

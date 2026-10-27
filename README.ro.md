@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 2.1.0 · **Ultima actualizare:** 2026-10-27
+**Versiune:** 2.2.0 · **Ultima actualizare:** 2026-10-27
 
 **Stare:** stabil · **Offline:** complet pentru hartă, Soare, Lună, planete și snapshotul de sateliți încorporat; actualizarea TLE și feedurile live cer internet (ultimul set TLE descărcat se poate reîncărca offline pe https/localhost)
 
@@ -25,7 +25,7 @@ Terra · timp real (titlul paginii: „Pământul în timp real — Terminator �
 - Moduri: **2D**, **3D** și **Cer**, plus turuburi ghidate: „▶ Tur ghidat", „🌓 Terminatoare", „🌒 Eclipse" și „🛸 Cazuri UAP/FAN".
 - Terminatorul zi/noapte calculat în timp real, lumini urbane pe partea de noapte, punctul subsolar, punctul sublunar și faza Lunii.
 - Control al timpului: pauză/redare, viteze (1×, 60×, 600×, 3600×, 1 zi/s), salt rapid (−7z … +7z, ±1h) și „Moment exact (local)"; „⦿ Revino la acum (live)".
-- Sateliți propagați cu SGP4 (orbite joase) și model kepleriano-J2 (geostaționari); categorii: stații spațiale, vizibili cu ochiul liber, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, științifici, meteo, observarea Terrei, geostaționari; încărcare de TLE propriu (text sau fișier).
+- Sateliți propagați cu SGP4 (orbite joase) și SDP4 (spațiu adânc: geostaționari, GPS, Molniya; rezervă kepleriano-J2 la eroare); categorii: stații spațiale, vizibili cu ochiul liber, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, științifici, meteo, observarea Terrei, geostaționari; încărcare de TLE propriu (text sau fișier).
 - Planete și Pluto/Charon ca puncte sub-planetare; obiecte notabile (ISS, Tiangong, Hubble), puncte Lagrange și sonde (JWST, Gaia, Euclid, SOHO, DSCOVR); listă de OZN-uri raportate (documentează relatări, nu afirmă origine extraterestră).
 - Straturi: granițe, ape teritoriale, coastă detaliată, râuri și lacuri (Natural Earth), orașe / capitale, grilă lat/long, relief fractal procedural, hartă verticală pentru mobil.
 - Modul „Cer": Calea Lactee, obiecte Messier, constelații, roiuri de meteori, ecliptica, observator de pe sol sau de pe alte corpuri; „Îndreaptă spre cer (AR)" cu busola/giroscopul telefonului.
@@ -138,7 +138,17 @@ Alexio — Alexandru-Ionuț Chiuță. Contact: alexio@trom.tf
 
 Terra este un vizualizator în timp real al Pământului într-un singur fișier: terminator zi/noapte, Lună, planete, sateliți (SGP4), eclipse, un glob 3D și un mod de planetariu al cerului, cu interfață RO/EN. Un instantaneu orbital este încorporat, deci funcționează offline. Fluxurile live opționale contactează CelesTrak, NOAA SWPC, USGS, Open-Meteo, adsb.fi/adsb.lol, SondeHub, RainViewer, Movebank și, dacă este configurat, un proxy CORS (corsproxy.io). Fără stocare locală. Licență MIT.
 
+## SDP4 pentru spațiu adânc (2.2.0)
+
+- Sateliții cu perioadă ≥ 225 min (geostaționari, GPS, Molniya, orbite de 12 h) se propagă acum cu **SDP4** (perturbații lunisolare + rezonanțe geosincronă și de 12 h), nu cu modelul kepleriano-J2 simplificat; modelul kepleriano-J2 rămâne doar ca rezervă dacă SDP4 raportează eroare.
+- **Validare față de biblioteca Python `sgp4` 2.27 (WGS-72):** 6 080 de puncte de spațiu adânc din setul încorporat (608 sateliți × 10 momente, între −7 și +30 de zile), abatere maximă **2,7·10⁻⁸ km** (viteză 3,7·10⁻¹² km/s), acoperind rezonanțele irez 0/1/2; setul de verificare Vallado (33 de TLE, 225 de puncte deep): 2,4·10⁻⁹ km. Referința din `tests/sdp4-ref.json` (56 de sateliți, 455 de puncte deep) se regenerează cu `tests/gen-sdp4-ref.py`; `tests/sdp4.test.mjs`: 531/531.
+- Limită: validarea e față de implementarea de referință SGP4/SDP4 pe TLE-uri, nu față de poziții măsurate; TLE-urile încorporate au epoci din iunie 2026, deci ≈ 4 luni vechime (vezi „Sursă de date (TLE)”).
+
 ## Istoric / Changelog
+
+### 2.2.0 — 2026-10-27
+- SDP4 pentru spațiu adânc, validat față de `sgp4` (Python).
+
 - **2.0.0 — 2026-10-26:** măsurare de distanțe pe elipsoidul WGS-84 (Vincenty) cu elevația Soarelui la momentul ales.
 - **1.7.8 — 2026-10-22:** Text și ținte: minimum 12 px în cardurile de selecție (valori de telemetrie, etichete), contorul turului, indiciile de tastatură și notele din subsol; legăturile din consola de efemeride (↗ 📡 👁) au cel puțin 24 px (44 px pe pointer grosier). Re-audit la 360 și 1366 px: nicio țintă sub 24 px și niciun text sub 12 px.
 

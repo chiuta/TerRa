@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 2.1.0 · **Última actualización:** 2026-10-27
+**Versión:** 2.2.0 · **Última actualización:** 2026-10-27
 
 **Estado:** estable · **Sin conexión:** completo para el mapa, el Sol, la Luna, los planetas y la instantánea de satélites incorporada; la actualización de TLE y los feeds en vivo requieren internet (el último conjunto de TLE descargado se puede recargar sin conexión en https/localhost)
 
@@ -23,7 +23,7 @@ Terra · tiempo real (título de la página: «La Tierra en tiempo real — Term
 - Modos: **2D**, **3D** y **Cielo**, además de visitas guiadas: «▶ Visita guiada», «🌓 Terminadores», «🌒 Eclipses» y «🛸 Casos OVNI/FANI».
 - El terminador día/noche calculado en tiempo real, luces urbanas en el lado nocturno, el punto subsolar, el punto sublunar y la fase de la Luna.
 - Control del tiempo: pausa/reproducción, velocidades (1×, 60×, 600×, 3600×, 1 día/s), saltos rápidos (−7d … +7d, ±1h) y «Momento exacto (local)»; «⦿ Volver a ahora (en directo)».
-- Satélites propagados con SGP4 (órbitas bajas) y un modelo kepleriano-J2 (geoestacionarios); categorías: estaciones espaciales, visibles a simple vista, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, científicos, meteorológicos, observación de la Tierra, geoestacionarios; carga de TLE propios (texto o archivo).
+- Satélites propagados con SGP4 (órbitas bajas) y SDP4 (espacio profundo: geoestacionarios, GPS, Molniya; respaldo kepleriano-J2 ante errores); categorías: estaciones espaciales, visibles a simple vista, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, científicos, meteorológicos, observación de la Tierra, geoestacionarios; carga de TLE propios (texto o archivo).
 - Planetas y Plutón/Caronte como puntos subplanetarios; objetos notables (ISS, Tiangong, Hubble), puntos de Lagrange y sondas (JWST, Gaia, Euclid, SOHO, DSCOVR); lista de OVNIs reportados (documenta relatos, no afirma origen extraterrestre).
 - Capas: fronteras, aguas territoriales, costa detallada, ríos y lagos (Natural Earth), ciudades / capitales, cuadrícula lat/long, relieve fractal procedimental, mapa vertical para móvil.
 - Modo «Cielo»: Vía Láctea, objetos Messier, constelaciones, lluvias de meteoros, eclíptica, observador desde el suelo o desde otros cuerpos; «Apuntar al cielo (AR)» con la brújula/el giroscopio del teléfono.
@@ -132,7 +132,19 @@ MIT — véase el archivo LICENSE
 
 Alexio — Alexandru-Ionuț Chiuță. Contacto: alexio@trom.tf
 
+## SDP4 for deep space (2.2.0)
+
+_(English only; not yet translated into this language. Machine translation intentionally not added to avoid errors in technical statements.)_
+
+- Satellites with a period ≥ 225 min (geostationary, GPS, Molniya, 12-hour orbits) are now propagated with **SDP4** (lunisolar perturbations + geosynchronous and 12-hour resonances) instead of the simplified Keplerian-J2 model; the Keplerian-J2 model remains only as a fallback if SDP4 reports an error.
+- **Validated against the Python `sgp4` library 2.27 (WGS-72):** 6,080 deep-space points from the embedded set (608 satellites × 10 epochs, from −7 to +30 days), maximum deviation **2.7·10⁻⁸ km** (velocity 3.7·10⁻¹² km/s), covering resonance cases irez 0/1/2; the Vallado verification set (33 TLEs, 225 deep points): 2.4·10⁻⁹ km. The reference in `tests/sdp4-ref.json` (56 satellites, 455 deep points) is regenerated with `tests/gen-sdp4-ref.py`; `tests/sdp4.test.mjs`: 531/531.
+- Limit: validation is against the reference SGP4/SDP4 implementation on TLEs, not against measured positions; the embedded TLEs have June 2026 epochs, so about 4 months old (see "Data source (TLE)").
+
 ## Historial / Changelog
+
+### 2.2.0 — 2026-10-27
+- SDP4 for deep space, validated against `sgp4` (Python).
+
 - **1.7.8 — 2026-10-22:** Texto y objetivos: mínimo 12 px en las fichas de selección (valores de telemetría, etiquetas), el contador del recorrido, las pistas de teclado y las notas del pie; los enlaces de la consola de efemérides (↗ 📡 👁) miden al menos 24 px (44 px con puntero grueso). Nueva auditoría a 360 y 1366 px: ningún objetivo por debajo de 24 px ni texto por debajo de 12 px.
 
 ### 1.7.7 — 2026-10-22

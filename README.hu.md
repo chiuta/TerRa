@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 2.1.0 · **Utolsó frissítés:** 2026-10-27
+**Verzió:** 2.2.0 · **Utolsó frissítés:** 2026-10-27
 
 **Állapot:** stabil · **Offline:** teljes a térképhez, a Naphoz, a Holdhoz, a bolygókhoz és a beágyazott műhold-pillanatképhez; a TLE-frissítés és az élő csatornák internetet igényelnek (az utoljára letöltött TLE-készlet https/localhost alatt offline újratölthető)
 
@@ -23,7 +23,7 @@ A Terra · valós idő (az oldal címe: „A Föld valós időben — Termináto
 - Módok: **2D**, **3D** és **Égbolt**, valamint vezetett túrák: „▶ Vezetett túra”, „🌓 Terminátorok”, „🌒 Fogyatkozások” és „🛸 UFO/UAP-esetek”.
 - A nappal/éjszaka terminátor valós időben kiszámítva, városi fények az éjszakai oldalon, a szubszoláris pont, a szublunáris pont és a Hold fázisa.
 - Időszabályozás: szünet/lejátszás, sebességek (1×, 60×, 600×, 3600×, 1 nap/mp), gyors ugrások (−7 n … +7 n, ±1 ó) és „Pontos időpont (helyi)”; „⦿ Vissza a mostra (élő)”.
-- SGP4-gyel (alacsony pályák) és kepleri–J2 modellel (geostacionárius) propagált műholdak; kategóriák: űrállomások, szabad szemmel látható, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, tudományos, meteorológiai, Földmegfigyelés, geostacionárius; saját TLE betöltése (szöveg vagy fájl).
+- SGP4-gyel (alacsony pályák) és SDP4-gyel (mélyűr: geostacionárius, GPS, Molniya; hiba esetén kepleri–J2 tartalék) propagált műholdak; kategóriák: űrállomások, szabad szemmel látható, Starlink, OneWeb, GPS, Galileo, GLONASS, BeiDou, tudományos, meteorológiai, Földmegfigyelés, geostacionárius; saját TLE betöltése (szöveg vagy fájl).
 - A bolygók és a Plútó/Charon szubplanetáris pontokként; említésre méltó objektumok (ISS, Tiangong, Hubble), Lagrange-pontok és szondák (JWST, Gaia, Euclid, SOHO, DSCOVR); a jelentett UFO-k listája (beszámolókat dokumentál, nem állít földönkívüli eredetet).
 - Rétegek: határok, felségvizek, részletes partvonal, folyók és tavak (Natural Earth), városok / fővárosok, szélességi/hosszúsági rács, procedurális fraktál domborzat, függőleges térkép mobilra.
 - „Égbolt” mód: Tejútrendszer, Messier-objektumok, csillagképek, meteorrajok, ekliptika, megfigyelő a földről vagy más égitestekről; „Az égboltra mutatás (AR)” a telefon iránytűjével/giroszkópjával.
@@ -132,7 +132,19 @@ MIT — lásd a LICENSE fájlt
 
 Alexio — Alexandru-Ionuț Chiuță. Kapcsolat: alexio@trom.tf
 
+## SDP4 for deep space (2.2.0)
+
+_(English only; not yet translated into this language. Machine translation intentionally not added to avoid errors in technical statements.)_
+
+- Satellites with a period ≥ 225 min (geostationary, GPS, Molniya, 12-hour orbits) are now propagated with **SDP4** (lunisolar perturbations + geosynchronous and 12-hour resonances) instead of the simplified Keplerian-J2 model; the Keplerian-J2 model remains only as a fallback if SDP4 reports an error.
+- **Validated against the Python `sgp4` library 2.27 (WGS-72):** 6,080 deep-space points from the embedded set (608 satellites × 10 epochs, from −7 to +30 days), maximum deviation **2.7·10⁻⁸ km** (velocity 3.7·10⁻¹² km/s), covering resonance cases irez 0/1/2; the Vallado verification set (33 TLEs, 225 deep points): 2.4·10⁻⁹ km. The reference in `tests/sdp4-ref.json` (56 satellites, 455 deep points) is regenerated with `tests/gen-sdp4-ref.py`; `tests/sdp4.test.mjs`: 531/531.
+- Limit: validation is against the reference SGP4/SDP4 implementation on TLEs, not against measured positions; the embedded TLEs have June 2026 epochs, so about 4 months old (see "Data source (TLE)").
+
 ## Előzmények / Changelog
+
+### 2.2.0 — 2026-10-27
+- SDP4 for deep space, validated against `sgp4` (Python).
+
 - **1.7.8 — 2026-10-22:** Szöveg és célpontok: legalább 12 px a kijelölő kártyákon (telemetriai értékek, címkék), a bemutató számlálóján, a billentyűtippeken és a lábjegyzeteken; az efemerisz-konzol hivatkozásai (↗ 📡 👁) legalább 24 px-esek (durva mutatónál 44 px). Újabb ellenőrzés 360 és 1366 px-en: nincs 24 px alatti célpont és 12 px alatti szöveg.
 
 ### 1.7.7 — 2026-10-22
