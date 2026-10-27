@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 2.0.0 · **Ultimo aggiornamento:** 2026-10-26
+**Versione:** 2.1.0 · **Ultimo aggiornamento:** 2026-10-27
+
+**Stato:** stabile · **Offline:** completo per mappa, Sole, Luna, pianeti e snapshot dei satelliti incorporato; l'aggiornamento dei TLE e i feed live richiedono internet (l'ultimo set TLE scaricato si può ricaricare offline su https/localhost)
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -81,9 +83,17 @@ La sezione **«Effemeridi locali»** del pannello (la riga di riepilogo) e la fi
 7. Feed in diretta: premi i pulsanti «Recupera …» nei rispettivi pannelli (sono disattivati per impostazione predefinita).
 8. Cambia la lingua con il pulsante «EN»/«RO».
 
+## Fonte dei TLE ed età dei dati (2.1.0)
+
+- **Fonte.** Gli elementi dei satelliti sono TLE pubblici di CelesTrak (dati del 18th Space Defense Squadron). Lo snapshot incorporato contiene 1.527 oggetti dei gruppi CelesTrak `stations` (24), `science` (49), `weather` (74), `resource` (167), `oneweb` (120), `starlink` (520) e `geo` (573), più ISS, Tiangong e Hubble come oggetti «notevoli». «⟲ Aggiorna (online)» scarica il gruppo scelto da `celestrak.org` (alternativa: uno specchio su `raw.githubusercontent.com`).
+- **Età dello snapshot.** Epoche tra **2026-06-06 e 2026-07-01**, mediana **2026-06-28** (calcolate dai dati nel file; la data esatta del download non è stata registrata, quindi lo snapshot è stato fatto il 2026-07-01 o dopo). Al 2026-10-27 la mediana ha ≈ 120 giorni. Le posizioni dei satelliti sono approssimate per elementi così vecchi; l'app avvisa oltre i 7 giorni.
+- **Nell'app.** Il pannello «Fonte dati (TLE)» mostra ora la fonte e l'intervallo/la mediana delle epoche (per un set scaricato: ora del download e gruppo; per una copia locale: quando è stata scaricata).
+- **Copia offline (novità).** Dopo un aggiornamento riuscito, l'ultimo set scaricato resta in questo browser (Cache Storage; non in `localStorage`, non nei backup `.fff.json`). Il pulsante «💾 Ultimi dati scaricati (copia locale)» lo ricarica senza internet e «Elimina la copia locale» lo rimuove. Funziona solo su https o localhost (non da `file://`); i set oltre 6 MB non vengono salvati. Lo snapshot resta la fonte predefinita.
+- **Correzione.** La conversione dell'epoca TLE in giorno giuliano era in anticipo di 1–2 giorni: SGP4 propagava 1–2 giorni di troppo e i satelliti erano disegnati in posizioni sbagliate. Dopo la correzione, 72 satelliti in orbita bassa dello snapshot coincidono con la libreria di riferimento `sgp4` (Python) a 0,001 km a +0, +6 h e +24 h; `tests/tle-cache.test.mjs` verifica l'ISS. Non verificati: gli oggetti di spazio profondo (periodo > 225 min, inclusi i geostazionari), che usano un modello kepleriano-J2 semplificato.
+
 ## Privacy e rete
 
-- L'applicazione non usa cookie e non ha analytics. L'unica cosa conservata nel browser è la lingua scelta dell'interfaccia (`localStorage`, chiave `terra.lang`); il resto gira in locale e non viene memorizzato altro.
+- L'applicazione non usa cookie e non ha analytics. L'unica cosa conservata nel browser è la lingua scelta dell'interfaccia (`localStorage`, chiave `terra.lang`); il resto gira in locale e non viene memorizzato altro. Nella 2.1.0, dopo un aggiornamento riuscito, l'ultimo set TLE scaricato viene conservato anche in Cache Storage (dati pubblici, mai inviati altrove; eliminabile dal pannello).
 - Senza le tue azioni, l'applicazione non effettua richieste di rete. Quando attivi funzioni online, il browser contatta direttamente:
   - `celestrak.org` (TLE dei satelliti) e, come riserva, `raw.githubusercontent.com` (mirror di CelesTrak);
   - `services.swpc.noaa.gov` (meteo spaziale, ovale aurorale) e `earthquake.usgs.gov` (terremoti);

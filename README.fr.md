@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 2.0.0 · **Dernière mise à jour :** 2026-10-26
+**Version :** 2.1.0 · **Dernière mise à jour :** 2026-10-27
+
+**État :** stable · **Hors ligne :** complet pour la carte, le Soleil, la Lune, les planètes et le snapshot de satellites intégré ; la mise à jour des TLE et les flux en direct demandent internet (le dernier jeu de TLE téléchargé peut être rechargé hors ligne sur https/localhost)
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -81,9 +83,17 @@ La section **« Éphémérides locales »** du panneau (la ligne de synthèse) e
 7. Flux en direct : appuyez sur les boutons « Récupérer … » des panneaux concernés (ils sont désactivés par défaut).
 8. Changez de langue avec le bouton « EN »/« RO ».
 
+## Source des TLE et ancienneté des données (2.1.0)
+
+- **Source.** Les éléments des satellites sont des TLE publics de CelesTrak (données du 18th Space Defense Squadron). Le snapshot intégré contient 1 527 objets des groupes CelesTrak `stations` (24), `science` (49), `weather` (74), `resource` (167), `oneweb` (120), `starlink` (520) et `geo` (573), plus l'ISS, Tiangong et Hubble comme objets « notables ». « ⟲ Mettre à jour (en ligne) » télécharge le groupe choisi depuis `celestrak.org` (secours : un miroir sur `raw.githubusercontent.com`).
+- **Ancienneté du snapshot.** Époques entre **2026-06-06 et 2026-07-01**, médiane **2026-06-28** (calculées à partir des données du fichier ; la date exacte du téléchargement n'a pas été enregistrée, le snapshot date donc du 2026-07-01 ou après). Au 2026-10-27, la médiane a ≈ 120 jours. Les positions des satellites sont approximatives pour des éléments aussi anciens ; l'application avertit au-delà de 7 jours.
+- **Dans l'application.** Le panneau « Source de données (TLE) » affiche désormais la source et l'intervalle/la médiane des époques (pour un jeu téléchargé : l'heure du téléchargement et le groupe ; pour une copie locale : quand elle a été téléchargée).
+- **Copie hors ligne (nouveau).** Après une mise à jour réussie, le dernier jeu téléchargé est conservé dans ce navigateur (Cache Storage ; pas dans `localStorage`, pas dans les sauvegardes `.fff.json`). Le bouton « 💾 Dernières données téléchargées (copie locale) » le recharge sans internet et « Supprimer la copie locale » l'efface. Cela ne fonctionne que sur https ou localhost (pas depuis `file://`) ; les jeux de plus de 6 Mo ne sont pas enregistrés. Le snapshot reste la source par défaut.
+- **Correction.** La conversion de l'époque TLE en jour julien était 1 à 2 jours trop tôt : SGP4 propageait 1 à 2 jours de trop et les satellites étaient dessinés à de mauvaises positions. Après correction, 72 satellites en orbite basse du snapshot concordent avec la bibliothèque de référence `sgp4` (Python) à 0,001 km à +0, +6 h et +24 h ; `tests/tle-cache.test.mjs` vérifie l'ISS. Non vérifié : les objets de l'espace lointain (période > 225 min, géostationnaires compris), qui utilisent un modèle képlérien-J2 simplifié.
+
 ## Confidentialité et réseau
 
-- L'application n'utilise pas de cookies et n'a pas d'analytique. La seule chose conservée dans le navigateur est la langue choisie de l'interface (`localStorage`, clé `terra.lang`) ; le reste s'exécute en local et rien d'autre n'est stocké.
+- L'application n'utilise pas de cookies et n'a pas d'analytique. La seule chose conservée dans le navigateur est la langue choisie de l'interface (`localStorage`, clé `terra.lang`) ; le reste s'exécute en local et rien d'autre n'est stocké. Dans la 2.1.0, après une mise à jour réussie, le dernier jeu de TLE téléchargé est aussi conservé dans Cache Storage (données publiques, jamais envoyées ailleurs ; effaçable depuis le panneau).
 - Sans vos actions, l'application n'effectue aucune requête réseau. Lorsque vous activez des fonctions en ligne, le navigateur contacte directement :
   - `celestrak.org` (TLE des satellites) et, en secours, `raw.githubusercontent.com` (miroir de CelesTrak) ;
   - `services.swpc.noaa.gov` (météo spatiale, ovale auroral) et `earthquake.usgs.gov` (séismes) ;

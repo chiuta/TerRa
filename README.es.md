@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 2.0.0 · **Última actualización:** 2026-10-26
+**Versión:** 2.1.0 · **Última actualización:** 2026-10-27
+
+**Estado:** estable · **Sin conexión:** completo para el mapa, el Sol, la Luna, los planetas y la instantánea de satélites incorporada; la actualización de TLE y los feeds en vivo requieren internet (el último conjunto de TLE descargado se puede recargar sin conexión en https/localhost)
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -81,9 +83,17 @@ La sección **«Efemérides locales»** del panel (la línea de resumen) y la ve
 7. Feeds en directo: pulsa los botones «Traer …» de los paneles correspondientes (están desactivados por defecto).
 8. Cambia el idioma con el botón «EN»/«RO».
 
+## Fuente de los TLE y antigüedad de los datos (2.1.0)
+
+- **Fuente.** Los elementos de los satélites son TLE públicos de CelesTrak (datos del 18th Space Defense Squadron). La instantánea incorporada contiene 1527 objetos de los grupos de CelesTrak `stations` (24), `science` (49), `weather` (74), `resource` (167), `oneweb` (120), `starlink` (520) y `geo` (573), más la ISS, Tiangong y Hubble como objetos «notables». «⟲ Actualizar (en línea)» descarga el grupo elegido de `celestrak.org` (alternativa: un espejo en `raw.githubusercontent.com`).
+- **Antigüedad de la instantánea.** Épocas entre **2026-06-06 y 2026-07-01**, mediana **2026-06-28** (calculadas a partir de los datos del archivo; no se registró la fecha exacta de descarga, así que la instantánea se hizo el 2026-07-01 o después). El 2026-10-27 la mediana tiene ≈ 120 días. Las posiciones de los satélites son aproximadas con elementos tan antiguos; la aplicación avisa a partir de 7 días.
+- **En la aplicación.** El panel «Fuente de datos (TLE)» muestra ahora la fuente y el intervalo/la mediana de épocas (para un conjunto descargado: la hora de descarga y el grupo; para una copia local: cuándo se descargó).
+- **Copia sin conexión (nuevo).** Tras una actualización correcta, el último conjunto descargado se guarda en este navegador (Cache Storage; no en `localStorage`, no en las copias `.fff.json`). El botón «💾 Últimos datos descargados (copia local)» lo recarga sin internet y «Borrar la copia local» lo elimina. Solo funciona en https o localhost (no desde `file://`); los conjuntos de más de 6 MB no se guardan. La instantánea sigue siendo la fuente predeterminada.
+- **Corrección.** La conversión de la época TLE a día juliano salía 1–2 días antes, por lo que SGP4 propagaba 1–2 días de más y los satélites se dibujaban en posiciones erróneas. Tras la corrección, 72 satélites de órbita baja de la instantánea coinciden con la biblioteca de referencia `sgp4` (Python) a 0,001 km en +0, +6 h y +24 h; `tests/tle-cache.test.mjs` comprueba la ISS. Sin comprobar: los objetos de espacio profundo (periodo > 225 min, incluidos los geoestacionarios), que usan un modelo kepleriano-J2 simplificado.
+
 ## Privacidad y red
 
-- La aplicación no usa cookies y no tiene analítica. Lo único que se guarda en el navegador es el idioma elegido de la interfaz (`localStorage`, clave `terra.lang`); el resto se ejecuta en local y no se almacena nada más.
+- La aplicación no usa cookies y no tiene analítica. Lo único que se guarda en el navegador es el idioma elegido de la interfaz (`localStorage`, clave `terra.lang`); el resto se ejecuta en local y no se almacena nada más. En la 2.1.0, tras una actualización correcta, el último conjunto de TLE descargado se guarda también en Cache Storage (datos públicos, nunca enviados a ningún sitio; se pueden borrar desde el panel).
 - Sin tus acciones, la aplicación no realiza solicitudes de red. Cuando activas funciones en línea, el navegador contacta directamente con:
   - `celestrak.org` (TLE de satélites) y, como respaldo, `raw.githubusercontent.com` (espejo de CelesTrak);
   - `services.swpc.noaa.gov` (meteorología espacial, óvalo auroral) y `earthquake.usgs.gov` (terremotos);
