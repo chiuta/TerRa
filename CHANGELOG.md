@@ -2,6 +2,11 @@
 
 Format: SemVer (MAJOR.MINOR.PATCH). Intrările mai vechi sunt copiate din README (secțiunea „History / Changelog”), neschimbate.
 
+## 2.2.1 — 2026-11-02 (anterior: 2.2.0)
+
+- Surse actualizate (2026-11-02): RainViewer — singura schemă de culori rămasă după 1 ian. 2026 este „Universal Blue” (ID 2), cererile de dale folosesc acum schema 2 în loc de 4 (rainviewer.com/api/transition-faq.html, color-schemes.md); NOAA SWPC — vântul solar și câmpul magnetic se citesc din /json/rtsw/rtsw_wind_1m.json și rtsw_mag_1m.json (plasma-1-day.json și mag-1-day.json retrase în aprilie 2026), iar indicele Kp acceptă și noul format cu obiecte din 31 martie 2026 (SCN 26-21).
+- Neverificat: numele câmpurilor Kp/bz_gsm/bt din fișierele noi (fișierele live nu au putut fi citite); adsb.fi marchează /v2/lat/lon/dist ca depășit (există /v3), neschimbat.
+
 ## 2.2.0 — 2026-10-27 (anterior: 2.1.0)
 
 Stare: stabil

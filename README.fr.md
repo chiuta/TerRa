@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 2.2.0 · **Dernière mise à jour :** 2026-10-27
+**Version :** 2.2.1 · **Dernière mise à jour :** 2026-11-02
 
 **État :** stable · **Hors ligne :** complet pour la carte, le Soleil, la Lune, les planètes et le snapshot de satellites intégré ; la mise à jour des TLE et les flux en direct demandent internet (le dernier jeu de TLE téléchargé peut être rechargé hors ligne sur https/localhost)
 
