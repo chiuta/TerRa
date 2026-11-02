@@ -26,8 +26,8 @@
   "storageKeys": [
     "terra.lang"
   ],
-  "sizeBytes": 3069923,
-  "sha256": "62a6bebc213056c95f950436470b7740f9da8d8f1e13050c1a3442106e0ab0c5",
+  "sizeBytes": 3210357,
+  "sha256": "e35b6347d3cdab06881c22cf9726f22c01dbb2bc825f4a201c739c407e64f34e",
   "csp": {
     "present": true,
     "directives": {
@@ -69,6 +69,10 @@
       "dialog",
       "label",
       "bundle",
+      "qr",
+      "p2p",
+      "sync",
+      "history",
       "ephem"
     ]
   },
@@ -80,6 +84,10 @@
       "dialog",
       "label",
       "bundle",
+      "qr",
+      "p2p",
+      "sync",
+      "history",
       "ephem"
     ]
   },

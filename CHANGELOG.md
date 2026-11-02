@@ -2,6 +2,12 @@
 
 Format: SemVer (MAJOR.MINOR.PATCH). Intrările mai vechi sunt copiate din README (secțiunea „History / Changelog”), neschimbate.
 
+## 2.2.1 — 2026-11-02 (reîmprospătare kit)
+
+- Nou (kit): **Sincronizare între dispozitive** (`FFF.sync`) — în dialogul «Transparență» (clic pe versiune → Copie de siguranță): conectezi două dispozitive direct (WebRTC, cod/QR, fără server și fără cont) și își schimbă datele aplicației; cea mai recentă valoare câștigă, secretele (chei API, parole) nu se trimit, ștergerile nu se propagă. Aplicarea trece prin importul kitului (confirmare, chei permise, rollback).
+- Nou (kit): **Istoric local — «mașina timpului»** (`FFF.history`) — instantanee automate ale datelor (IndexedDB, fără secrete), diferență față de starea curentă și restaurare reversibilă; «Șterge datele aplicației» șterge și istoricul.
+- Module adăugate: `qr`, `p2p`, `sync`, `history` (+~140 KB). Versiunea aplicației nu se schimbă.
+
 ## 2.2.1 — 2026-11-02 (anterior: 2.2.0)
 
 - Surse actualizate (2026-11-02): RainViewer — singura schemă de culori rămasă după 1 ian. 2026 este „Universal Blue” (ID 2), cererile de dale folosesc acum schema 2 în loc de 4 (rainviewer.com/api/transition-faq.html, color-schemes.md); NOAA SWPC — vântul solar și câmpul magnetic se citesc din /json/rtsw/rtsw_wind_1m.json și rtsw_mag_1m.json (plasma-1-day.json și mag-1-day.json retrase în aprilie 2026), iar indicele Kp acceptă și noul format cu obiecte din 31 martie 2026 (SCN 26-21).
