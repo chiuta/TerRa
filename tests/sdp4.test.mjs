@@ -1,4 +1,4 @@
-// TerRa 2.2.2 — SDP4 (spațiu adânc) validat față de biblioteca Python `sgp4` (referința e în tests/sdp4-ref.json, generată cu tests/gen-sdp4-ref.py).
+// TerRa 2.2.3 — SDP4 (spațiu adânc) validat față de biblioteca Python `sgp4` (referința e în tests/sdp4-ref.json, generată cu tests/gen-sdp4-ref.py).
 // Fără browser: extrage scriptul SGP4 din index.html. Rulare: node tests/sdp4.test.mjs
 import fs from 'node:fs'; import path from 'node:path'; import vm from 'node:vm'; import {fileURLToPath} from 'node:url';
 const HERE = path.dirname(fileURLToPath(import.meta.url));

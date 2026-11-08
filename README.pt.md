@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 2.2.2 · **Última atualização:** 2026-11-07
+**Versão:** 2.2.3 · **Última atualização:** 2026-11-08
 
 **Estado:** estável · **Offline:** completo para o mapa, o Sol, a Lua, os planetas e o instantâneo de satélites incorporado; a atualização dos TLE e os feeds em direto precisam de internet (o último conjunto de TLE descarregado pode ser recarregado offline em https/localhost)
 
