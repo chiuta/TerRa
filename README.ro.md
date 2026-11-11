@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 2.2.4 · **Ultima actualizare:** 2026-11-10
+**Versiune:** 2.2.5 · **Ultima actualizare:** 2026-11-10
 
 **Stare:** stabil · **Offline:** complet pentru hartă, Soare, Lună, planete și snapshotul de sateliți încorporat; actualizarea TLE și feedurile live cer internet (ultimul set TLE descărcat se poate reîncărca offline pe https/localhost)
 
