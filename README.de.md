@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 2.2.6 · **Zuletzt aktualisiert:** 2026-11-10
+**Version:** 2.2.7 · **Zuletzt aktualisiert:** 2026-11-13
 
 **Status:** stabil · **Offline:** vollständig für Karte, Sonne, Mond, Planeten und den eingebetteten Satelliten-Snapshot; die TLE-Aktualisierung und die Live-Feeds brauchen Internet (der zuletzt heruntergeladene TLE-Satz lässt sich auf https/localhost offline neu laden)
 
