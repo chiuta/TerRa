@@ -26,13 +26,13 @@
   "storageKeys": [
     "terra.lang"
   ],
-  "sizeBytes": 3264467,
-  "sha256": "d426cdf6fb4b924b01c0a7e97518d0e1d26785df4e917d3d49e5c6743f3f4fa1",
+  "sizeBytes": 3316467,
+  "sha256": "4ffe3173d84382bd6731e25339f088732ff2203af045406473307b27a6f7c0b5",
   "csp": {
     "present": true,
     "directives": {
       "default-src": "'none'",
-      "script-src": "sha256×6",
+      "script-src": "sha256×7",
       "style-src": "'unsafe-inline'",
       "img-src": "'self' data: blob: https:",
       "connect-src": "'self' data: blob: https:",
